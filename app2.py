@@ -1,26 +1,18 @@
-'''
-元字符
-在正则表达式中具有特殊语法含义的符号
-不再代表自己本身的字面意思，是正则表达式的「命令 / 语法」
-'''
-
 import re
 
-def reg(pattern):
-    return re.compile(pattern)
+text = """
+abc
+abbc
+abbbc
+"""
 
+reg = re.compile
+
+# 量词只修饰紧靠它前面那一个单元
+# 中文、普通字符、括号、字符集[]都可以被量词修饰
 print(
-    # 匹配任意单个字符
-    reg(".").search("Hello World").group(),
-
-    # 转义, 把「元字符」变普通字符
-    # 让.变普通字符
-    reg(r"\.").search("Hello World"),
-    reg(r"\.").search("Hello."),
-
-    # 转义，把「普通字母」变特殊元字符
-    # d(普通) → \d(元字符 = 数字)
-    reg(r"\d").search("Hello World"),
-    reg(r"\d").search("Hello 2026"),
+    reg(r"abc+").findall(text),     # 只有c可以重复，ab 固定
+    reg(r"(abc)+").findall(text),   # 整个分组abc重复
+    reg(r"[ab]+").findall(text),    # 修饰字符集
     sep="\n"
 )

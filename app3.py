@@ -1,71 +1,65 @@
 '''
-基础元字符（当前仅了解）
-. 任意一个字符
-* 重复 0 次或更多
-+ 重复 1 次或更多
-? 重复 0 次或 1 次
-^ 开头
-$ 结尾
-| 或者
-\ 转义
-() 分组
-[] 字符集
-{} 次数范围
+贪婪 vs 非贪婪
+默认量词都是贪婪匹配：尽可能多拿在
+量词后面加 ? 变成非贪婪（懒惰）：尽可能少拿
 '''
 
 import re
 
-def reg(pattern):
-    return re.compile(pattern)
+
+# 示例1: HTML标签匹配
+text = """
+<div>内容</div>
+"""
+
+reg = re.compile
 
 print(
-    # . 匹配任意单个字符（除换行符）
-    reg(r".").search("abc").group(),
-    reg(r"...").search("Hello").group(),
+    reg(r"<.*>").search(text).group(),      # 贪婪
+    reg(r"<.*?>").search(text).group(),     # 非贪婪
+    sep="\n"
+)
 
-    # * 重复 0 次或更多次
-    reg(r"ab*c").search("ac").group(),
-    reg(r"ab*c").search("abc").group(),
-    reg(r"ab*c").search("abbbc").group(),
 
-    # + 重复 1 次或更多次
-    reg(r"ab+c").search("ac"),
-    reg(r"ab+c").search("abc").group(),
-    reg(r"ab+c").search("abbbc").group(),
 
-    # ? 重复 0 次或 1 次
-    reg(r"ab?c").search("ac").group(),
-    reg(r"ab?c").search("abc").group(),
-    reg(r"ab?c").search("abbc"),
+# 示例2: 数字匹配
+text2 = "abc123def456ghi789"
 
-    # ^ 匹配字符串开头
-    reg(r"^Hello").search("Hello World").group(),
-    reg(r"^Hello").search("Say Hello"),
+print(
+    reg(r"\d+").search(text2).group(),       # 匹配第一个连续数字 (默认贪婪)
+    reg(r"\d+?").search(text2).group(),      # 只匹配一个数字（非贪婪）
+    sep="\n"
+)
 
-    # $ 匹配字符串结尾
-    reg(r"World$").search("Hello World").group(),
-    reg(r"World$").search("World Peace"),
 
-    # | 或者
-    reg(r"cat|dog").search("I have a cat").group(),
-    reg(r"cat|dog").search("I have a dog").group(),
 
-    # \ 转义特殊字符
-    reg(r"\.").search("file.txt").group(),
-    reg(r"\d").search("Year 2026").group(),
+# 示例3: 引号内内容匹配
+text3 = '"Hello" "World" "Python"'
 
-    # () 分组
-    reg(r"(abc)+").search("abcabc").group(),
-    reg(r"(ab|cd)").search("ab123").group(),
+print(
+    reg(r'".*"').search(text3).group(),      # 匹配整个字符串
+    reg(r'".*?"').search(text3).group(),     # 只匹配第一个引号内容
+    sep="\n"
+)
 
-    # [] 字符集，匹配其中任意一个字符
-    reg(r"[aeiou]").search("hello").group(),
-    reg(r"[0-9]").search("abc123").group(),
-    reg(r"[a-z]").search("ABCdef").group(),
 
-    # {} 指定重复次数
-    reg(r"a{3}").search("aaa").group(),
-    reg(r"a{2,4}").search("aaaa").group(),
-    reg(r"a{2,}").search("aaaaa").group(),
+
+# 示例4: 使用 findall 查看所有匹配
+text4 = "<p>第一段</p><p>第二段</p><p>第三段</p>"
+
+print(
+    reg(r"<p>.*</p>").findall(text4),        # 整个字符串作为一个匹配
+    reg(r"<p>.*?</p>").findall(text4),       # 三个独立的匹配
+    sep="\n"
+)
+
+
+
+# 示例5: {m,n} 量词的贪婪与非贪婪
+text5 = "aaaaab"
+
+print(
+    reg(r"a{2,4}").search(text5).group(),   # 匹配4个a
+    reg(r"a{2,4}?").search(text5).group(), # 匹配2个a
     sep="\n"
 )
