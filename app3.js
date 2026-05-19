@@ -1,50 +1,37 @@
-/* 
-精确匹配 (^...$)
-^内容$ = 必须从头到尾完全一样
-用于校验验证码、手机号、邮编等
-*/
+/**
+反向引用
+= 引用之前匹配到的分组内容
+= 在同一个正则表达式里，重复使用前面捕获到的分组内容
+ */
 
 const print = (...args) => args.forEach(arg => console.log(arg))
 
 const text = `
-123456
-a123456
-1234567
-12345
-abc123
+cat
+cat
+catcat
+catcatcat
+catdog
 `
-
-const codes = `
-AB1234
-CD5678
-EF9012
-GHI345
-JK678
-`
-
-const phones = `
-13800138000
-1380013800
-138001380001
-+8613800138000
-`
-
-const emails = `
-test@example.com
-user@domain.org
-invalid-email
-@missing-local.com
-missing-domain@
+const phone = `
+13812345678
+13812341234
 `
 
 print(
-    text.match(/^\d{6}$/gm),       // 只匹配完整的6位数字
-    codes.match(/^[A-Z]{2}\d{4}$/gm),  // 匹配特定格式的编码 2字母+4数字
-    phones.match(/^1[3-9]\d{9}$/gm),   // 匹配11位手机号
-    emails.match(/^\w+@\w+\.\w+$/gm),  // 简单邮箱格式校验
+    // 捕获组会自动编号：$1、$2、$3...（从左到右数左括号）
+    // 可以在后续代码 / 替换中取出这些内容
+    text.match(/(cat)\1\1/),
+
+    // 注意引用的是匹配的内容，而不是正则表达式
+    // excel 支持引用正则 /(13\d)(\d{4})(?2)/
+    phone.match(/(13\d)(\d{4})\2/),
+
+    // 非捕获组 无法引用
+    // 有的语言会抛异常
+    text.match(/(?:cat)\1/),
+
+    // 引用命名捕获组
+    // 语法 \k<name>
+    text.match(/(?<c>cat)\k<c>/),
 )
-
-
-
-
-
