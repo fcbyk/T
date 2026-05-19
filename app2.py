@@ -1,18 +1,41 @@
+'''
+范围匹配（字符类的简化版）
+语法：[起始-结束]
+作用：匹配连续区间内的任意一个字符，不用一个个罗列
+'''
 import re
-
-text = """
-abc
-abbc
-abbbc
-"""
 
 reg = re.compile
 
-# 量词只修饰紧靠它前面那一个单元
-# 中文、普通字符、括号、字符集[]都可以被量词修饰
+text = """
+apple
+banana
+cherry
+date
+elderberry
+fig
+grape
+123abc
+456def
+789ghi
+ABC
+XYZ
+test_123
+hello!world
+"""
+
+# 字符范围：使用连字符 - 表示范围
 print(
-    reg(r"abc+").findall(text),     # 只有c可以重复，ab 固定
-    reg(r"(abc)+").findall(text),   # 整个分组abc重复
-    reg(r"[ab]+").findall(text),    # 修饰字符集
+    reg(r"[a-z]+").findall(text),     # 匹配小写字母
+    reg(r"[A-Z]+").findall(text),     # 匹配大写字母
+    reg(r"[0-9]+").findall(text),     # 匹配数字
+    sep="\n"
+)
+
+
+# 组合范围：多个范围可以组合
+print(
+    reg(r"[a-zA-Z]+").findall(text),  # 匹配所有字母（大小写）
+    reg(r"[a-z0-9]+").findall(text),  # 匹配小写字母和数字
     sep="\n"
 )
