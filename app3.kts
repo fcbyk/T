@@ -1,16 +1,29 @@
 /**
- * 可变数量参数
- * 在 Kotlin 中，可变数量参数允许函数接收不定数量的同一类型参数
- * 这通过 vararg修饰符实现
+ * 类方法（companion object）
+ * Kotlin 没有真正的 static（静态方法）
+ * 用的是：companion object（伴生对象）来实现“类方法”效果
  */
 
-fun sumAll(vararg numbers: Int): Int {
-    var sum = 0
-    for (num in numbers) {
-        sum += num
+class Person(var name: String, var age: Int) {
+
+    fun sayHello() {
+        println("Hello, my name is $name, age is $age")
     }
-    return sum
+
+    companion object {
+        fun createDefaultPerson(): Person {
+            return Person("Default", 0)
+        }
+
+        fun createAdult(name: String): Person {
+            return Person(name, 18)
+        }
+
+        fun createChild(name: String): Person {
+            return Person(name, 10)
+        }
+    }
 }
 
-println(sumAll(1, 2, 3, 4))
-println(sumAll(10, 20))
+val p1 = Person.createChild("小鸣")
+p1.sayHello()

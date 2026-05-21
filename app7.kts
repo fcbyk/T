@@ -1,14 +1,40 @@
 /**
- * 函数引用（Function Reference）
- * 允许你将现有的命名函数作为值传递，就像传递 Lambda 一样
- * 使用 ::操作符获取函数引用
+ * 多态
+ * 父类引用可以指向子类对象
+ * 调用被 override 的方法时，会运行子类的实现
  */
 
-fun isEven(number: Int): Boolean = number % 2 == 0
+// 父类
+open class Person(val name: String) {
+    open fun greet() {
+        println("Hello, my name is $name")
+    }
+}
 
-// 将函数作为值传递
-val predicate = ::isEven
+// 子类1
+class Student(name: String, val grade: Int) : Person(name) {
+    override fun greet() {
+        println("Hi, I'm $name and in grade $grade")
+    }
+}
 
-// 使用
-println(predicate(4))  // 输出 true
-println(predicate(5))  // 输出 false
+// 子类2
+class Teacher(name: String, val subject: String) : Person(name) {
+    override fun greet() {
+        println("Hello, I'm $name and I teach $subject")
+    }
+}
+
+val main = fun(){
+    // 父类引用指向不同子类对象
+    val people: List<Person> = listOf(
+        Student("Alice", 5),
+        Teacher("Mr. Smith", "Math"),
+        Person("Bob")
+    )
+
+    // 多态调用
+    for (p in people) {
+        p.greet()  // 根据实际对象类型调用对应的实现
+    }
+}()

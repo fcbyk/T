@@ -1,23 +1,26 @@
 /**
- * fun 是关键字，用来声明函数，参数必须写类型
- * 语法： fun 函数名(参数名: 参数类型, ...): 返回类型
+ * 基本使用
+ * 类 + 属性 + 方法
  */
-fun sum(a: Int, b: Int): Int {
-    return a + b
+
+// 定义类
+class Person {
+    // 成员属性
+    var name: String = "unknown"
+    var age: Int = 0
+    val info = "只读属性"
+
+    // 成员方法
+    fun sayHello() {
+        println("Hello, my name is $name, age is $age")
+    }
 }
 
+// 创建对象
+val p = Person()
+p.name = "Cola"
+p.age = 18
+p.sayHello()
 
-/**
- * 单行函数
- * 如果函数体只有一行，可以用 = 简写返回值
- */
-fun multiply(a: Int, b: Int) = a * b
-
-
-/**
- * 没有返回值的函数
- * 如果函数没有返回值，可以写 Unit 或者省略（类似 void）
- */
-fun printHello(name: String) {
-    println("Hello, $name")
-}
+// 修改只读属性会报错
+// p.info = "hello"
