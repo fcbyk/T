@@ -1,44 +1,46 @@
 /**
-负向先行断言：(?!条件)
-作用：匹配一个位置，这个位置后面不能是指定内容
-特点：排除特定模式，常用于过滤和验证
+ * y 修饰符（粘连修饰符，sticky） （JS 特有）
+ * 必须从 lastIndex 指定的位置开始匹配，不能往后跳，匹配不到就直接失败
+ * 
+ * 对比:
+ * g：全局搜索，找不到就往后跳继续找
+ * y：必须粘在当前位置匹配，不匹配就结束
  */
 
 const print = (...args) => args.forEach(arg => console.log(arg))
 
+let str = 'xxabc'
 
-const text1 = `
-price: $100
-price: $200
-price: 300元
-total: $50
-apple123
-banana456
-`
-
-/**
- * 基本用法：排除特定后续内容
- */
 print(
-    text1.match(/\$(?!\d+)/g),  // 匹配后面不跟着数字的 $
-    text1.match(/\d+(?!元)/g),  // 匹配后面不跟着"元"的数字
+    // 普通匹配
+    /abc/.test(str),    // true
+
+    // g 修饰符
+    /abc/g.test(str),    // true
+
+    // y 修饰符
+    // 因为 y 要求从下标 0 开始就匹配 abc，但开头是 xx，不匹配，直接失败
+    /abc/y.test(str),    // false
 )
 
-const text2 = 
-
-/**
- * 理解「否定」概念：确保后面不是某个模式
- */
+let reg = /abc/y
+reg.lastIndex = 2     // 从下标 2 开始匹配
 print(
-    // 匹配后面不是 o 的字符
-    `hello`.match(/.(?!o)/g),  
+    reg.test(str)   // true
+)
 
-    // 匹配后面不是空格或结尾的单词, 非末尾的单词
-    `hello world help hero`.match(/\b\w+\b(?!\s*$)/g), 
-    // 结果: ["hello", "world", "help"]
-    // 解释: 
-    // - "hello" ✓ 后面还有 "world help hero"
-    // - "world" ✓ 后面还有 "help hero"  
-    // - "help"  ✓ 后面还有 "hero"
-    // - "hero"  ✗ 后面是字符串结尾，被排除 
+
+
+// 连续匹配
+str = 'aaaaa'
+reg = /a/y
+
+print(
+    reg.exec(str), // 匹配下标 0
+    reg.lastIndex,  // 1
+
+    reg.exec(str), // 匹配下标 1
+    reg.lastIndex,  // 2
+
+    reg.exec(str), // 匹配下标 2
 )
