@@ -1,77 +1,75 @@
-# demo11
+# demo12
 
-[Kotlin Playground](https://play.kotlinlang.org/) - 在线练习
+> [Kotlin Playground](https://play.kotlinlang.org/) 在线练习
 
-## 注释
+## 算术运算符
 
-- **单行注释**：`//`
-- **多行注释**：`/* ... */`（支持嵌套）
-- **文档注释**：`/** ... */`（KDoc，支持 `@param`、`@return`）
+- **加法** `+`、**减法** `-`、**乘法** `*`、**除法** `/`、**取余** `%`
+- **自增** `++`、**自减** `--`
+  - `++a`：先加再用
+  - `a++`：先用再加
 
-## 变量
+## 赋值运算符
 
-- **不可变变量** `val`：赋值后不能修改（推荐）
-- **可变变量** `var`：可以随时修改
-
-```kotlin
-val name = "Alice"    // 不可变
-var age = 18          // 可变
-age = 20              // ✅
-```
-
-## 类型推导
-
-编译器自动推断类型，也可显式声明：
+复合赋值：`+=`、`-=`、`*=`、`/=`、`%=`
 
 ```kotlin
-val city = "Tokyo"        // 推断为 String
-var score: Int = 99       // 显式声明
+a += 5   // 等价 a = a + 5
 ```
 
-## 基本数据类型
+## 比较运算符
 
-- **整型**：`Int`、`Long`、`Short`、`Byte`
-- **浮点型**：`Double`、`Float`
-- **布尔**：`Boolean`
-- **字符**：`Char`（单引号）
-- **字符串**：`String`（双引号）
+- **相等** `==`（调用 equals() 比较内容）
+- **引用相等** `===`（比较是否是同一个对象）
+- **不等** `!=`、**大于** `>`、**小于** `<`、**大于等于** `>=`、**小于等于** `<=`
 
-**类型转换需显式调用**：
+## 逻辑运算符
+
+- **短路与** `&&`：两个都 true 才 true
+- **短路或** `||`：有一个 true 就 true
+- **逻辑非** `!`：取反
+
+## 区间运算符
+
+- `..`：闭区间 `1..5` → 1,2,3,4,5
+- `until`：不包含结尾 `1 until 5` → 1,2,3,4
+- `downTo`：递减区间 `5 downTo 1` → 5,4,3,2,1
+- `step`：步长 `1..10 step 2` → 1,3,5,7,9
+
+## in 运算符
+
+判断元素是否在集合或区间中：
+
 ```kotlin
-val x: Int = 10
-val y: Long = x.toLong()
+5 in 1..10    // true
+5 !in 1..3    // true
 ```
 
-## 常量
+## is 运算符
 
-- `val`：运行时不可变，可在函数内声明
-- `const val`：编译期常量，只能在顶层或 object/class 中
+类型检查（类似 Java 的 instanceof）：
 
 ```kotlin
-object Config {
-    const val PI = 3.14159
-}
+x is Int      // 是否是 Int
+x !is String  // 是否不是 String
 ```
 
-## 空安全
+## 空安全运算符
 
-Kotlin 区分可空和非空类型，避免空指针异常。
-
-- **非空类型**：`String`（不能为 null）
-- **可空类型**：`String?`（可以为 null）
-
-**安全操作符**：
 - `?.` 安全调用：`name?.length`（null 时返回 null）
-- `!!` 非空断言：`name!!.length`（null 时抛异常）
 - `?:` Elvis 运算符：`name ?: "default"`（null 时使用默认值）
+- `!!` 非空断言：`name!!.length`（null 时抛异常）
 
-## 类型别名
+## 位运算符
 
-为类型创建易读别名：
+Kotlin 使用函数而非符号：
+
+- **与** `and`、**或** `or`、**异或** `xor`
+- **左移** `shl`、**右移** `shr`、**无符号右移** `ushr`
+- **取反** `inv()`
 
 ```kotlin
-typealias UserId = Int
-typealias UserMap = Map<String, List<Int>>
-
-val id: UserId = 1001
+5 and 3   // 与运算 -> 1
+5 or 3    // 或运算 -> 7
+5 shl 1   // 左移一位 -> 10
 ```

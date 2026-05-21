@@ -1,20 +1,29 @@
 /**
- * 变量（Variables）
- * Kotlin 中变量分为两种：可变变量 和 不可变变量。
+ * 赋值运算符
+ *
+ * Kotlin 和 Java 一样支持复合赋值
+ * 本质是：
+ * a += b  ->  a = a + b
  */
 
-/**
- * 不可变变量 — val
- * 一旦赋值，就不能再修改
- * 用 val 声明
- */
-val name = "小米"         // 声明不可变字符串变量
-// name = "新名字"         // 错误，val 不能重新赋值
+fun demoAssign() {
 
+    var a = 10
 
-/**
- * 可变变量 — var
- * 可以修改的变量
- */
-var age = 18
-age = 20        // 可以修改
+    a += 5   // 等价 a = a + 5
+    println(a)
+
+    a -= 3   // 等价 a = a - 3
+    println(a)
+
+    a *= 2   // 等价 a = a * 2
+    println(a)
+
+    a /= 4   // 等价 a = a / 4
+    println(a)
+
+    a %= 3   // 等价 a = a % 3
+    println(a)
+}
+
+demoAssign()

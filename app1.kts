@@ -1,25 +1,33 @@
-// Kotlin 的注释基本和 Java 一样
-// 这是单行注释
-
-/*
-这是多行注释
-可以写很多行
-*/
-
 /**
- * 计算两个数的和（文档注释（KDoc））
- * @param a 第一个数字
- * @param b 第二个数字
- * @return 两数之和
+ * 算术运算符
  */
-fun add(a: Int, b: Int): Int {
-    return a + b
+
+fun demo(a:Int, b:Int){
+    println(a + b) // 加法
+    println(a - b) // 减法
+    println(a * b) // 乘法
+    println(a / b) // 除法（整数除法会向下取整）
+    println(a % b) // 取余
 }
 
+demo(10,4)
 
-/*
-外层注释（Kotlin 支持嵌套多行注释，Java 不支持）
-    /*
-    内层注释
-    */
-*/
+/**
+ * 自增自减
+ *
+ * ++a  先加再用
+ * a++  先用再加
+ */
+
+fun demoInc(){
+
+    var a = 5
+
+    println(++a) // 6
+
+    println(a++) // 6
+
+    println(a)   // 7
+}
+
+demoInc()

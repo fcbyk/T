@@ -1,21 +1,17 @@
 /**
- * 空值（Nullable）与非空（Non-null）
- * Kotlin 强制区分 可空类型 和 非空类型，避免 NullPointerException
- * ? 表示变量可以为 null
+ * in 运算符
+ *
+ * 用来判断元素是否在集合或区间中
  */
 
-var name: String = "小明" // 非空，不能赋 null
-// name = null // 错误
+fun demoIn(){
 
-var nickname: String? = null // 可空
-nickname = "小可"
+    val a = 5
 
+    println(a in 1..10) // true
 
-/**
- * 访问可空变量时，需要安全操作符 ?. 或非空断言 !!
- */
-var a:String? = null
-println(a?.length) // 安全调用，如果 null 返回 null
+    println(a !in 1..3) // true
 
-a = "hello world"
-println(a!!.length) // 非空断言，如果 null 会抛异常
+}
+
+demoIn()

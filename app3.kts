@@ -1,11 +1,21 @@
 /**
- * 类型推导
- * Kotlin 支持类型推导，不一定要显式写类型，编译器会根据初始值推断类型
+ * 比较运算符
+ *
+ * Kotlin 有两个“相等”概念
+ *
+ * ==  -> 调用 equals() 比较内容
+ * === -> 比较对象引用（是否是同一个对象）
  */
 
-val city = "Tokyo" // 自动推断为 String
-var score = 99     // 自动推断为 Int
+fun demoCompare(a:Int, b:Int){
 
-// 显式写类型
-var a:Int = 0
-var b:String = 0
+    println(a == b) // 内容相等
+    println(a != b) // 内容不等
+
+    println(a > b)  // 大于
+    println(a < b)  // 小于
+    println(a >= b) // 大于等于
+    println(a <= b) // 小于等于
+}
+
+demoCompare(10,4)

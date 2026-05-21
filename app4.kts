@@ -1,24 +1,18 @@
 /**
- * 基本数据类型（Primitive Types）
- * 整型、浮点型、布尔
- * 单个字符、字符串
+ * 逻辑运算符
+ *
+ * && 短路与
+ * || 短路或
+ * !  逻辑非
  */
 
-val a: Int = 100
-val b: Long = 1000000L
-val c: Short = 100
-val d: Byte = 1
+fun demoLogic(a:Boolean, b:Boolean){
 
-val e: Double = 3.14
-val f: Float = 3.14F
+    println(a && b) // 两个都 true 才 true
 
-val flag: Boolean = true
-val ch: Char = 'A'
-val str: String = "Hello"
+    println(a || b) // 有一个 true 就 true
 
-/**
- * Kotlin 严格区分类型
- * 不会自动把 Int 转成 Long，需要显式转换
- */
-val x: Int = 10
-val y: Long = x.toLong() // 显式转换
+    println(!a) // 取反
+}
+
+demoLogic(true,false)
