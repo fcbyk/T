@@ -1,87 +1,60 @@
 /**
- * 标签跳转（Label）
- * 在 Kotlin 中，可以给某个表达式或循环 加一个标签（label）
- * 标签本质是一个 标识符 + @，用于在 break、continue、return 时 明确跳转到哪一层结构
+ * 匿名函数
+ * 匿名函数是另一种定义函数的方式，与 Lambda 类似但有一些区别
  */
 
-// 标签 + break
-fun demo1(){
-    outer@ for (i in 1..3) {   // outer 是标签
-        for (j in 1..3) {
-            if (i * j == 4) {
-                break@outer    // 跳出 outer 标记的循环
-            }
-            println("i=$i j=$j")
-        }
-    }
+// 匿名函数定义
+val add = fun(a: Int, b: Int): Int {
+    return a + b
 }
 
-
-// 标签 + continue
-fun demo2(){
-    outer@ for (i in 1..3) {
-        for (j in 1..3) {
-
-            if (j == 2) {
-                continue@outer  // 直接进入 i 的下一轮
-            }
-
-            println("i=$i j=$j")
-        }
-    }
-}
-
+println(add(2, 10))
 
 /**
- * 带标签的返回（labeled return）
- * return → 默认 退出当前函数
- * return@label → 只退出指定的 lambda
+ * 显式 return
+ * Lambda：最后一行是返回值
+ * 匿名函数：需要明确的 return
  */
-fun demo3a(){
-    val list = listOf(1, 2, 3, 4)
-
-    list.forEach {
-        if (it == 3) {
-            return
-        }
-        println(it)
+val anonymous = fun(x: Int): String {
+    if (x > 0) {
+        return "正数"  // 明确 return
+    } else {
+        return "非正数"
     }
-
-    println("结束")
-}
-
-
-fun demo3b(){
-    val list = listOf(1, 2, 3, 4)
-
-    list.forEach {
-        if (it == 3) {
-            return@forEach
-        }
-
-        println(it)
-    }
-
-    println("结束")
 }
 
 /**
- * 不仅可以用函数名，也可以自己定义 label
+ * 特殊用法：立即执行函数
  */
-fun demo3c() {
+val result = fun(x: Int, y: Int): Int {
+    return x * y
+}(3, 4)  // 立即调用，result = 12
 
-    val list = listOf(1, 2, 3, 4)
 
-    list.forEach myLabel@{
-
-        if (it == 3) {
-            return@myLabel
-        }
-
-        println(it)
-    }
-
-    println("结束")
+/**
+ * 匿名函数作为参数传递
+ */
+fun calculate(a: Int, b: Int, op: (Int, Int) -> Int): Int {
+    return op(a, b)
 }
 
-demo3a()
+// 使用匿名函数
+val result1 = calculate(2, 3, add)
+val result2 = calculate(10, 8, fun(x, y): Int {
+    return if (x > y) x - y else y - x
+})
+
+println(result1)
+println(result2)
+
+
+/**
+ * 匿名函数做返回值
+ */
+fun getMultiplier(factor: Int): (Int) -> Int {
+    return fun(number:Int): Int {
+        return number * factor
+    }
+}
+val doubler = getMultiplier(2)
+println(doubler(5))  // 输出 10

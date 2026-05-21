@@ -1,38 +1,44 @@
-# demo13
+# demo14
 
 > [Kotlin Playground](https://play.kotlinlang.org/) 在线练习
 
-## if 表达式
+## 函数声明
 
-- **作为表达式**：`val max = if (a > b) a else b`
-- **标准用法**：`if (condition) { ... } else { ... }`
+- **基本语法**：`fun 函数名(参数: 类型): 返回类型 { ... }`
+- **单行简写**：`fun multiply(a: Int, b: Int) = a * b`
+- **无返回值**：返回类型为 `Unit` 或省略
 
-## when 表达式
+## 默认参数和命名参数
 
-- **增强版 switch**：支持值、范围、类型匹配
-- **多值匹配**：`2, 3 -> println("x 是 2 或 3")`
-- **范围匹配**：`in 4..10 -> println("x 在 4 到 10 之间")`
-- **作为表达式**：`val result = when (x) { 1 -> "一"; else -> "其他" }`
+- **默认参数**：`fun greet(name: String = "World")`
+- **命名参数**：`greet(name = "小明")`
 
-## for 循环
+## 可变数量参数
 
-- **遍历集合**：`for (item in list) { ... }`
-- **数字范围**：`for (i in 1..5) { ... }`
-- **步长控制**：`for (i in 10 downTo 1 step 2) { ... }`
+- **vararg 修饰符**：`fun sumAll(vararg numbers: Int)`
+- **接收不定数量的同一类型参数**
 
-## while / do..while 循环
+## 高阶函数
 
-- **while**：先判断后执行
-- **do..while**：先执行后判断
+- **函数作为参数**：`fun operate(a: Int, b: Int, op: (Int, Int) -> Int)`
+- **函数作为返回值**：`fun getMultiplier(factor: Int): (Int) -> Int`
+- **函数引用**：使用 `::` 获取函数引用，如 `::add`
 
-## 循环控制
+## Lambda 表达式
 
-- **break**：跳出循环
-- **continue**：跳过本次循环，继续下一次
+- **基本语法**：`{ 参数 -> 表达式 }`
+- **隐式返回**：最后一行自动作为返回值
+- **尾随 Lambda**：最后一个参数是 Lambda 时可移到括号外
+- **唯一参数省略括号**：`execute { println("Hello") }`
+- **隐式参数 it**：单参数时使用 `it` 引用
 
-## 标签跳转（Label）
+## 匿名函数
 
-- **标签定义**：`outer@ for (i in 1..3) { ... }`
-- **break@label**：跳出指定标签的循环
-- **continue@label**：继续指定标签的下一轮循环
-- **return@label**：只退出指定的 lambda
+- **定义方式**：`val add = fun(a: Int, b: Int): Int { return a + b }`
+- **显式 return**：需要明确的 return 语句
+- **立即执行**：`fun(x: Int, y: Int): Int { return x * y }(3, 4)`
+
+## 函数引用
+
+- **:: 操作符**：将命名函数作为值传递
+- **示例**：`val predicate = ::isEven`

@@ -1,17 +1,23 @@
 /**
- * if
- * Kotlin 中 if 可以作为表达式使用，可以直接返回值
+ * fun 是关键字，用来声明函数，参数必须写类型
+ * 语法： fun 函数名(参数名: 参数类型, ...): 返回类型
  */
+fun sum(a: Int, b: Int): Int {
+    return a + b
+}
 
-// if 用作表达式
-val a = 10
-val b = 20
 
-val max = if (a > b) a else b  // max 会得到 20
+/**
+ * 单行函数
+ * 如果函数体只有一行，可以用 = 简写返回值
+ */
+fun multiply(a: Int, b: Int) = a * b
 
-// if 语句的标准用法
-if (a < b) {
-    println("a 小于 b")
-} else {
-    println("a 大于等于 b")
+
+/**
+ * 没有返回值的函数
+ * 如果函数没有返回值，可以写 Unit 或者省略（类似 void）
+ */
+fun printHello(name: String) {
+    println("Hello, $name")
 }

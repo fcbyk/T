@@ -1,28 +1,16 @@
 /**
- * for 循环
- * Kotlin 可以迭代数组、集合，也可以用数字范围。
+ * 可变数量参数
+ * 在 Kotlin 中，可变数量参数允许函数接收不定数量的同一类型参数
+ * 这通过 vararg修饰符实现
  */
 
-val list = listOf("a", "b", "c")
-
-// 遍历集合
-for (item in list) {
-    print(item)
-    print(" ")
+fun sumAll(vararg numbers: Int): Int {
+    var sum = 0
+    for (num in numbers) {
+        sum += num
+    }
+    return sum
 }
 
-println()
-
-// 遍历数字范围
-for (i in 1..5) {  // 1 到 5
-    print(i)
-    print(" ")
-}
-
-println()
-
-// 步长
-for (i in 10 downTo 1 step 2) {  // 从 10 到 1，步长 2
-    print(i)
-    print(" ")
-}
+println(sumAll(1, 2, 3, 4))
+println(sumAll(10, 20))
