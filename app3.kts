@@ -1,21 +1,28 @@
 /**
- * 比较运算符
- *
- * Kotlin 有两个“相等”概念
- *
- * ==  -> 调用 equals() 比较内容
- * === -> 比较对象引用（是否是同一个对象）
+ * for 循环
+ * Kotlin 可以迭代数组、集合，也可以用数字范围。
  */
 
-fun demoCompare(a:Int, b:Int){
+val list = listOf("a", "b", "c")
 
-    println(a == b) // 内容相等
-    println(a != b) // 内容不等
-
-    println(a > b)  // 大于
-    println(a < b)  // 小于
-    println(a >= b) // 大于等于
-    println(a <= b) // 小于等于
+// 遍历集合
+for (item in list) {
+    print(item)
+    print(" ")
 }
 
-demoCompare(10,4)
+println()
+
+// 遍历数字范围
+for (i in 1..5) {  // 1 到 5
+    print(i)
+    print(" ")
+}
+
+println()
+
+// 步长
+for (i in 10 downTo 1 step 2) {  // 从 10 到 1，步长 2
+    print(i)
+    print(" ")
+}

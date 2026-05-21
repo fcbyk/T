@@ -1,29 +1,21 @@
 /**
- * 赋值运算符
- *
- * Kotlin 和 Java 一样支持复合赋值
- * 本质是：
- * a += b  ->  a = a + b
+ * when
+ * when 是 Kotlin 的增强版 switch
+ * 可以匹配值、范围、类型等，且可以作为表达式使用
  */
 
-fun demoAssign() {
+val x = 2
 
-    var a = 10
-
-    a += 5   // 等价 a = a + 5
-    println(a)
-
-    a -= 3   // 等价 a = a - 3
-    println(a)
-
-    a *= 2   // 等价 a = a * 2
-    println(a)
-
-    a /= 4   // 等价 a = a / 4
-    println(a)
-
-    a %= 3   // 等价 a = a % 3
-    println(a)
+when (x) {
+    1 -> println("x 是 1")
+    2, 3 -> println("x 是 2 或 3")
+    in 4..10 -> println("x 在 4 到 10 之间")
+    else -> println("x 不在以上范围")
 }
 
-demoAssign()
+// 当作表达式
+val result = when (x) {
+    1 -> "一"
+    2 -> "二"
+    else -> "其他"
+}

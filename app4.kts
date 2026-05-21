@@ -1,18 +1,17 @@
 /**
- * 逻辑运算符
- *
- * && 短路与
- * || 短路或
- * !  逻辑非
+ * while / do..while 循环
  */
 
-fun demoLogic(a:Boolean, b:Boolean){
-
-    println(a && b) // 两个都 true 才 true
-
-    println(a || b) // 有一个 true 就 true
-
-    println(!a) // 取反
+var i = 0
+while (i < 5) {
+    print(i)
+    i++
 }
 
-demoLogic(true,false)
+println()
+
+var j = 0
+do {
+    print(j)
+    j++
+} while (j < 5)

@@ -1,33 +1,17 @@
 /**
- * 算术运算符
+ * if
+ * Kotlin 中 if 可以作为表达式使用，可以直接返回值
  */
 
-fun demo(a:Int, b:Int){
-    println(a + b) // 加法
-    println(a - b) // 减法
-    println(a * b) // 乘法
-    println(a / b) // 除法（整数除法会向下取整）
-    println(a % b) // 取余
+// if 用作表达式
+val a = 10
+val b = 20
+
+val max = if (a > b) a else b  // max 会得到 20
+
+// if 语句的标准用法
+if (a < b) {
+    println("a 小于 b")
+} else {
+    println("a 大于等于 b")
 }
-
-demo(10,4)
-
-/**
- * 自增自减
- *
- * ++a  先加再用
- * a++  先用再加
- */
-
-fun demoInc(){
-
-    var a = 5
-
-    println(++a) // 6
-
-    println(a++) // 6
-
-    println(a)   // 7
-}
-
-demoInc()
