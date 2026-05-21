@@ -1,148 +1,163 @@
-# demo8 正则表达式修饰符
-正则**修饰符**（也叫**标志/模式**）是写在正则表达式**末尾**的标记，用来**改变正则的匹配规则**，不参与字符匹配本身，是正则里非常实用的工具。
+# demo9
 
+> Kotlin 官网 [https://kotlinlang.org/](https://kotlinlang.org/)
 
-## 一、通用核心修饰符（所有语言基本通用）
-下面是**最常用、必须掌握**的 5 个修饰符：
+## 手动下载 Kotlin 编译器
 
-| 修饰符 | 全称 | 作用 |
-|--------|------|------|
-| `i` | ignoreCase | **忽略大小写**匹配 |
-| `g` | global | **全局匹配**（找到所有结果，不是只找第一个） |
-| `m` | multiline | **多行模式**，让 `^` 和 `$` 匹配每行的开头/结尾 |
-| `s` | dotAll | 让 `.` 可以匹配**换行符** |
-| `u` | unicode | 开启 Unicode 模式，正确处理 emoji、中文等字符 |
+> Kotlin Releases [https://github.com/JetBrains/kotlin/releases](https://github.com/JetBrains/kotlin/releases)
 
+### 1️⃣ `kotlin-compiler-2.3.10.zip`
 
+* **用途**：通用 Kotlin 编译器，用于编译 Kotlin 代码到 **JVM 字节码** 或 **JavaScript**（Kotlin/JS）。
+* **目标平台**：
 
-## 二、逐个讲解 + 示例
-### 1. `i` —— 忽略大小写
-默认正则区分大小写，加 `i` 就不区分了。
+  * JVM：生成 `.class` 或 `.jar`
+  * Kotlin/JS：生成 JavaScript
+* **注意**：不生成原生可执行文件，不能在 Windows、Linux、macOS 上生成独立二进制程序。
 
-示例：
-```
-正则：/abc/i
-匹配：abc、Abc、ABC、aBC 全都能匹配
-```
+### 2️⃣ `kotlin-native-prebuilt-windows-x86_64-2.3.10.zip`
 
+* **用途**：Kotlin/Native 原生编译器，将 Kotlin 编译成 **独立原生二进制程序**。
+* **目标平台**：
 
+  * 指定平台（Windows x86_64，另有 Linux/macOS/iOS 对应包）
+  * 不依赖 JVM
 
-### 2. `g` —— 全局匹配
-**不加 g**：只返回**第一个**匹配结果
-**加 g**：返回**所有**匹配结果
+### ✅ 核心区别
 
-示例：
-```
-字符串：hello hello hello
-正则：/hello/g
-结果：找到 3 个 hello
-```
+| 项目       | kotlin-compiler    | kotlin-native-prebuilt |
+| -------- | ------------------ | ---------------------- |
+| 目标       | JVM / JS           | 原生二进制（exe / 静态库）       |
+| 是否依赖 JVM | 是                  | 否                      |
+| 平台       | 通用                 | 指定平台（如 Windows x86_64） |
+| 输出       | .class / .jar / JS | 独立可执行文件 / 静态库          |
+| 组成       | 编译器 + stdlib       | 编译器 + 运行时库 + 平台库       |
 
+**总结**：
 
+* **kotlin-compiler** → 用于常规 Kotlin 开发（JVM/JS）
+* **kotlin-native-prebuilt** → 用于跨平台原生程序开发，不依赖 JVM
 
-### 3. `m` —— 多行模式
-默认：
-- `^` = 整个字符串的开头
-- `$` = 整个字符串的结尾
+---
 
-加 `m` 后：
-- `^` = **每一行**的开头
-- `$` = **每一行**的结尾
+## 自动下载 Kotlin 编译器
 
-示例：
-```
-字符串：
-aaa
-bbb
-ccc
+> 大多数 Kotlin 开发环境（如 IntelliJ IDEA、Android Studio）都内置了 Kotlin 编译器。
+> 创建或打开 Kotlin 项目时，IDE 会自动下载并配置编译器。
 
-正则：/^b/m
-可以匹配到第二行的 b
-```
+---
 
+### Maven 项目
 
+* **插件**：`kotlin-maven-plugin` 用于编译 Kotlin 代码
+* **配置示例（pom.xml）**：
 
-### 4. `s` —— 点号匹配换行（dotAll）
-默认 `.` 不能匹配换行符 `\n`。
-
-加 `s` 后：
-- `.` 可以匹配**任何字符**，包括换行！
-
-示例：
-```
-字符串：a\nb
-正则：/a.b/s
-可以匹配成功
+```xml
+<plugin>
+    <groupId>org.jetbrains.kotlin</groupId>
+    <artifactId>kotlin-maven-plugin</artifactId>
+    <version>1.9.23</version>
+</plugin>
 ```
 
+* **构建流程**：
 
-
-### 5. `u` —— Unicode 模式
-处理**中文、emoji、特殊符号**时必须用，否则可能乱匹配。
-
-示例：
 ```
-正则：/😀/u
-才能正确匹配笑脸表情
-```
-
-
-
-## 三、其他常见修饰符
-### 6. `y` —— 粘连匹配（JS 特有）
-从**上次匹配的位置**开始下一次匹配，必须**紧挨着**。
-
-### 7. `x` —— 忽略空格与注释（Python/Java/PHP）
-允许正则里写空格和注释，方便复杂正则阅读。
-
-
-
-## 四、组合使用（超级常用）
-修饰符可以**多个一起用**，顺序不影响。
-
-示例：
-```
-/hello world/gims
-```
-含义：
-- g：全局
-- i：忽略大小写
-- m：多行
-- s：点匹配换行
-
-
-
-## 五、不同语言的写法
-### JavaScript
-```js
-/pattern/gims
+Kotlin 源码 (.kt)
+        ↓
+kotlin-maven-plugin
+        ↓
+Kotlin Compiler
+        ↓
+.class (JVM 字节码)
+        ↓
+JVM 运行
 ```
 
-### Python
-```python
-re.findall(r'abc', text, re.I | re.G)
+---
+
+### Gradle 项目
+
+* **Gradle Kotlin 插件** 自动管理 Kotlin 编译器版本：
+
+```kotlin
+plugins {
+    kotlin("jvm") version "1.9.23"
+}
 ```
 
-### Java
-```java
-Pattern.compile("abc", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+* Gradle 会自动：
+
+  1. 下载指定版本的 Kotlin 编译器（含库和工具）
+  2. 配置编译任务（`compileKotlin`）
+  3. 编译 Kotlin 代码
+
+* 内部流程：
+
+  * 根据插件版本找到 Maven 仓库
+  * 下载依赖到本地 Gradle 缓存
+
+* 常见依赖：
+
+| 依赖                           | 作用     |
+| ---------------------------- | ------ |
+| `kotlin-stdlib`              | 标准库    |
+| `kotlin-reflect`             | 反射（可选） |
+| `kotlin-compiler-embeddable` | 编译器核心库 |
+| `kotlin-script-runtime`      | 脚本支持   |
+
+* Gradle 默认缓存路径：
+
+  * Linux/macOS: `~/.gradle/caches/modules-2/files-2.1/`
+  * Windows: `C:\Users\用户名\.gradle\caches\modules-2\files-2.1\`
+
+## 运行 Kotlin 程序
+
+Kotlin 运行在 Java Virtual Machine
+
+- 查看是否已经有 JDK 环境 和 Kotlin 编译器
+```bash
+java -version
+kotlinc -version
 ```
 
-
-
-## 六、快速记忆口诀
-```
-i 不区分大小写
-g 全局找所有
-m 多行首尾变
-s 点号能换行
-u Unicode 不乱来
+- 编译
+```bash
+kotlinc hello.kt -include-runtime -d hello.jar
 ```
 
+- 运行生成 `hello.jar`
+```bash
+java -jar hello.jar
+```
 
+## Kotlin 脚本
 
-### 总结
-1. 修饰符**写在正则末尾**，改变匹配规则
-2. **g、i、m、s、u** 是最常用 5 个
-3. 可**组合使用**，功能叠加
-4. 处理多行、换行、大小写、全局匹配时必用
+`.kts` 后缀就是 **Kotlin 脚本（Kotlin Script）**。
+
+### 一、`.kt` 和 `.kts` 的区别
+
+| 后缀     | 用途           | 需要写类吗            | 编译方式                      |
+| ------ | ------------ | ---------------- | ------------------------- |
+| `.kt`  | 正规 Kotlin 文件 | 不一定（可以顶层函数，也可以类） | 先编译成 JVM 字节码 `.class`，再运行 |
+| `.kts` | Kotlin 脚本    | 不需要              | 直接解释执行，像 Python 脚本一样      |
+
+### 二、`.kts` 脚本特点
+
+1. **顶层即可写代码**
+   不需要 `fun main()`，直接写：
+
+```kotlin
+println("Hello Kotlin Script")
+```
+
+运行：
+
+```bash
+kotlinc -script hello.kts
+```
+
+2. **类似 Python / Bash 脚本**
+
+* `.kt` 更像 Java 程序 → 需要编译
+* `.kts` 更像 Python 脚本 → 解释执行
