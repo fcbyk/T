@@ -1,0 +1,87 @@
+<!-- https://cn.vuejs.org/api/options-composition.html#extends -->
+<!-- 
+extends: 继承其他组件的选项
+与 mixins 类似，但 extends 只能继承一个组件/对象，且优先级更高
+extends 是为选项式 API 设计的，不会处理 setup() 钩子的合并
+-->
+<div id="app">
+  <child-component></child-component>
+</div>
+
+<script type="module">
+  import {
+    createApp,
+  } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+
+  // 基类组件（被继承的组件）
+  const BaseComponent = {
+    data() {
+      return {
+        baseMessage: "来自基类组件的数据",
+        count: 0
+      }
+    },
+    methods: {
+      increment() {
+        this.count++
+        console.log("基类的 increment 方法")
+      },
+      baseMethod() {
+        console.log("基类的方法")
+      }
+    },
+    created() {
+      console.log("基类的 created 生命周期")
+    },
+    template: `
+      <div>
+        <p>{{ baseMessage }}</p>
+        <p>计数: {{ count }}</p>
+      </div>
+    `
+  }
+
+  // 子类组件（继承基类组件）
+  const ChildComponent = {
+    extends: BaseComponent,  // 继承 BaseComponent 的所有选项
+    
+    data() {
+      return {
+        childMessage: "来自子类组件的数据"
+      }
+    },
+    methods: {
+      // 重写基类方法
+      increment() {
+        this.count += 2  // 子类可以修改父类方法的行为
+        console.log("子类的 increment 方法（重写了基类）")
+      },
+      childMethod() {
+        console.log("子类的方法")
+      }
+    },
+    created() {
+      console.log("子类的 created 生命周期")
+      // 可以调用基类方法
+      this.baseMethod()
+    },
+    template: `
+      <div>
+        <h2>extends 示例</h2>
+        <p>{{ baseMessage }}</p>
+        <p>{{ childMessage }}</p>
+        <p>计数: {{ count }}</p>
+        <button @click="increment">增加计数 (+2)</button>
+        <button @click="childMethod">调用子类方法</button>
+      </div>
+    `
+  }
+
+  let app = createApp({
+    components: {
+      ChildComponent
+    }
+  })
+
+  app.mount("#app")
+</script>

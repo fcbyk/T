@@ -1,128 +1,49 @@
-<!-- https://cn.vuejs.org/guide/components/slots -->
-<!-- 
-插槽（Slots）
-我们已经了解到组件能够接收任意类型的 JavaScript 值作为 props，
-但组件要如何接收模板内容呢？
-在某些场景中，我们可能想要为子组件传递一些模板片段,
-让子组件在它们的组件中渲染这些片段。 
--->
+<!-- // https://cn.vuejs.org/guide/reusability/plugins.html -->
 <div id="app">
-  <!-- 插槽内容 -->
-  <Layout>
-    <!-- 注意这里是传给指令的arg，而不是value -->
-    <template v-slot:header>
-      <h1>Here might be a page title</h1>
-    </template>
-
-    <!-- 默认插槽显示写法 -->
-    <template #default>
-      <p>A paragraph for the main content.</p>
-      <p>And another one.</p>
-    </template>
-
-    <!-- v-slot简写 -->
-    <template #footer>
-      <p>Here's some contact info</p>
-    </template>
-  </Layout>
-
-  <Layout>
-    <!-- header无内容，会渲染一个空元素 -->
-
-    <!-- 隐式的默认插槽 -->
-    <p>A paragraph for the main content.</p>
-    <p>And another one.</p>
-
-    <!-- footer插槽无内容覆盖，会显示默认内容 -->
-  </Layout>
+  <my-component></my-component>
+  <p v-color="'red'">apple (使用插件提供的指令)</p>
+  <p>{{ hello }}</p>
 </div>
 
 <script type="module">
   import {
     createApp,
-    ref,
+    inject,
   } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 
-  // 定义组件
-  let Layout = {
-    /**
-     * <slot> 元素是一个插槽出口 (slot outlet)
-     * 标示了父元素提供的插槽内容 (slot content) 将在哪里被渲染
-     */
-    template: `
-    <div class="layout-container">
-      <header class="layout-header">
-        <!-- 具名插槽 -->
-        <slot name="header"></slot>
-      </header>
+  const myPlugin = {
+    install(app, options) {
+      // 添加全局属性
+      app.config.globalProperties.hello = "插件添加的全局属性(data3)";
 
-      <main class="layout-main">
-        <!-- 默认插槽 -->
-        <slot></slot>
-      </main>
+      // 注册组件
+      app.component("MyComponent", {
+        setup() {
+          const helloFromProvide = inject("hello");
+          return { 
+            msg: "插件注册的全局组件(data1)", 
+            helloFromProvide 
+          }
+        },
+        template: `
+          <div>
+            <h1>{{ msg }}</h1>
+            <p>{{ helloFromProvide }}</p>
+          </div>
+        `,
+      })
 
-      <footer class="layout-footer">
-        <!-- 带默认内容的插槽 -->
-        <slot name="footer">
-          <p>footer默认内容</p>
-        </slot>
-      </footer>
-    </div>
-  `
-  }
+      // 注册自定义指令
+      app.directive("color", (el, binding) => {
+        el.style.color = binding.value;
+      })
 
-  // 创建应用实例
-  createApp({
-    // 补充：如果根实例写了 template（会覆盖页面原有内容）
-    components: { Layout },
-  }).mount("#app")
+      // 使用 provide 提供一个全局的 'hello' 值
+      app.provide("hello", "插件注入的值(data2)");
+    },
+  };
+
+  let app = createApp()
+  app.use(myPlugin)
+  app.mount("#app")
 </script>
-
-
-<style>
-.layout-container {
-  display: flex;
-  flex-direction: column;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.layout-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 24px 32px;
-}
-
-.layout-header h1 {
-  font-size: 24px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.layout-main {
-  flex: 1;
-  padding: 40px 32px;
-  background: #fafafa;
-}
-
-.layout-main p {
-  color: #555;
-  line-height: 1.8;
-  margin-bottom: 12px;
-  font-size: 16px;
-}
-
-.layout-footer {
-  background: #f8f9fa;
-  color: #666;
-  text-align: center;
-  padding: 20px 32px;
-  border-top: 1px solid #e9ecef;
-}
-
-.layout-footer p {
-  font-size: 14px;
-}
-</style>
