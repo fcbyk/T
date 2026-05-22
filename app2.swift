@@ -1,112 +1,125 @@
 /**
- * 运算符(swift特有的)
- */
+ 变量与常量
+ 变量(var)：值可以随时修改
+ 常量(let)：一旦赋值就不能修改（推荐优先用 let，更安全）
+*/
 
-/**
- * 空合运算符 (??) 用于在可选值为 nil 时提供默认值。
- * 它的工作原理是：如果可选值不为 nil，则返回可选值；否则返回默认值。
- */
+
 _ = {
-    let optionalInt: Int? = nil
-    let defaultInt = 42
-    let result = optionalInt ?? defaultInt
-    print("使用空合运算符: \(result)")
+    // ==============================================
+    // MARK: 定义变量 (var)
+    // ==============================================
+    // 格式：var 变量名: 类型 = 初始值
+    // 类型可以省略，Swift 会自动推断（类型推断）
 
-    let optionalString: String? = "Hello"
-    let greeting = optionalString ?? "World"
-    print("可选字符串: \(greeting)")
+    // 自动推断类型（最常用）
+    var age = 18          // 推断为 Int
+    var height = 1.75      // 推断为 Double
+    var name = "小明"      // 推断为 String
+    var isStudent = true   // 推断为 Bool
+
+    // 变量可以修改值
+    age = 19
+    height = 1.80
+    name = "小红"
+
+    // 先声明，后赋值
+    var num: Int
+    num = 100
+
+    // 显式指定类型（明确声明类型，不依赖推断）
+    var score: Int = 100
+    var gender: String = "男"
 }()
 
-/**
- * 区间运算符 (Range Operators)
- * 闭区间运算符 (...) 包含起始值和结束值。
- * 半开区间运算符 (..<) 包含起始值但不包含结束值。
- */
+
 _ = {
-    // 闭区间运算符 (...)
-    for i in 1...3 {
-        print("闭区间: \(i)")
-    }
+    // ==============================================
+    // MARK: 2. 定义常量 (let)
+    // ==============================================
+    // 格式：let 常量名: 类型 = 初始值
+    // 常量赋值后 **绝对不能修改**，编译会报错
 
-    // 半开区间运算符 (..<)
-    for i in 1..<3 {
-        print("半开区间: \(i)")
-    }
+    // 自动推断
+    let PI = 3.1415926     // 常量：圆周率
+    let country = "中国"   // 常量：国家
 
-    // 单侧区间
-    let array = [1, 2, 3, 4, 5]
-    print("数组前两个元素: \(array[...2])")
-    print("数组从索引2开始: \(array[2...])")
+    // 显式指定类型
+    let maxCount: Int = 999 
+
+    // ❌ 错误：常量不能修改
+    // PI = 3.14  // 取消注释会直接报错
 }()
 
-/**
- * 类型转换运算符 (Type Casting Operators)
- * 条件类型转换 (as?) 尝试将值转换为指定类型，如果转换失败则返回 nil。
- * 强制类型转换 (as!) 尝试将值转换为指定类型，如果转换失败则触发运行时错误。
- * 向上转型 (as) 将子类实例转换为超类类型。
- */
+
 _ = {
-    // 条件类型转换 (as?)
-    let anyValue: Any = "这是一个字符串"
-    if let stringValue = anyValue as? String {
-        print("类型转换成功: \(stringValue)")
-    }
+    // ==============================================
+    // MARK: Swift 标识符（变量/常量名）命名规则
+    // 官方严格规范，必须遵守
+    // ==============================================
+    /*
+    命名规则总结（必须记住）：
+    1. 首字符：可以是 字母、_、中文/日文/Emoji 等 Unicode 字符
+        ❌ 不能以 数字 开头
+    2. 后续字符：字母、数字、下划线、Unicode 字符都可以
+    3. 区分大小写：Name 和 name 是两个不同标识符
+    4. 不能用 Swift 关键字（如 let、var、class、if、for 等）
+    5. 推荐命名：见名知意，驼峰命名法（官方标准）
+    */
 
-    // 强制类型转换 (as!)
-    let anotherAny: Any = 123
-    let intValue = anotherAny as! Int
-    print("强制转换结果: \(intValue)")
+    // MARK: 合法命名示例
+    var userName = "张三"        // 小驼峰（变量/常量标准写法）
+    var _score = 85             // 以下划线开头（合法）
+    var 年龄 = 20                // 中文（合法，但不推荐用于项目）
+    var 🎂 = "生日"              // Emoji（合法，仅用于趣味代码）
+    var user123 = "测试账号"      // 字母+数字（合法）
 
-    // 向上转型 (as)
-    class Animal {}
-    class Dog: Animal {}
-    let dog = Dog()
-    let animal: Animal = dog as Animal
-    print("向上转型成功: \(animal)")
+    // MARK: 非法命名示例（取消注释会报错）
+    // var 123num = 100        ❌ 数字开头
+    // var let = 666           ❌ 使用关键字
+    // var user-name = "test"  ❌ 不能用横杠
+    // var class = "Swift"     ❌ 关键字
 }()
 
-/**
- * 可选链运算符 (Optional Chaining)
- * 可选链运算符 (?) 用于在可选值为 nil 时避免强制解包，而是返回 nil。
- * 它的工作原理是：如果可选值不为 nil，则继续执行后续操作；否则返回 nil。
- */
 _ = {
-    class Person {
-        var name: String?
-        var pet: Pet?
-    }
+    // ==============================================
+    // MARK: 官方推荐命名规范（开发必须遵守）
+    // ==============================================
+    /*
+    1. 变量/常量：小驼峰命名法（首字母小写，后面单词首字母大写）
+        例：userName, maxCount, isLogin
+    2. 类/结构体/枚举：大驼峰命名法（首字母大写）
+        例：UserInfo, HomeViewController
+    3. 命名要见名知意，不要用 a、b、c 这种无意义名称
+    4. 不要使用中文、特殊符号、Emoji 做正式项目命名
+    */
 
-    class Pet {
-        var name: String?
-        var age: Int?
-    }
-
-    let person = Person()
-    person.name = "张三"
-    person.pet = Pet()
-    person.pet?.age = 3
-
-    // 通过可选链访问属性
-    let petName = person.pet?.name
-    print("宠物名字: \(petName ?? "无")")
-
-    // 通过可选链调用方法
-    let petAge = person.pet?.age
-    print("宠物年龄: \(petAge ?? 0)")
+    // 推荐写法
+    let screenWidth = 375
+    let isLoginSuccess = false
+    var currentPageIndex = 1
 }()
 
-/**
- * 恒等运算符 (用于类实例)
- * 恒等运算符 (===) 用于检查两个类实例是否引用同一个对象。
- * 非恒等运算符 (!==) 用于检查两个类实例是否引用不同的对象。
- */
-_ = {
-    class MyClass {}
-    let obj1 = MyClass()
-    let obj2 = obj1
-    let obj3 = MyClass()
 
-    print("obj1 与 obj2 是否相同: \(obj1 === obj2)")
-    print("obj1 与 obj3 是否相同: \(obj1 === obj3)")
-    print("obj1 与 obj2 是否不同: \(obj1 !== obj3)")
+_ = {
+    // ==============================================
+    // MARK: 5. 一次性定义多个变量/常量
+    // ==============================================
+    var x = 10, y = 20, z = 30
+    let a = 1, b = 2, c = 3
+
+    // 同一类型批量定义
+    let red: Int, green: Int, blue: Int
+    red = 255
+    green = 0
+    blue = 0
 }()
+
+_ = {
+    // ==============================================
+    // MARK: 空变量可选值
+    // ==============================================
+    // 如果变量一开始没有值，可以声明为可选类型
+    var address: String? = nil
+    address = "北京市朝阳区"
+}

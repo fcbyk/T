@@ -1,5 +1,6 @@
 {    
     "scripts": {
-        "run": "swift app1.swift"
+        "run": "swift app1.swift",
+        "run:no-warnings": "swift -suppress-warnings app1.swift"
     }
 }
