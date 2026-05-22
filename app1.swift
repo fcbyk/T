@@ -1,79 +1,105 @@
-/**
- 结构体
- 和 C++ 结构体语法很像
- 但是没有匿名结构体
- */
- 
+// 泛型函数 基础语法
+// 作用：一个函数支持任意类型
 _ = {
-    // 定义一个结构体
-    struct Student {
-        // 存储属性（存放数据）
-        var name: String
-        var age: Int
-        let studentID: String  // 常量属性
-        
-        // 计算属性（不存数据，靠计算得出）
-        var info: String {
-            return "姓名：\(name)，年龄：\(age)，学号：\(studentID)"
-        }
-        
-        // 普通方法（不修改自身属性）
-        func study() {
-            print("\(name) 正在学习")
-        }
-        
-        // 可变方法（修改自身属性，必须加 mutating）
-        mutating func changeAge(newAge: Int) {
-            age = newAge
-        }
-        
-        // 自定义构造器（初始化）
-        init(name: String, age: Int, studentID: String) {
-            self.name = name
-            self.age = age
-            self.studentID = studentID
-        }
+    // 语法：函数名<占位符>(参数: 占位符)
+    // T = 类型占位符（随便写 T/E/Element 都行）
+    func printValue<T>(value: T) {
+        print("传入的类型：\(type(of: value))，值：\(value)")
     }
 
-    // 创建实例
-    var stu = Student(name: "小明", age: 18, studentID: "2026001")
-
-    // 访问属性
-    print(stu.name)
-    print(stu.info)
-
-    // 调用方法
-    stu.study()
-
-    // 修改属性
-    stu.name = "小红"
-    stu.changeAge(newAge: 19)
-    print(stu.info)
+    // 使用：自动推断 T 类型
+    printValue(value: 10)    // T = Int
+    printValue(value: "Hi")  // T = String
 }()
 
 
+// 泛型函数：多个同类型参数
 _ = {
-    // 定义一个协议（规定要实现什么）
-    protocol Animal {
-        // 必须实现的属性
-        var name: String { get }
-        // 必须实现的方法
-        func makeSound()
+    // T 代表：a 和 b 必须是**同一种类型**
+    func swap<T>(_ a: inout T, _ b: inout T) {
+        let temp = a
+        a = b
+        b = temp
     }
-                           
-    // 结构体 遵守 协议
-    struct Dog: Animal {  // 这里就是：遵守 Animal 协议
-        // 必须实现协议里的属性
-        var name: String
+
+    var x = 1, y = 2
+    swap(&x, &y)
+    print("交换后：\(x), \(y)")
+}()
+
+
+// 泛型结构体（最常用容器写法）
+_ = {
+    // 语法：结构体名<Element>
+    // Element = 这个结构体要存储的类型占位符
+    struct Box<Element> {
+        // 属性用 Element 代表类型
+        var content: Element
         
-        // 必须实现协议里的方法
-        func makeSound() {
-            print("\(name) 汪汪叫")
+        // 方法参数/返回值也用 Element
+        func getContent() -> Element {
+            return content
         }
     }
 
-    // 使用
-    let dog = Dog(name: "旺财")
-    dog.makeSound()
+    // 使用：Box<Int> 代表把 Element 换成 Int
+    let intBox = Box<Int>(content: 100)
+    let strBox = Box(content: "字符串") // 自动推断
+
+    print(intBox.getContent())
+    print(strBox.getContent())
 }()
 
+
+// 泛型类（和结构体语法一样）
+_ = {
+    class Person<ID> {
+        var id: ID
+        init(id: ID) {
+            self.id = id
+        }
+    }
+
+    let p1 = Person(id: 123)    // ID = Int
+    let p2 = Person(id: "abc")  // ID = String
+    print(p1.id, p2.id)
+}()
+
+
+// 泛型约束（限制 T 必须是某种类型）
+_ = {
+    // 语法：<T: 协议/类>
+    // T: Equatable 代表：T 必须遵守 Equatable 协议（可比较 ==）
+    func isSame<T: Equatable>(_ a: T, _ b: T) -> Bool {
+        return a == b
+    }
+
+    print(isSame(5, 5))
+    print(isSame("A", "B"))
+}()
+
+
+// 多个泛型参数（用逗号分隔）
+_ = {
+    // <T, U> 两个不同类型占位符
+    func makePair<T, U>(a: T, b: U) -> (T, U) {
+        return (a, b)
+    }
+
+    let pair = makePair(a: 18, b: "年龄")
+    print(pair)
+}()
+
+
+// 泛型枚举（带泛型关联值）
+_ = {
+    // 枚举也能泛型：Success 是成功值的类型
+    enum Result<Success> {
+        case success(Success)
+        case fail
+    }
+
+    let res1 = Result.success("数据") // Success = String
+    let res2 = Result.success(100)    // Success = Int
+    print(res1, res2)
+}()
