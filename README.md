@@ -1,37 +1,40 @@
-# demo16
+# demo17
 
-> 创建：打开 Xcode → File → New → Playground
+## xcode-select
+xcode-select 是 macOS 上的一个命令行工具，用于管理 Xcode 和命令行开发工具的路径。
 
-## 一、文件结构规则
-- 根目录**仅允许**存在 `Contents.swift`，不可自建其他 `.swift` 文件
-- 多文件代码**必须放入 `Sources` 文件夹**
-- 资源文件放入 `Resources` 文件夹
+1. **安装 Xcode 后**：
+   - `xcode-select` 工具自动可用
+   - 系统默认会指向完整版的 Xcode
+   - 包含所有开发工具（Swift、clang、git 等）
 
-## 二、代码运行机制
-- `Contents.swift`：默认**自动运行**，可改为手动运行（长按右上角 ▶️ 选择 `Manually Run`）
-- `Sources` 文件夹：**无法自动运行**，仅编译不执行，需被 `Contents.swift` 调用才执行
+2. **如果只想要命令行工具**：
+   - 可以**不安装**完整版 Xcode（节省几十 GB 空间）
+   - 只运行 `xcode-select --install` 安装轻量级的 Command Line Tools
+   - 同样可以使用 Swift、编译代码等
 
-## 三、Sources 代码规范
-1. 代码**必须写在函数/类/结构体**中，不可直接写裸代码
-2. 需添加 `public` 修饰，否则外部无法调用
-3. **无需导入**，`Contents.swift` 可直接调用
+3. **Swift 可以直接通过命令行编译和运行 .swift 文件**
+   - 无需打开 Xcode，适合快速测试和脚本开发
+   - 支持所有 macOS 系统（已安装 Xcode Command Line Tools）
 
-## 四、Swift 和 Xcode的【带后缀的文件夹】
-它们都不是普通文件夹，而是系统能识别的专用包格式
-- .playground    代码练习
-- .xcodeproj     项目
-- .xcworkspace   多项目工作区
-- .framework     代码库
-- .xcframework   跨平台代码库
+## 函数语法、闭包
 
-## 五、注释
-```swift
-// 单行注释（和 C++/Java/Kotlin 一样）
+### 函数基础
+- 使用 `func` 关键字定义函数
+- 参数可以有默认值，提高调用灵活性
+- 支持可变参数（variadic parameters），用 `...` 表示
+- 可以返回多个值，通过元组实现
+- 函数可以作为参数传递或返回值（高阶函数）
 
-/*
- 多行注释
- 可以嵌套
-*/
+### 函数特性
+- 支持嵌套函数，内部函数可访问外部作用域变量
+- inout 参数允许修改传入的原始值
+- 标签参数使调用更清晰，可用 `_` 省略外部标签
+- 自动闭包（@autoclosure）延迟求值，优化性能
 
-/// 文档注释（用于生成 API 文档）
-```
+### 闭包
+- 闭包是匿名的自包含代码块，可捕获上下文中的常量或变量
+- 尾随闭包语法简化调用，当闭包是最后一个参数时可放在括号外
+- 逃逸闭包（@escaping）在函数返回后仍被调用，需显式声明
+- 自动引用计数（ARC）管理闭包内存，注意循环引用问题
+- 简写参数名 `$0`, `$1` 等提升代码简洁性
