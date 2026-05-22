@@ -1,0 +1,43 @@
+<div id="app">
+  <Counter></Counter>
+  <World></World>
+</div>
+
+<script type="module">
+  import {
+    createApp,
+    ref,
+  } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+
+  let Hello = {
+    template: `<div>Hello</div>`,
+  }
+
+  let Counter = {
+    setup: () => ({ count: ref(0) }),
+    template: `
+    <!-- 子组件可以直接使用全局注册的组件 -->
+    <Hello></Hello>
+
+    <button @click="count++">
+      You clicked me {{ count }} times.
+    </button>`,
+  }
+
+  // 创建应用实例
+  let app = createApp({
+    setup: () => ({}),
+    components: { Counter }
+  })
+
+  /**
+   * 全局注册组件
+   * 让组件在当前 Vue 应用中全局可用
+   * 返回值是应用实例本身，因此可以链式调用
+   */
+  app.component('Hello', Hello).component('World', {
+    template: `<div>World</div>`,
+  })
+
+  app.mount("#app")
+</script>

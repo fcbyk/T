@@ -1,0 +1,45 @@
+<!-- https://cn.vuejs.org/guide/components/registration -->
+
+<div id="app">
+  <!-- 使用组件 -->
+  <Counter></Counter>
+</div>
+
+<script type="module">
+  import {
+    createApp,
+    ref,
+  } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+
+  // 定义组件
+  let Hello = {
+    template: `<div>Hello</div>`,
+  }
+
+  // 定义组件
+  let Counter = {
+    setup: () => ({ count: ref(0) }),
+    template: `
+
+    <!-- 
+      当前组件中没有局部注册hello组件, vue不会介入
+      会使用浏览器的原生渲染
+      -->
+    <Hello></Hello>
+
+    <button @click="count++">
+      You clicked me {{ count }} times.
+    </button>`,
+  }
+
+  // 创建应用实例
+  createApp({
+    setup: () => ({}),
+
+    /**
+     * 局部注册组件（使用 ES2015 缩写语法）
+     * 局部注册的组件需要在使用它的父组件中显式导入，并且只能在该父组件中使用
+     */
+    components: { Counter, Hello },
+  }).mount("#app")
+</script>
