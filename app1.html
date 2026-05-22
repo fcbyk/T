@@ -1,0 +1,24 @@
+<!-- 渐进式写法 -->
+
+<div id="app"></div>
+
+<!-- React 核心库 -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+
+<!-- React 的“渲染器” -->
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+<!-- Babel 会扫描text/babel，浏览器运行时编译 JSX -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+  // 定义组件
+  // 组件本质就是：一个返回 UI 的函数
+  function App() {
+    return <h1>Hello World</h1>
+  }
+
+  // 渲染组件
+  // <App /> 是 App 组件的 JSX 表示
+  ReactDOM.createRoot(document.getElementById('app')).render(<App />)
+</script>
