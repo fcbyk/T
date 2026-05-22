@@ -1,21 +1,45 @@
 /**
- 函数定义语法
- 用 func 关键字声明，-> 指向返回值
- 函数可以嵌套，有访问修饰符 internal
- 
- Swift 中所有函数、属性、类，如果不写访问权限修饰符，默认都是 internal
- 同一模块（target）内随便访问，模块外不能访问
+ 类与对象
+ 基本语法：class 关键字
+ 属性：存储属性、计算属性
+ 方法：实例方法、类型方法
+ ( 类可以写在函数里面：嵌套类 )
  */
 
-// 无参数无返回值
-func sayHello() {
-    print("Hello Swift")
-}
-sayHello()
-
-// 有参有返回值
-func sum(a: Int, b: Int) -> Int {
-    return a + b
-}
-let result = sum(a: 10, b: 20)
-print(result)
+_ = {
+    // 定义一个简单的类
+    class Person {
+        // 存储属性
+        var name: String
+        var age: Int
+        
+        // 计算属性（只读）
+        var info: String {
+            return "\(name) 今年 \(age) 岁"
+        }
+        
+        // 初始化方法
+        init(name: String, age: Int) {
+            self.name = name
+            self.age = age
+        }
+        
+        // 实例方法
+        func sayHello() {
+            print("你好，我是 \(name)")
+        }
+        
+        // 类型方法（静态方法）
+        static func description() {
+            print("Person 类用于表示一个人")
+        }
+    }
+    
+    // 创建对象，没有new关键字
+    let person = Person(name: "小明", age: 20)
+    person.sayHello()
+    print(person.info)
+    
+    // 调用类型方法
+    Person.description()
+}()
