@@ -1,0 +1,25 @@
+<!-- 
+在 Vue3 通过 createApp({ ... }) 创建的应用实例
+-->
+<div id="app">{{ message }}</div>
+
+<script type="module">
+  import {
+    createApp,
+    ref,
+  } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+
+  createApp({
+    // 组合式 API
+    // setup —— Vue3 的核心入口
+    setup() {
+      // 定义数据
+      const message = ref("Hello Vue!");
+
+      // 必须 return，才能在模板/外部使用
+      return {
+        message,
+      };
+    },
+  }).mount("#app");
+</script>

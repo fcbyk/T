@@ -1,0 +1,23 @@
+<!-- 
+Vue 实例，就是 Vue 控制页面的入口对象。
+所有数据、方法、逻辑都归它管，它负责把数据渲染到页面，并监听页面变化。 
+-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<div id="app">{{ message }}</div>
+
+<script>
+  // vue2.x 创建Vue实例
+  var app = new Vue({
+
+    // 指定Vue实例要控制的页面元素
+    el: "#app",
+
+    // 定义数据
+    data: {
+      message: "Hello Vue!",
+    },
+
+    // 更多配置项
+  });
+</script>
