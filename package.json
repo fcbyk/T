@@ -1,0 +1,5 @@
+{    
+    "scripts": {
+        "run": "swift app1.swift"
+    }
+}
