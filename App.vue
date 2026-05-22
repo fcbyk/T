@@ -1,31 +1,55 @@
 <template>
-  <p>{{ message }}</p>
-  <p>{{ password }}</p>
-
-  <!-- 绑定自定义事件 -->
-  <Child 
-    @child-click="handleChildClick" 
-    @submit-form="handleSubmit"
-  />
+  <div class="app-container">
+    <h1>Hello App!</h1>
+    <p><strong>Current route path:</strong> {{ $route.fullPath }}</p>
+    <nav>
+      <RouterLink to="/">Go to Home</RouterLink>
+      <RouterLink to="/about">Go to About</RouterLink>
+    </nav>
+    <main>
+      <RouterView />
+    </main>
+  </div>
 </template>
-<script setup>
-import Child from './Child.vue'
-import { ref } from 'vue'
 
-const message = ref('')
-const password = ref({})
-
-/**
- * 父组件定义回调函数
- * 由 子组件 触发自定义事件 调用
- */
-const handleChildClick = (msg) => {
-  console.log('父组件收到：', msg)
-  message.value = msg
+<style scoped>
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-const handleSubmit = (formData) => {
-  console.log('表单数据：', formData)
-  password.value = formData.password
+h1 {
+  color: #42b983;
+  text-align: center;
 }
-</script>
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #2c3e50;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+nav a:hover {
+  background-color: #f0f0f0;
+}
+
+nav a.router-link-active {
+  color: #42b983;
+  font-weight: bold;
+}
+
+main {
+  margin-top: 30px;
+}
+</style>
