@@ -1,75 +1,45 @@
-/**
- 继承
- */    
+/****
+ 跳转语句
+ return 常和 guard 一起使用（提前返回）
+ break（不仅用于循环），可以用于 switch， 表示结束当前结构（循环 / switch）
+ continue 跳过当前循环的本次迭代，进入下一次
+ 标签语句（label ⭐️），可以控制多层循环的跳转（类似 JS）
+ fallthrough（switch 专用），默认 Swift 的 switch 不会贯穿，使用 fallthrough 可以强制进入下一个 case
+ */
 
-// 父类
-class Animal {
-    var name: String
-
-    init(name: String) {
-        self.name = name
+public func app3(){
+    // break / continue
+    for i in 1...5 {
+        if i == 3 {
+            continue   // 跳过 3
+        }
+        if i == 5 {
+            break      // 提前结束
+        }
+        print(i)
     }
 
-    func makeSound() {
-        print("动物发出声音")
-    }
-
-    func eat() {
-        print("动物在吃东西")
-    }
-}
-
-// 子类继承 Animal
-class Dog: Animal {
-    // 重写初始化方法
-    override init(name: String) {
-        super.init(name: name)
-    }
-    
-    // 重写方法
-    override func makeSound() {
-        super.makeSound()
-        print("\(name) 汪汪叫")
-    }
-    
-    // 子类特有的方法
-    func wagTail() {
-        print("\(name) 摇尾巴")
-    }
-}
-
-class Cat: Animal {
-    // 添加属性观察器
-    override var name: String {
-        didSet {
-            print("猫的名字从 \(oldValue) 改为 \(name)")
+    // label（多层循环跳转）
+    outerLoop: for i in 1...3 {
+        for j in 1...3 {
+            if j == 2 {
+                break outerLoop
+            }
+            print("i=\(i), j=\(j)")
         }
     }
-    
-    override func makeSound() {
-        print("\(name) 喵喵叫")
-    }
-    
-    func climbTree() {
-        print("\(name) 爬树")
-    }
-}
 
-class Bird: Animal {
-    // final 关键字，禁止继承或重写
-    final func fly() {
-        print("\(name) 在飞")
+    // fallthrough（switch 特性）
+    let num = 1
+    switch num {
+    case 1:
+        print("1")
+        fallthrough
+    case 2:
+        print("2")
+    default:
+        break
     }
 }
 
-
-let dog = Dog(name: "旺财")
-dog.makeSound()
-dog.eat()
-dog.wagTail()
-
-let cat = Cat(name: "咪咪")
-cat.makeSound()
-cat.eat()
-cat.climbTree()
-cat.name = "小花"  // 触发属性观察器
+app3()
