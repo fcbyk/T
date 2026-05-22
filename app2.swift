@@ -1,125 +1,119 @@
-/**
- 变量与常量
- 变量(var)：值可以随时修改
- 常量(let)：一旦赋值就不能修改（推荐优先用 let，更安全）
-*/
-
 
 _ = {
-    // ==============================================
-    // MARK: 定义变量 (var)
-    // ==============================================
-    // 格式：var 变量名: 类型 = 初始值
-    // 类型可以省略，Swift 会自动推断（类型推断）
+    // 最基础枚举（只有选项）
+    enum Direction {
+        case up
+        case down
+        case left
+        case right
+    }
 
-    // 自动推断类型（最常用）
-    var age = 18          // 推断为 Int
-    var height = 1.75      // 推断为 Double
-    var name = "小明"      // 推断为 String
-    var isStudent = true   // 推断为 Bool
+    // 用法
+    let dir1 = Direction.up
+    let dir2: Direction = .down  // 已知类型，可以只写 .xxx
 
-    // 变量可以修改值
-    age = 19
-    height = 1.80
-    name = "小红"
+    // 简洁写法
+    enum Dir {
+        case up, down, left, right
+    }
 
-    // 先声明，后赋值
-    var num: Int
-    num = 100
-
-    // 显式指定类型（明确声明类型，不依赖推断）
-    var score: Int = 100
-    var gender: String = "男"
+    print(dir1)
+    print(dir2)
 }()
 
 
 _ = {
-    // ==============================================
-    // MARK: 2. 定义常量 (let)
-    // ==============================================
-    // 格式：let 常量名: 类型 = 初始值
-    // 常量赋值后 **绝对不能修改**，编译会报错
+    // 带原始值（Raw Value）
+    // 每个 case 绑定一个固定值：Int / String
+    enum Grade: Int {
+        case A = 90
+        case B = 80
+        case C = 70
+    }
 
-    // 自动推断
-    let PI = 3.1415926     // 常量：圆周率
-    let country = "中国"   // 常量：国家
-
-    // 显式指定类型
-    let maxCount: Int = 999 
-
-    // ❌ 错误：常量不能修改
-    // PI = 3.14  // 取消注释会直接报错
+    // 用法
+    let grade = Grade.A
+    print(grade.rawValue) // 输出 90
 }()
 
 
 _ = {
-    // ==============================================
-    // MARK: Swift 标识符（变量/常量名）命名规则
-    // 官方严格规范，必须遵守
-    // ==============================================
-    /*
-    命名规则总结（必须记住）：
-    1. 首字符：可以是 字母、_、中文/日文/Emoji 等 Unicode 字符
-        ❌ 不能以 数字 开头
-    2. 后续字符：字母、数字、下划线、Unicode 字符都可以
-    3. 区分大小写：Name 和 name 是两个不同标识符
-    4. 不能用 Swift 关键字（如 let、var、class、if、for 等）
-    5. 推荐命名：见名知意，驼峰命名法（官方标准）
-    */
+    // 带关联值（Associated Value）
+    // 每个 case 可以带不同数据
+    enum Result {
+        case success(String)   // 成功：带信息
+        case failure(Int, String) // 失败：带码 + 信息
+    }
 
-    // MARK: 合法命名示例
-    var userName = "张三"        // 小驼峰（变量/常量标准写法）
-    var _score = 85             // 以下划线开头（合法）
-    var 年龄 = 20                // 中文（合法，但不推荐用于项目）
-    var 🎂 = "生日"              // Emoji（合法，仅用于趣味代码）
-    var user123 = "测试账号"      // 字母+数字（合法）
+    // 用法
+    let res1 = Result.success("登录成功")
+    let res2 = Result.failure(404, "页面不存在")
+    print(res1) // 输出 success("登录成功")
+    print(res2) // 输出 failure(404, "页面不存在")
 
-    // MARK: 非法命名示例（取消注释会报错）
-    // var 123num = 100        ❌ 数字开头
-    // var let = 666           ❌ 使用关键字
-    // var user-name = "test"  ❌ 不能用横杠
-    // var class = "Swift"     ❌ 关键字
+    // 使用switch取出关联值
+    switch res1 {
+    case .success(let msg):
+        print("成功信息：\(msg)")
+        
+    case .failure(let code, let msg):
+        print("错误码：\(code)")
+        print("错误信息：\(msg)")
+    }
+
+    // 用 if case 取出关联值
+    // 语法：if case .枚举case(let 变量名) = 枚举对象 { }
+    if case .success(let msg) = res1 {
+        // 只有匹配到 .success 才会进入这里
+        // msg 就是取出来的关联值
+        print("成功信息：\(msg)")
+    }
+
+    if case .failure(let code, let msg) = res2 {
+        // 取出两个关联值：code 和 msg
+        print("错误码：\(code)")
+        print("错误信息：\(msg)")
+    }
+
+    // 简写版
+    // let 放前面：if case let .枚举case(变量) = 对象 { }
+    if case let .success(msg) = res1 {
+        print(msg)
+    }
+
+    if case let .failure(code, msg) = res2 {
+        print(code, msg)
+    }
+
+    // ❌ 错误写法
+    // 关联值不能直接 . 出来，必须用模式匹配（if case）
+    // res1.success(let a)  // 报错！
+    // print(a)
+
 }()
 
-_ = {
-    // ==============================================
-    // MARK: 官方推荐命名规范（开发必须遵守）
-    // ==============================================
-    /*
-    1. 变量/常量：小驼峰命名法（首字母小写，后面单词首字母大写）
-        例：userName, maxCount, isLogin
-    2. 类/结构体/枚举：大驼峰命名法（首字母大写）
-        例：UserInfo, HomeViewController
-    3. 命名要见名知意，不要用 a、b、c 这种无意义名称
-    4. 不要使用中文、特殊符号、Emoji 做正式项目命名
-    */
 
-    // 推荐写法
-    let screenWidth = 375
-    let isLoginSuccess = false
-    var currentPageIndex = 1
+_ = {
+    // 枚举里可以写 属性 + 方法
+    enum Animal {
+        case dog
+        case cat
+        
+        // 计算属性
+        var sound: String {
+            switch self {
+            case .dog: return "汪汪"
+            case .cat: return "喵喵"
+            }
+        }
+        
+        // 方法
+        func makeSound() {
+            print("叫声：\(sound)")
+        }
+    }
+
+    let pet = Animal.dog
+    print(pet.sound) // 汪汪
+    pet.makeSound()  // 叫声：汪汪
 }()
-
-
-_ = {
-    // ==============================================
-    // MARK: 5. 一次性定义多个变量/常量
-    // ==============================================
-    var x = 10, y = 20, z = 30
-    let a = 1, b = 2, c = 3
-
-    // 同一类型批量定义
-    let red: Int, green: Int, blue: Int
-    red = 255
-    green = 0
-    blue = 0
-}()
-
-_ = {
-    // ==============================================
-    // MARK: 空变量可选值
-    // ==============================================
-    // 如果变量一开始没有值，可以声明为可选类型
-    var address: String? = nil
-    address = "北京市朝阳区"
-}
