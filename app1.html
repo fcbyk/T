@@ -1,23 +1,31 @@
+<!-- https://cn.vuejs.org/guide/essentials/template-syntax.html -->
 <!-- 
-Vue 实例，就是 Vue 控制页面的入口对象。
-所有数据、方法、逻辑都归它管，它负责把数据渲染到页面，并监听页面变化。 
+插值语法
+  使用双大括号 {{ }} 进行文本插值
+  最基本的数据绑定形式
 -->
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<div id="app">
+  <!-- 文本插值 -->
+  <div>{{ message }}</div>
 
-<div id="app">{{ message }}</div>
+  <!-- 文本支持使用表达式 -->
+  <div>{{ A>B?A:B }}</div>
+  <div>{{ 1+1 }}</div>
+  <div>{{ number + 1 }}</div>
+  <div>{{ ok ? 'YES' : 'NO' }}</div>
+  <div>{{ message.split('').reverse().join('') }}</div>
+</div>
 
-<script>
-  // vue2.x 创建Vue实例
-  var app = new Vue({
+<script type="module">
+  import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 
-    // 指定Vue实例要控制的页面元素
-    el: "#app",
-
-    // 定义数据
-    data: {
-      message: "Hello Vue!",
-    },
-
-    // 更多配置项
-  });
+  createApp({
+    setup: () => ({
+      message: "文本插值",
+      A: 1,
+      B: 2,
+      ok: true,
+      number: 100,
+    }),
+  }).mount("#app");
 </script>
