@@ -1,24 +1,28 @@
-// 属性修饰符
+import java.util.HashMap;
+import java.util.Map;
+
 class App2 {
-    // 访问控制修饰符
-    int num;
-    private String name;
-    public int age;
+    public static void main(String[] args) {
+        Map<String, Integer> studentMap = new HashMap<>();
 
-    // 默认访问控制修饰符
-    protected boolean bol;
+        studentMap.put("Alice", 101);
+        studentMap.put("Bob", 102);
+        studentMap.put("Charlie", 103);
 
-    // 非访问修饰符
+        Integer num = studentMap.get("Bob");
 
-    // final 表示常量，一旦赋值就不能再改变
-    final int id = 9527;
+        boolean containsKey = studentMap.containsKey("Alice");
+        boolean containsValue = studentMap.containsValue(104);
 
-    // static 表示静态变量，属于类而不是对象
-    static String hello;
+        studentMap.remove("Charlie");
 
-    // transient 表示瞬时变量，不会被序列化
-    transient int transientField;
+        System.out.println(studentMap);
 
-    // volatile 表示易变变量，多线程环境下会强制从主内存中读取变量的值
-    volatile int volatileField;
+        for (Map.Entry<String, Integer> entry : studentMap.entrySet()) {
+            System.out.println("姓名：" + entry.getKey() + "，学号：" + entry.getValue());
+        }
+
+        studentMap.clear();
+        System.out.println("清空后：" + studentMap);
+    }
 }

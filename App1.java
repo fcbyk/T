@@ -1,10 +1,20 @@
-// 定义类
-class App1 {
-    // 属性
-    private String name;
+import java.util.ArrayList;
 
-    // 方法
-    public String getName(){
-        return this.name;
+class App1 {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+
+        list.add("Apple");
+        list.add("Banana");
+        list.add("Cherry");
+        list.set(1, "Blueberry");
+        list.remove("Cherry");
+        String one = list.get(1);
+        Boolean hasOne = list.contains("Blueberry");
+
+        for (String item : list)
+            list.set(list.indexOf(item), item + "s" );
+
+        System.out.println(list);
     }
 }
