@@ -1,44 +1,22 @@
 /**
- * 命名空间是 TypeScript 用来组织代码的一种方式，可以帮助你将相关的功能封装在一个逻辑上隔离的块中，避免全局作用域污染。
+ * 接口（Interfaces）
+ * 接口（Interface） 是 TypeScript 中的一个核心特性，它用于定义对象、类、函数等的结构（即它们的属性和方法）。
+ * 接口通过规定结构和类型来帮助开发者约束代码的行为，确保在使用时对象符合某个预定的结构。
+ * 与类型别名（type）类似，接口也能够描述数据的形状，但接口在 TypeScript 中更专注于面向对象的设计，且它具有一些额外的功能，比如可以扩展（继承）其他接口。
  */
 
-// 定义命名空间
-// 在命名空间中，只有使用 export 关键字标记的成员才会暴露给外部使用。如果没有使用 export，它们将仅在命名空间内部可用。
-namespace MyNamespace {
-  export const myVariable = "Hello, Namespace!";
+export interface Person {
+  name: string;
+  age: number;
 
-  export function greet(name: string): string {
-    return `Hello, ${name}!`;
-  }
+  // 在接口中，某些属性可以是可选的。使用 ? 来标记这些属性为可选。
+  address?: string;
 
-  export class Person {
-    constructor(public name: string) {}
-    greet() {
-      return `Hi, I am ${this.name}`;
-    }
-  }
-
-  // 命名空间（namespace）在 TypeScript 中不仅可以包含代码实现，还可以用于仅声明类型（如接口、类型别名、类等）。
-  // 声明接口
-  export interface Student {
-    name: string;
-    age: number;
-  }
-
-  // 声明类型别名
-  export type Greeting = string;
+  // 接口中的属性可以是只读的，意味着它们在对象创建后不能被修改。使用 readonly 关键字标记只读属性。
+  readonly id?: number;
 }
 
-// 访问命名空间内的内容
-console.log(MyNamespace.myVariable); // 输出 'Hello, Namespace!'
-console.log(MyNamespace.greet("Alice")); // 输出 'Hello, Alice!'
-
-const person = new MyNamespace.Person("Bob");
-console.log(person.greet()); // 输出 'Hi, I am Bob'
-
-// 使用命名空间内的类型
-let hello:MyNamespace.Greeting = "hello";
-let stu:MyNamespace.Student = {
-  name:"张三",
-  age:20
-}
+let person: Person = { id: 1, name: "Alice", age: 30 };
+person.name = "Bob"; // 允许修改
+person.age = 35; // 允许修改
+// person.id = 2; // 错误：无法修改 readonly 属性
