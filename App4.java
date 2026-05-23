@@ -1,18 +1,45 @@
 class App4 {
-    // 赋值运算符
+    // while 循环语句
     public static void main(String[] args){
-        System.out.println("===== 赋值运算符 =====");
-        int d = 10;
-        System.out.println("初始值 d = " + d);
-        d += 5;  // d = d + 5
-        System.out.println("d += 5 后, d = " + d);
-        d -= 3;  // d = d - 3
-        System.out.println("d -= 3 后, d = " + d);
-        d *= 2;  // d = d * 2
-        System.out.println("d *= 2 后, d = " + d);
-        d /= 4;  // d = d / 4
-        System.out.println("d /= 4 后, d = " + d);
-        d %= 3;  // d = d % 3
-        System.out.println("d %= 3 后, d = " + d);
+        System.out.println("===== while 循环语句 =====");
+        
+        // 基本 while 循环
+        System.out.println("\n1. 基本 while 循环:");
+        int i = 1;
+        while (i <= 5) {
+            System.out.print(i + " ");
+            i++;
+        }
+        System.out.println();
+        
+        // while 循环求和
+        System.out.println("\n2. while 循环求和 (1-10):");
+        int sum = 0;
+        int num = 1;
+        while (num <= 10) {
+            sum += num;
+            num++;
+        }
+        System.out.println("1+2+3+...+10 = " + sum);
+        
+        // while 循环找第一个能被7整除的数
+        System.out.println("\n3. while 循环查找:");
+        int n = 1;
+        while (n % 7 != 0) {
+            n++;
+        }
+        System.out.println("第一个能被7整除的正整数是: " + n);
+        
+        // 无限 while 循环（需要break退出）
+        System.out.println("\n4. 带 break 的 while 循环:");
+        int count = 0;
+        while (true) {
+            count++;
+            System.out.print(count + " ");
+            if (count >= 5) {
+                break;  // 退出循环
+            }
+        }
+        System.out.println();
     }
 }

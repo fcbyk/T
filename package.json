@@ -5,8 +5,6 @@
         "app3": "java App3.java",
         "app4": "java App4.java",
         "app5": "java App5.java",
-        "app6": "java App6.java",
-        "app7": "java App7.java",
-        "app8": "java App8.java"
+        "app6": "java App6.java"
     }
 }
