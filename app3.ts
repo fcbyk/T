@@ -1,23 +1,14 @@
-import { Person } from "./app1";
-
 /**
- * 接口继承(支持多继承)
- * 接口可以继承自其他接口。继承可以让一个接口继承另一个接口的所有属性和方法，也可以在继承的基础上添加新的属性或方法。
+ * 字符串枚举
+ * TypeScript 还支持字符串枚举，其中枚举成员的值是字符串而不是数字。
+ * 这对于表示具有具体意义的常量值（如状态码、事件类型等）时非常有用。
  */
-interface Address {
-  street: string;
-  city: string;
+enum DirectionB {
+  Up = "UP",
+  Down = "DOWN",
+  Left = "LEFT",
+  Right = "RIGHT",
 }
 
-interface Employee extends Person, Address {
-  jobTitle: string;
-}
-
-let employee: Employee = {
-  id: 12,
-  name: "Alice",
-  age: 30,
-  jobTitle: "Software Engineer",
-  street: "123 Main St",
-  city: "Wonderland",
-};
+console.log(DirectionB.Up); // 输出: "UP"
+console.log(DirectionB.Left); // 输出: "LEFT"

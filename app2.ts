@@ -1,10 +1,15 @@
 /**
- * 接口可以描述函数
- * 接口不仅可以用于描述对象的结构，还可以用来描述函数的类型。通过接口来定义一个函数的签名（即参数类型和返回值类型）。
+ * 指定枚举成员的值
+ * 你可以显式指定枚举成员的值。指定了值后，后续没有显式赋值的成员会继续递增。
  */
-interface Greet {
-  (name: string): string;
+enum DirectionA {
+  Up = 1,
+  Down, // 自动赋值为 2
+  Left, // 自动赋值为 3
+  Right, // 自动赋值为 4
 }
-const greet: Greet = (name) => {
-  return `Hello, ${name}`;
-};
+
+console.log(DirectionA.Up); // 输出: 1
+console.log(DirectionA.Down); // 输出: 2
+console.log(DirectionA.Left); // 输出: 3
+console.log(DirectionA.Right); // 输出: 4
