@@ -1,48 +1,72 @@
 class App5 {
-    // do-while 循环语句
-    public static void main(String[] args){
-        System.out.println("===== do-while 循环语句 =====");
-        
-        // 基本 do-while 循环
-        System.out.println("\n1. 基本 do-while 循环:");
-        int i = 1;
-        do {
-            System.out.print(i + " ");
-            i++;
-        } while (i <= 5);
-        System.out.println();
-        
-        // do-while 至少执行一次的特性
-        System.out.println("\n2. do-while 至少执行一次:");
-        int j = 10;
-        do {
-            System.out.println("j = " + j + " (即使条件不满足也会执行一次)");
-        } while (j < 5);  // 条件为false，但循环体已执行一次
-        
-        // do-while 用户输入模拟
-        System.out.println("\n3. do-while 累加示例:");
-        int sum = 0;
-        int number = 1;
-        do {
-            sum += number;
-            System.out.println("当前数字: " + number + ", 累计和: " + sum);
-            number++;
-        } while (number <= 5);
-        
-        // do-while 与 while 的对比
-        System.out.println("\n4. do-while vs while 对比:");
-        int x = 0;
-        System.out.print("while循环: ");
-        while (x > 0) {  // 条件一开始就为false
-            System.out.print("不会执行 ");
+    // 可变参数（Varargs）
+    
+    // 使用可变参数求和
+    public static int sum(int... numbers) {
+        int total = 0;
+        for (int num : numbers) {
+            total += num;
         }
-        System.out.println("(无输出)");
+        return total;
+    }
+    
+    // 可变参数打印所有参数
+    public static void printAll(String... messages) {
+        System.out.println("收到 " + messages.length + " 个参数:");
+        for (String msg : messages) {
+            System.out.println("  - " + msg);
+        }
+    }
+    
+    // 可变参数与其他参数组合
+    public static void printInfo(String name, int... scores) {
+        System.out.print(name + " 的成绩: ");
+        int sum = 0;
+        for (int score : scores) {
+            System.out.print(score + " ");
+            sum += score;
+        }
+        double avg = scores.length > 0 ? (double)sum / scores.length : 0;
+        System.out.println("(平均分: " + String.format("%.2f", avg) + ")");
+    }
+    
+    // 查找最大值
+    public static int findMax(int... numbers) {
+        if (numbers.length == 0) {
+            throw new IllegalArgumentException("至少需要一个参数");
+        }
+        int max = numbers[0];
+        for (int num : numbers) {
+            if (num > max) {
+                max = num;
+            }
+        }
+        return max;
+    }
+    
+    public static void main(String[] args){
+        System.out.println("===== 可变参数 =====");
         
-        int y = 0;
-        System.out.print("do-while循环: ");
-        do {
-            System.out.print("执行了一次 ");
-        } while (y > 0);  // 条件为false，但已执行一次
-        System.out.println();
+        // 可变参数求和
+        System.out.println("\n1. 可变参数求和:");
+        System.out.println("sum(1, 2, 3) = " + sum(1, 2, 3));
+        System.out.println("sum(10, 20, 30, 40, 50) = " + sum(10, 20, 30, 40, 50));
+        System.out.println("sum() = " + sum());  // 0个参数
+        
+        // 可变参数打印
+        System.out.println("\n2. 可变参数打印:");
+        printAll("Hello");
+        printAll("Java", "Python", "C++");
+        printAll();  // 0个参数
+        
+        // 可变参数与其他参数组合
+        System.out.println("\n3. 可变参数与普通参数组合:");
+        printInfo("张三", 85, 90, 78);
+        printInfo("李四", 92, 88, 95, 90);
+        
+        // 查找最大值
+        System.out.println("\n4. 查找最大值:");
+        System.out.println("max(3, 7, 2, 9, 1) = " + findMax(3, 7, 2, 9, 1));
+        System.out.println("max(100) = " + findMax(100));
     }
 }

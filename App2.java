@@ -1,76 +1,50 @@
 class App2 {
-    // switch 选择语句
+    // 方法重载（Overloading）
+    
+    // 重载：参数个数不同
+    public static int add(int a, int b) {
+        return a + b;
+    }
+    
+    public static int add(int a, int b, int c) {
+        return a + b + c;
+    }
+    
+    // 重载：参数类型不同
+    public static double add(double a, double b) {
+        return a + b;
+    }
+    
+    // 重载：参数顺序不同
+    public static void printInfo(String name, int age) {
+        System.out.println("姓名: " + name + ", 年龄: " + age);
+    }
+    
+    public static void printInfo(int age, String name) {
+        System.out.println("年龄: " + age + ", 姓名: " + name);
+    }
+    
     public static void main(String[] args){
-        System.out.println("===== switch 选择语句 =====");
+        System.out.println("===== 方法重载 =====");
         
-        // 基本 switch 语句
-        int day = 3;
-        String dayName;
-        switch (day) {
-            case 1:
-                dayName = "星期一";
-                break;
-            case 2:
-                dayName = "星期二";
-                break;
-            case 3:
-                dayName = "星期三";
-                break;
-            case 4:
-                dayName = "星期四";
-                break;
-            case 5:
-                dayName = "星期五";
-                break;
-            case 6:
-                dayName = "星期六";
-                break;
-            case 7:
-                dayName = "星期日";
-                break;
-            default:
-                dayName = "无效的天数";
-                break;
-        }
-        System.out.println("第 " + day + " 天是: " + dayName);
+        // 调用两个参数的add方法
+        System.out.println("\n1. 参数个数不同的重载:");
+        System.out.println("add(10, 20) = " + add(10, 20));
+        System.out.println("add(10, 20, 30) = " + add(10, 20, 30));
         
-        // switch 穿透示例（没有break）
-        System.out.println("\n===== switch 穿透示例 =====");
-        int month = 3;
-        switch (month) {
-            case 12:
-            case 1:
-            case 2:
-                System.out.println(month + "月 - 冬季");
-                break;
-            case 3:
-            case 4:
-            case 5:
-                System.out.println(month + "月 - 春季");
-                break;
-            case 6:
-            case 7:
-            case 8:
-                System.out.println(month + "月 - 夏季");
-                break;
-            case 9:
-            case 10:
-            case 11:
-                System.out.println(month + "月 - 秋季");
-                break;
-            default:
-                System.out.println("无效的月份");
-                break;
-        }
+        // 调用不同类型的add方法
+        System.out.println("\n2. 参数类型不同的重载:");
+        System.out.println("add(10.5, 20.3) = " + add(10.5, 20.3));
+        System.out.println("add(5, 8) = " + add(5, 8));  // 调用int版本
         
-        // Java 14+ switch 表达式
-        System.out.println("\n===== switch 表达式 =====");
-        String fruit = "apple";
-        String result = switch (fruit) {
-            case "apple", "orange" -> "水果";
-            case "carrot", "broccoli" -> "蔬菜";
-            default -> "未知";
-        };
-        System.out.println(fruit + " 属于: " + result);
+        // 调用参数顺序不同的方法
+        System.out.println("\n3. 参数顺序不同的重载:");
+        printInfo("张三", 20);
+        printInfo(25, "李四");
+        
+        // Java会自动选择最合适的方法
+        System.out.println("\n4. 自动类型匹配:");
+        System.out.println("add(1, 2) = " + add(1, 2));        // int
+        System.out.println("add(1.0, 2.0) = " + add(1.0, 2.0)); // double
     }
 }

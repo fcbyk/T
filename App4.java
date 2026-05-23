@@ -1,45 +1,65 @@
 class App4 {
-    // while 循环语句
+    // 递归方法
+    
+    // 递归计算阶乘
+    public static long factorial(int n) {
+        if (n <= 1) {
+            return 1;
+        }
+        return n * factorial(n - 1);
+    }
+    
+    // 递归计算斐波那契数列
+    public static int fibonacci(int n) {
+        if (n <= 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+    
+    // 递归求和
+    public static int recursiveSum(int n) {
+        if (n <= 0) {
+            return 0;
+        }
+        return n + recursiveSum(n - 1);
+    }
+    
+    // 递归打印数字
+    public static void printNumbers(int n) {
+        if (n > 0) {
+            printNumbers(n - 1);
+            System.out.print(n + " ");
+        }
+    }
+    
     public static void main(String[] args){
-        System.out.println("===== while 循环语句 =====");
+        System.out.println("===== 递归方法 =====");
         
-        // 基本 while 循环
-        System.out.println("\n1. 基本 while 循环:");
-        int i = 1;
-        while (i <= 5) {
-            System.out.print(i + " ");
-            i++;
+        // 计算阶乘
+        System.out.println("\n1. 递归计算阶乘:");
+        System.out.println("5! = " + factorial(5));
+        System.out.println("10! = " + factorial(10));
+        System.out.println("0! = " + factorial(0));
+        
+        // 斐波那契数列
+        System.out.println("\n2. 递归计算斐波那契数列:");
+        System.out.print("前10个斐波那契数: ");
+        for (int i = 0; i < 10; i++) {
+            System.out.print(fibonacci(i) + " ");
         }
         System.out.println();
         
-        // while 循环求和
-        System.out.println("\n2. while 循环求和 (1-10):");
-        int sum = 0;
-        int num = 1;
-        while (num <= 10) {
-            sum += num;
-            num++;
-        }
-        System.out.println("1+2+3+...+10 = " + sum);
+        // 递归求和
+        System.out.println("\n3. 递归求和 (1-10):");
+        System.out.println("1+2+...+10 = " + recursiveSum(10));
         
-        // while 循环找第一个能被7整除的数
-        System.out.println("\n3. while 循环查找:");
-        int n = 1;
-        while (n % 7 != 0) {
-            n++;
-        }
-        System.out.println("第一个能被7整除的正整数是: " + n);
-        
-        // 无限 while 循环（需要break退出）
-        System.out.println("\n4. 带 break 的 while 循环:");
-        int count = 0;
-        while (true) {
-            count++;
-            System.out.print(count + " ");
-            if (count >= 5) {
-                break;  // 退出循环
-            }
-        }
+        // 递归打印
+        System.out.println("\n4. 递归打印数字 (1-10):");
+        printNumbers(10);
         System.out.println();
     }
 }

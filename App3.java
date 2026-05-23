@@ -1,50 +1,49 @@
 class App3 {
-    // for 循环语句
+    // 参数传递：值传递
+    
+    // 基本数据类型的值传递
+    public static void modifyValue(int num) {
+        System.out.println("方法内修改前: " + num);
+        num = 100;
+        System.out.println("方法内修改后: " + num);
+    }
+    
+    // 数组的传递（引用传递的效果）
+    public static void modifyArray(int[] arr) {
+        System.out.println("方法内修改前: arr[0] = " + arr[0]);
+        arr[0] = 999;
+        System.out.println("方法内修改后: arr[0] = " + arr[0]);
+    }
+    
+    // 对象的传递
+    public static void modifyString(StringBuilder sb) {
+        System.out.println("方法内修改前: " + sb.toString());
+        sb.append(" World");
+        System.out.println("方法内修改后: " + sb.toString());
+    }
+    
     public static void main(String[] args){
-        System.out.println("===== for 循环语句 =====");
+        System.out.println("===== 参数传递 =====");
         
-        // 基本 for 循环
-        System.out.println("\n1. 基本 for 循环:");
-        for (int i = 1; i <= 5; i++) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
+        // 基本数据类型的值传递
+        System.out.println("\n1. 基本数据类型（值传递）:");
+        int x = 10;
+        System.out.println("调用方法前: x = " + x);
+        modifyValue(x);
+        System.out.println("调用方法后: x = " + x);  // x仍然是10
         
-        // 倒序 for 循环
-        System.out.println("\n2. 倒序 for 循环:");
-        for (int i = 5; i >= 1; i--) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
+        // 数组的传递
+        System.out.println("\n2. 数组传递（引用类型）:");
+        int[] numbers = {1, 2, 3};
+        System.out.println("调用方法前: numbers[0] = " + numbers[0]);
+        modifyArray(numbers);
+        System.out.println("调用方法后: numbers[0] = " + numbers[0]);  // numbers[0]变成999
         
-        // 步长为2的 for 循环
-        System.out.println("\n3. 步长为2的 for 循环:");
-        for (int i = 0; i <= 10; i += 2) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
-        
-        // 嵌套 for 循环 - 打印乘法表
-        System.out.println("\n4. 嵌套 for 循环 - 9x9乘法表:");
-        for (int i = 1; i <= 3; i++) {
-            for (int j = 1; j <= i; j++) {
-                System.out.print(j + "x" + i + "=" + (i*j) + "\t");
-            }
-            System.out.println();
-        }
-        
-        // 增强 for 循环（for-each）
-        System.out.println("\n5. 增强 for 循环:");
-        int[] numbers = {10, 20, 30, 40, 50};
-        for (int num : numbers) {
-            System.out.print(num + " ");
-        }
-        System.out.println();
-        
-        // 字符串数组的增强 for 循环
-        String[] fruits = {"苹果", "香蕉", "橙子"};
-        for (String fruit : fruits) {
-            System.out.println("水果: " + fruit);
-        }
+        // 对象的传递
+        System.out.println("\n3. 对象传递（引用类型）:");
+        StringBuilder sb = new StringBuilder("Hello");
+        System.out.println("调用方法前: " + sb.toString());
+        modifyString(sb);
+        System.out.println("调用方法后: " + sb.toString());  // 变成"Hello World"
     }
 }

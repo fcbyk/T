@@ -1,45 +1,47 @@
 class App1 {
-    // if-else 条件语句
+    // 方法定义和调用
+    
+    // 无参数无返回值的方法
+    public static void sayHello() {
+        System.out.println("你好，世界！");
+    }
+    
+    // 有参数无返回值的方法
+    public static void greet(String name) {
+        System.out.println("你好，" + name + "！");
+    }
+    
+    // 有参数有返回值的方法
+    public static int add(int a, int b) {
+        return a + b;
+    }
+    
+    // 多个参数的方法
+    public static double calculateArea(double length, double width) {
+        return length * width;
+    }
+    
     public static void main(String[] args){
-        System.out.println("===== if-else 条件语句 =====");
+        System.out.println("===== 方法定义和调用 =====");
         
-        // 简单 if 语句
-        int score = 85;
-        if (score >= 60) {
-            System.out.println("成绩: " + score + " - 及格");
-        }
+        // 调用无参数无返回值的方法
+        System.out.println("\n1. 无参数无返回值:");
+        sayHello();
         
-        // if-else 语句
-        int age = 20;
-        if (age >= 18) {
-            System.out.println("年龄: " + age + " - 成年");
-        } else {
-            System.out.println("年龄: " + age + " - 未成年");
-        }
+        // 调用有参数无返回值的方法
+        System.out.println("\n2. 有参数无返回值:");
+        greet("张三");
+        greet("李四");
         
-        // if-else if-else 多分支
-        int grade = 75;
-        if (grade >= 90) {
-            System.out.println("等级: A");
-        } else if (grade >= 80) {
-            System.out.println("等级: B");
-        } else if (grade >= 70) {
-            System.out.println("等级: C");
-        } else if (grade >= 60) {
-            System.out.println("等级: D");
-        } else {
-            System.out.println("等级: F");
-        }
+        // 调用有参数有返回值的方法
+        System.out.println("\n3. 有参数有返回值:");
+        int sum = add(10, 20);
+        System.out.println("10 + 20 = " + sum);
+        System.out.println("5 + 8 = " + add(5, 8));
         
-        // 嵌套 if 语句
-        int num = 15;
-        if (num > 0) {
-            System.out.println(num + " 是正数");
-            if (num % 2 == 0) {
-                System.out.println(num + " 是偶数");
-            } else {
-                System.out.println(num + " 是奇数");
-            }
-        }
+        // 调用多个参数的方法
+        System.out.println("\n4. 多个参数:");
+        double area = calculateArea(5.5, 3.2);
+        System.out.println("长5.5，宽3.2的矩形面积: " + area);
     }
 }
