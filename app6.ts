@@ -1,16 +1,20 @@
 /**
- * 联合类型（Union Types）
- * 通过 |，你可以让一个变量同时支持多种类型，这种类型叫做联合类型。
- * string | number 表示 value 可以是字符串类型或数字类型。
+ * 交叉类型（Intersection Types）
+ * 交叉类型允许将多个类型合并成一个类型。类型别名非常适合用来定义交叉类型。
  */
-let value: string | number;
-value = "Hello";
-value = 42;
+type Person = {
+  name: string;
+  age: number;
+};
 
+type WorkerA = {
+  jobTitle: string;
+};
 
-/**
- * 字面量类型（Literal Types）
- * 字面量类型允许你指定变量只能是某些特定的值，这是一种更精确的类型注解。
- * color 只能是 "red"、"green" 或 "blue" 中的一个值。
- */
-let color: "red" | "green" | "blue" = "red";
+type Employee = Person & WorkerA; // 交叉类型，合并 Person 和 WorkerA
+
+const emp: Employee = {
+  name: "Alice",
+  age: 30,
+  jobTitle: "Software Engineer",
+};
