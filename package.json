@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "app":"java App1.java"
+  }
+}
