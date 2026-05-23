@@ -1,6 +1,0 @@
-{
-  "scripts": {
-    "app1":"java App1.java",
-    "app2":"java App2.java"
-  }
-}
