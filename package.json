@@ -3,6 +3,6 @@
     "up": "docker compose up -d",
     "down": "docker compose down -v",
     "ps": "docker compose ps",
-    "check": "docker exec -it mysql-container mysql -uuser -p123456 testdb -e \"SELECT * FROM users;\""
+    "check": "docker exec -it mysql-container mysql -uuser -p123456 testdb --default-character-set=utf8mb4 -e \"SELECT * FROM users;\""
   }
 }
