@@ -1,19 +1,46 @@
 #include <stdio.h>
 
-// 函数声明（原型）
-// 如果函数定义在main之后，需要先声明
-int multiply(int x, int y);  // 函数声明，以分号结尾
+// 定义结构体
+struct student
+{
+    int num;
+    char name[10];
+    int computer,english,math;
+    double average;
+};
 
-int main() {
-    // 调用在后面定义的函数（因为有声明）
-    printf("函数声明示例:\n");
-    int mulResult = multiply(6, 7);
-    printf("6 * 7 = %d\n", mulResult);
-    printf("\n");
-    return 0;
-}
+// 定义结构体并声明结构体变量
+struct student2
+{
+    int num;
+    char name[10];
+    int computer,english,math;
+    double average;
+}a3,a4;
 
-// 函数定义在main之后（需要在前面有声明）
-int multiply(int x, int y) {
-    return x * y;
+/**
+ * 匿名结构体
+ * 定义结构体并声明结构变量
+ * 和上面不同，这个结构体没有名字
+ * 在此语句后无法在定义这个类型的其他结构体变量
+ */
+struct{
+    int num;
+    char name[10];
+    int computer,english,math;
+    double average;
+}a5,a6;
+
+int main(){
+    // 定义结构体变量a1、a2，其数据类型都为struct student
+    struct student a1,a2;
+
+    // 结构体初始化
+    struct student a7 = {101,"不乐",78,87,85};
+
+    // 结构体单独赋值
+    a1.num=100;
+
+    printf("%s\n",a7.name);
+    printf("%d\n",a1.num);
 }

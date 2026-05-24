@@ -3,4 +3,4 @@
         "run:mac": "gcc app1.c -o app && ./app && rm -f app",
         "run:win": "gcc app1.c -o app.exe && app.exe && if exist app.exe del app.exe"
     }
-}
+} 

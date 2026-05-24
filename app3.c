@@ -1,34 +1,25 @@
-/**
- * extern 关键字演示
- * 
- * extern 用于声明在其他文件中定义的函数或变量
- * 告诉编译器："这个函数/变量在别的地方定义了，链接时再找"
- */
-
 #include <stdio.h>
 
-// 声明外部函数（函数定义在 external.c 中）
-extern void sayHello();
-extern int add(int a, int b);
+/**
+ * 枚举
+ * 如果一个变量只有几种可能的值，则可以定义为"枚举类型"
+ * 所谓"枚举"就是把可能的值一一的列举出来，变量的值只限于列举出来的值的范围
+ */
+enum Spectrum{
+    // 枚举成员列表(以逗号分隔)
+    red,black,yellow,blue,white
+}i1;
 
-// 也可以省略 extern，直接声明（效果相同）
-// void sayHello();
-// int add(int a, int b);
+int main(){
+    i1 = black;
 
-int main() {
-
-    // 调用外部文件中定义的函数
-    printf("调用外部函数 sayHello():\n");
-    sayHello();
-    printf("\n");
-    
-    printf("调用外部函数 add(10, 20):\n");
-    int result = add(10, 20);
-    printf("10 + 20 = %d\n", result);
-    printf("\n");
-    
-    printf("说明：这些函数定义在 external.c 文件中\n");
-    printf("通过 extern 声明后，可以在本文件中使用\n");
+    switch (i1)
+    {
+        case red:printf("red\n");break;
+        case black:printf("black\n");break;
+        case yellow:printf("yellow\n");break;
+        default:printf("blue\n");
+    }
     
     return 0;
 }
