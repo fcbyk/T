@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   
   // 运行时配置 - 从环境变量读取
   runtimeConfig: {
-    supabaseUrl: '',
-    supabaseKey: ''
+    mongodbUri: ''
   }
 })
