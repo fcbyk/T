@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <spring.version>6.1.5</spring.version>
     </properties>
 
     <dependencies>
@@ -20,15 +21,14 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>6.1.5</version>
+            <version>${spring.version}</version>
         </dependency>
 
-
-        <!-- JUnit 5 测试依赖 -->
+        <!--  数据库连接池Druid（要测试的第三方Bean）  -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.2</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.3</version>
         </dependency>
 
     </dependencies>

@@ -1,81 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="book" class="com.fcbyk.Book"/>
-    <bean id="myOrder" class="com.fcbyk.MyOrder"/>
 
-    <!--  DI依赖注入  -->
-    <!--  向一个类中传递数据的方式有，普通方法(set方法)，构造方法，所以有两种注入方式  -->
-    <!--  依赖注入描述了在容器中建立bean与bean之间的依赖关系的过程  -->
-    <!--  注入的类型可分为简单类型和引用类型  -->
-    <!--  使用autowire属性，可选择按类型（常用）、按名称、按构造方法完成自动装配  -->
-    <bean id="beanA" class="com.fcbyk.BeanA">
+    <!--  在配置文件中使用context命名空间下的标签来加载properties配置文件  -->
+    <context:property-placeholder location="jdbc.properties"/>
 
-        <!--  构造器注入简单类型数据  -->
-        <constructor-arg name="addr" value="青青草原"/>
-        <constructor-arg name="age" value="16"/>
-
-        <!--  setter注入引用类型数据  -->
-        <property name="book" ref="book"/>
-        <property name="order" ref="myOrder"/>
-
-        <!--  setter注入简单类型数据  -->
-        <property name="name" value="张三"/>
-        <property name="phone" value="123456"/>
-
-        <!--  setter注入集合  -->
-        <!--  集合中既可以装简单数据类型也可以装引用数据类型  -->
-        <!--  property标签表示setter方式注入，构造方式注入constructor-arg标签内部也可以写<array>、<list>、<set>、<map>、<props>标签  -->
-
-        <!--  注入数组类型数据  -->
-        <property name="array">
-            <array>
-                <value>100</value>
-                <value>200</value>
-                <value>300</value>
-            </array>
-        </property>
-
-        <!--  注入List类型数据  -->
-        <property name="list">
-            <list>
-                <value>itcast</value>
-                <value>itheima</value>
-                <value>boxuegu</value>
-                <value>chuanzhihui</value>
-            </list>
-        </property>
-
-        <!--  注入Set类型数据  -->
-        <property name="set">
-            <set>
-                <value>itcast</value>
-                <value>itheima</value>
-                <value>boxuegu</value>
-                <value>boxuegu</value>
-            </set>
-        </property>
-
-        <!--  注入Map类型数据  -->
-        <property name="map">
-            <map>
-                <entry key="country" value="china"/>
-                <entry key="province" value="henan"/>
-                <entry key="city" value="kaifeng"/>
-            </map>
-        </property>
-
-        <!--  注入Properties类型数据  -->
-        <property name="properties">
-            <props>
-                <prop key="country">china</prop>
-                <prop key="province">henan</prop>
-                <prop key="city">kaifeng</prop>
-            </props>
-        </property>
-
+    <!-- IOC/DI配置管理第三方bean -->
+    <!-- 管理DruidDataSource对象 -->
+    <!-- 使用${key}来读取properties配置文件中的内容并完成属性注入 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
 </beans>
