@@ -1,17 +1,14 @@
-package com.example;
+package com.fcbyk;
 
-import lombok.AllArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
 /**
  * 用户实体类
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@TableName("`users`")
 public class User {
     private Integer id;
     private String name;
