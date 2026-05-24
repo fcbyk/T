@@ -1,12 +1,5 @@
 {
     "scripts": {
-        "if": "node if.js",
-        "switch": "node switch.js",
-        "while": "node while.js",
-        "for": "node for.js",
-        "continue": "node continue.js",
-        "label": "node label.js",
-        "return": "node return.js",
-        "break": "node break.js"
+        "app1": "node app2.js"
     }
 }
