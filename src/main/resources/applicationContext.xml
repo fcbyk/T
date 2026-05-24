@@ -5,16 +5,30 @@
 
     <!-- bean标签标示配置bean
     	 id属性标示给bean起名字
-    	 class属性表示给bean定义类型 -->
-    <bean id="bookDao" class="com.fcbyk.BookDaoImpl"/>
+    	 class属性表示给bean定义类型
+    	 name属性定义别名
+    	 scope属性配置bean作用范围（单例和非单例）
+    	 init-method 属性指定生命周期函数（bean创建之后）
+    	 destroy-method 属性指定生命周期函数（bean销毁之前）,scope改成单例才执行
+    	 autowire 属性表示自动装配类型
+    	 factory-method 属性表示bean工厂方法（静态工厂或实例工厂）
+    	 factory-bean 属性表示实例工厂的bean
+    	 lazy-init 属性控制bean延迟加载
+    	 -->
+    <!--  bean实例化  -->
+    <!--  实例化bean的三种方式，构造方法,静态工厂和实例工厂  -->
 
-    <bean id="bookService" class="com.fcbyk.BookServiceImpl">
-        <!-- 依赖注入（DI） -->
-        <!-- 配置server与dao的关系 -->
-        <!-- property标签表示配置当前bean的属性
-             name属性表示配置哪一个具体的属性
-             ref属性表示参照哪一个bean -->
-        <property name="bookDao" ref="bookDao"/>
-    </bean>
+    <!--  构造方法实例化  -->
+    <!--  能访问到类中的私有构造方法,显而易见Spring底层用的是反射  -->
+    <bean id="book"
+          name="book1,book2"
+          class="com.fcbyk.Book"
+          init-method="init"
+          destroy-method="destroy"
+    />
+
+    <!--  静态工厂实例化  -->
+    <bean id="myOrder" class="com.fcbyk.MyOrderFactory" factory-method="getOrder" />
+
 
 </beans>
