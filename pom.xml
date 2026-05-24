@@ -14,17 +14,27 @@
         <spring.version>6.1.5</spring.version>
     </properties>
 
+    <packaging>war</packaging>
+
     <dependencies>
 
-        <!-- Spring的依赖包 -->
-        <!-- spring-context：包含了 Spring 核心功能（如IoC容器和AOP等） -->
+        <!-- SpringMVC核心依赖（会自动传递 spring-context、spring-core 等） -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
-        <!--  注解开发（Jakarta Annotation API，适配 Java 11+）  -->
+        <!-- Jakarta Servlet API（编译时需要，运行时由 Tomcat 提供） -->
+        <!-- Tomcat 10 支持 Jakarta EE 10，与 Spring 6.1+ 兼容 -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Jakarta Annotation API（用于 @PostConstruct、@PreDestroy 等注解） -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -32,4 +42,23 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 使用 Jetty 插件运行（支持 Jakarta EE 10） -->
+            <plugin>
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-maven-plugin</artifactId>
+                <version>12.0.6</version>
+                <configuration>
+                    <httpConnector>
+                        <port>80</port>
+                    </httpConnector>
+                    <webApp>
+                        <contextPath>/</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
