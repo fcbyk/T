@@ -1,0 +1,24 @@
+<!-- 对象上下文 -->
+<script>
+    const obj = {
+        name: 'Alice',
+        log: function () {
+            console.log("对象方法上下文" + this + this.name);
+        },
+        child:{
+            name:"大头",
+            log: function () {
+                console.log("子对象方法上下文" + this + this.name);
+            },
+
+            // 最近的非箭头函数作用域没有，指向全局的window
+            test:()=>{
+                console.log("子对象箭头函数上下文" + this + this.name);     // window
+            }
+        }
+    };
+
+    obj.log()
+    obj.child.log()
+    obj.child.test()
+</script>
