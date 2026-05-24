@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-// 定义结构体
 struct student
 {
     int num;
@@ -9,38 +8,18 @@ struct student
     double average;
 };
 
-// 定义结构体并声明结构体变量
-struct student2
-{
-    int num;
-    char name[10];
-    int computer,english,math;
-    double average;
-}a3,a4;
-
-/**
- * 匿名结构体
- * 定义结构体并声明结构变量
- * 和上面不同，这个结构体没有名字
- * 在此语句后无法在定义这个类型的其他结构体变量
- */
-struct{
-    int num;
-    char name[10];
-    int computer,english,math;
-    double average;
-}a5,a6;
-
+// 结构体指针
 int main(){
-    // 定义结构体变量a1、a2，其数据类型都为struct student
-    struct student a1,a2;
+    struct student *pa;
+    struct student stu = {101,"zhang",78,87,85};
+    pa=&stu;
 
-    // 结构体初始化
-    struct student a7 = {101,"不乐",78,87,85};
+    // 下面三条语句，效果一样
+    // 使用指向运算符->，解引用
+    // 也可以先解引用，再访问成员
+    stu.num =200;
+    (*pa).num = 200;
+    pa->num = 200;
 
-    // 结构体单独赋值
-    a1.num=100;
-
-    printf("%s\n",a7.name);
-    printf("%d\n",a1.num);
+    printf("%d\n", stu.num);
 }
