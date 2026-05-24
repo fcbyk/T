@@ -1,5 +1,0 @@
-{
-    "scripts": {
-        "app1": "node app2.js"
-    }
-}
