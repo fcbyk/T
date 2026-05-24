@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Mapper 接口 ←→ Mapper.xml -->
+<!-- namespace 必须与 Mapper 接口的全限定名一致 -->
+<mapper namespace="com.example.UserMapper">
+    
+    <!-- 结果映射：定义数据库列与 Java 属性的对应关系 -->
+    <resultMap id="UserResultMap" type="com.example.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+    
+    <!--
+        id = 接口方法名
+        parameterType = 方法参数类型
+        resultType = 直接指定返回值类型，MyBatis 自动按照字段名 = 属性名自动匹配
+        resultMap = 手动定义「数据库列名 ↔ 实体类属性」的对应关系
+        SQL 语句 = 方法真正执行的逻辑
+      -->
+    <select id="selectAllUsers" resultMap="UserResultMap">
+        SELECT id, name, email, created_at FROM users
+    </select>
+    
+    <!-- 根据 ID 查询用户 -->
+    <select id="selectUserById" resultMap="UserResultMap">
+        SELECT id, name, email, created_at FROM users WHERE id = #{id}
+    </select>
+    
+    <!-- 插入用户 -->
+    <insert id="insertUser" parameterType="com.example.User">
+        INSERT INTO users (name, email) VALUES (#{name}, #{email})
+    </insert>
+    
+    <!-- 更新用户 -->
+    <update id="updateUser" parameterType="com.example.User">
+        UPDATE users SET name = #{name}, email = #{email} WHERE id = #{id}
+    </update>
+    
+    <!-- 删除用户 -->
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+    
+</mapper>
