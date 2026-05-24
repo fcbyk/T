@@ -5,17 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <!--  在配置文件中使用context命名空间下的标签来加载properties配置文件  -->
-    <context:property-placeholder location="jdbc.properties"/>
-
-    <!-- IOC/DI配置管理第三方bean -->
-    <!-- 管理DruidDataSource对象 -->
-    <!-- 使用${key}来读取properties配置文件中的内容并完成属性注入 -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="driverClassName" value="${jdbc.driver}"/>
-        <property name="url" value="${jdbc.url}"/>
-        <property name="username" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-    </bean>
+    <!-- 配置Spring的注解包扫描 -->
+    <context:component-scan base-package="com.fcbyk"/>
 
 </beans>
