@@ -1,15 +1,16 @@
-<!-- 定义锚点 -->
-<h2 id="section1">第一节</h2>
-<p id="content1">这是第一节的内容</p>
+<h2 id="demo1">CSS 层叠性示例</h2>
+<div id="important-demo">这条文字是蓝色（!important）</div>
 
-<!-- 链接到锚点 -->
-<a href="#section1">跳转到第一节</a>
-<a href="#content1">查看详细内容</a>
+<style>
+/* CSS 层叠性：相同权重下，后定义会覆盖先定义的样式 */
+#demo1 { color: blue; }        /* 先定义 */
+#demo1 { color: green; }       /* 后定义，覆盖前面的 */
 
-<!-- 页面内指定位置跳转 -->
-<a href="longpage.html#section3">跳转到指定章节</a>
-
-<!-- 返回顶部链接 -->
-<a href="#" style="position: fixed; bottom: 20px; right: 20px;">
-    返回顶部
-</a>
+/* !important 设置权重最高 */
+#important-demo { 
+  color: blue !important;  /* 这条规则会覆盖其他任何color规则 */
+}
+#important-demo { 
+  color: green;            /* 这个规则会被忽略 */
+}
+</style>

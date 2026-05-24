@@ -1,0 +1,27 @@
+<head>
+  <!-- 外部样式,使用 link 标签引入外部样式文件 -->
+  <link rel="stylesheet" href="hello.css" type="text/css">
+</head>
+
+
+<!-- 内联样式,可以为某个标签单独设置样式 -->
+<p style="font-size: larger;" id="app">我是是一段段落</p>
+
+<p class="hello">外部样式</p>
+<p class="i1">@import url导入的样式</p>
+<p class="i2">import导入的样式</p>
+
+
+<!-- 嵌入样式,使用 style 标签可以在文档内部定义样式规则 -->
+<style>
+  p {
+    background: rgb(194, 227, 247);
+  }
+</style>
+
+
+<style>
+/* 使用 @import 可以在原样式规则中导入其他样式表，可以在外部样式、style标签中使用 */
+@import url("i1.css");
+@import "i2.css";
+</style>

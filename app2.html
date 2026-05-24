@@ -1,11 +1,12 @@
-<!-- 带图片的链接 -->
-<a href="https://www.example.com">
-    <img src="logo.png" alt="网站logo">
-</a>
+<div id="app">hello</div>
 
-<!-- 多元素链接 -->
-<a href="product.html">
-    <h3>产品名称</h3>
-    <img src="product.jpg" alt="产品图片">
-    <p>产品描述</p>
-</a>
+<style>
+/* 样式规则如果存在错误，解析器会选择忽略，并不会影响其他样式规则。 */
+#app {
+    /* 无效样式*/
+    hello: rgb(41, 8, 8);
+
+    /* 但不影响后面的 border 规则使用 */
+    border: rgb(192, 13, 13) 1px solid;
+}
+</style>

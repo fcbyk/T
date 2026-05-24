@@ -1,8 +1,29 @@
-<!-- 新窗口打开 -->
-<a href="https://www.example.com" target="_blank">在新窗口打开</a>
+<div class="parent">
+  <p>父元素 - 红色文字</p>
+  <div class="child-1">
+    <p>子元素 - 继承字体大小和外边距</p>
+  </div>
+  <div class="child-2">
+    <p>子元素 - 覆盖字体颜色</p>
+  </div>
+</div>
 
-<!-- 下载链接 -->
-<a href="document.pdf" download>下载PDF</a>
+<style>
+/* CSS 继承特性 */
+.parent {
+  color: red; /* 文本颜色会被继承 */
+  font-family: Arial, sans-serif; /* 字体会被继承 */
+  font-size: 18px; /* 字体大小会被继承 */
+  border: 1px solid black; /* 默认不会被继承 */
+  margin: 20px; /* 默认不会被继承 */
+  padding: 10px; /* 默认不会被继承 */
+}
 
-<!-- 带标题的链接 -->
-<a href="https://www.example.com" title="访问我们的网站">网站链接</a>
+.child-1 {
+  margin: inherit; /* 强制继承父元素的外边距 */
+}
+
+.child-2 {
+  color: black;
+}
+</style>
