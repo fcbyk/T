@@ -1,5 +1,4 @@
 {
-  "name": "hello-nuxt",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,6 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "nuxt": "latest"
+    "@supabase/supabase-js": "^2.105.1",
+    "nuxt": "^4.0.0"
   }
 }
