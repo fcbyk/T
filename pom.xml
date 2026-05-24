@@ -1,64 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.fcbyk</groupId>
-    <artifactId>spring</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <!--指定了一个父工程，父工程中的东西在该工程中可以继承过来使用-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.0</version><!--3.3版本只支持jdk17+-->
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
+    <groupId>com.fcbyk</groupId>
+    <artifactId>springboot</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springboot</name>
+    <description>springboot</description>
+
+    <!--JDK 的版本-->
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <spring.version>6.1.5</spring.version>
+        <java.version>21</java.version>
     </properties>
 
-    <packaging>war</packaging>
-
     <dependencies>
-
-        <!-- SpringMVC核心依赖（会自动传递 spring-context、spring-core 等） -->
+        <!--该依赖是在创建 SpringBoot 工程勾选的那个 Spring Web 产生的-->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <!-- Jakarta Servlet API（编译时需要，运行时由 Tomcat 提供） -->
-        <!-- Tomcat 10 支持 Jakarta EE 10，与 Spring 6.1+ 兼容 -->
+        
+        <!--测试依赖-->
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>6.0.0</version>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
-
-        <!-- Jakarta Annotation API（用于 @PostConstruct、@PreDestroy 等注解） -->
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
-            <!-- 使用 Jetty 插件运行（支持 Jakarta EE 10） -->
             <plugin>
-                <groupId>org.eclipse.jetty.ee10</groupId>
-                <artifactId>jetty-ee10-maven-plugin</artifactId>
-                <version>12.0.6</version>
-                <configuration>
-                    <httpConnector>
-                        <port>80</port>
-                    </httpConnector>
-                    <webApp>
-                        <contextPath>/</contextPath>
-                    </webApp>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
+
 </project>
