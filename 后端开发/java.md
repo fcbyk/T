@@ -11,6 +11,8 @@
 | 方法(函数) | 方法定义、参数传递、返回值、方法重载 | [demo42] | 2026-05-23 |
 | 面向对象 | - | [demo43] | 2026-05-23 |
 | 内置数据结构 | 集合API | [demo44] | 2026-05-23 |
+| Hello JDBC| 数据库连接、SQL执行、结果集处理 | [demo66] | 2026-05-24 |
+| Hello Servlet| Web开发基础 | [demo67] | 2026-05-24 |
 
 [demo38]: https://github.com/fcbyk/T/tree/223a59acaacf4831305b3068cc72048d5b7305f9
 [demo39]: https://github.com/fcbyk/T/tree/3dca8a60048456af8f49b883485e5fb44077c1c0
@@ -19,3 +21,5 @@
 [demo42]: https://github.com/fcbyk/T/tree/3853cd9f43f11f93133ea181c62d1094e187f9e0
 [demo43]: https://github.com/fcbyk/T/tree/8786b638c6ccaeea5647be7cc52a52ad9b421d3a
 [demo44]: https://github.com/fcbyk/T/tree/ae8bf6b5eb57151f30217336e47d8ee388f55d1e
+[demo66]: https://github.com/fcbyk/T/tree/21fc9a771f403ac9101c76f9a473e68847ff5a6d
+[demo67]: https://github.com/fcbyk/T/tree/234abe893afacd46be010bdee56f90eaca7719ff
