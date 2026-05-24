@@ -1,7 +1,14 @@
-<!--自定义元素 -->
+<!-- 
+ script标签
+ script标签用于定义HTML文档的脚本
+-->
 
-<hello>
-    不使用JavaScript注册自定义元素
-    会作为普通的行内元素存在
-    可以像普通元素一样使用CSS样式
-</hello>
+<head>
+    <script src="analytics.js"></script>
+    <script>
+        // 页面加载前执行的脚本
+        window.addEventListener('load', function() {
+            console.log('页面已加载');
+        });
+    </script>
+</head>

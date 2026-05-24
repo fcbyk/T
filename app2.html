@@ -1,5 +1,31 @@
-<!-- 标签的定义 -->
+<!-- 
+ link标签
+ link标签用于定义文档与外部资源之间的关系
+-->
+<head>
+    <link 
+        rel="关系类型"       
+        href="资源路径"
+        type="MIME类型"
+        media="媒体查询"      
+        crossorigin="anonymous" 
+    >
 
-<标签名 属性1="值1" 属性2="值2">
-    内容 or 子标签
-</标签名>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 600px)">
+
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon-16x16.png" sizes="16x16">
+    <link rel="icon" href="favicon-32x32.png" sizes="32x32">
+
+    <link rel="preload" href="fonts/opensans.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="alternate" type="application/rss+xml" title="博客RSS" href="/rss">
+
+    <link rel="canonical" href="https://example.com/current-page">
+
+    <link rel="apple-touch-icon" href="ios-icon.png">
+    <link rel="manifest" href="/manifest.json">
+</head>

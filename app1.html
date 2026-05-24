@@ -1,16 +1,50 @@
-<!-- 多个DOCTYPE、html标签，只有第一个生效-->
+<!-- 
+ meta标签
+ meta标签用于提供关于HTML文档的元信息 
+-->
 
-<!DOCTYPE html> <!-- 必须放在第一行 -->
+<head>
+    <meta charset="UTF-8">
 
-<html lang="zh-CN">
-    <!-- 网页内容 -->
+    <!-- 视口设置（移动端响应式） -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <head id="2">
-        <!-- head标签包含了文档的元信息，不会直接显示在页面上 -->
-    </head>
+    <!--  SEO相关元信息 -->
+    <meta name="description" content="这是一个关于HTML meta标签的详细介绍">
+    <meta name="keywords" content="HTML, meta标签, 网页开发">
+    <meta name="author" content="张三">
 
-    <body>
-        <!-- 页面主要内容 -->
-    </body>
+    <!-- 搜索引擎控制 -->
+    <meta name="robots" content="noindex, nofollow">
 
-</html>
+    <!-- 页面刷新和跳转 -->
+    <meta http-equiv="refresh" content="3">
+    <meta http-equiv="refresh" content="3;url=https://example.com">
+
+    <!-- 浏览器兼容性 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- 移动设备特定meta -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#000000">
+
+    <!-- 社交媒体分享 -->
+     <!-- Open Graph协议（Facebook） -->
+    <meta property="og:title" content="网页标题">
+    <meta property="og:description" content="网页描述">
+    <meta property="og:image" content="缩略图URL">
+    <meta property="og:url" content="网页URL">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="网页标题">
+    <meta name="twitter:description" content="网页描述">
+    <meta name="twitter:image" content="缩略图URL">
+
+    <!-- 内容安全策略 -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+
+    <!-- 自定义数据 -->
+    <meta name="custom-data" content="特殊信息">
+</head>
