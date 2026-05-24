@@ -1,18 +1,16 @@
 /**
- * 默认参数(ES6)
- * ES6 允许给函数参数设置默认值
- * 当调用函数时不给实参，则使用参数默认值
- * 具有默认值的形参，一般要靠后
+ * 比较运算符
+ * >、<、>=、<=
+ * ==	强制类型转换比较
+ * ===	不强制类型转换比较
  */
-
-// 使用默认参数
-function getSum(num1, num2 = 10) { 
-    console.log(num1 + num2); 
+function comparison(a = 1, b = 2, c = "1") {
+    console.log(a < b); //true
+    console.log(a == b); //false
+    console.log(a == c); //true
+    console.log(a === c); //false
+    console.log(a == true); //true
+    console.log(a === true); //false
 }
 
-// 不提供第二个参数，使用默认值 10
-getSum(10);  // 20
-
-// 提供第二个参数，覆盖默认值
-getSum(10, 100);  // 110
-
+comparison();

@@ -1,11 +1,25 @@
 /**
- * 函数是对象
- * 在 JS 中函数也是对象,可以用变量接收
- * 函数是Function构造函数创建的实例
+ * 算术运算符
+ * 加减乘除，取余
  */
+function arithmetic(a = 5, b = 3) {
+    console.log(a + b); //8
+    console.log(a - b); //2
+    console.log(a * b); //15
+    console.log(a / b); //1.6666666666666667
+    console.log(a % b); //2
+};
 
-// 使用 Function 构造函数创建函数
-let functionObject = new Function("text", "console.log(text)");
-functionObject('在 JS 中函数也是对象');
-console.log(typeof functionObject); //function
+arithmetic();
 
+/**
+ * 指数运算符(ES7)
+ * 在 ES7 中引入指数运算符 **，用来实现幂运算
+ * 功能与 Math.pow(a, b) 结果相同
+ */
+function exponent() {
+    console.log(2 ** 10);	// 1024
+    console.log(Math.pow(2, 10));
+}
+
+exponent();
