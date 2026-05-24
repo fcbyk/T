@@ -1,4 +1,4 @@
-package dev.fcbyk;
+package com.fcbyk;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

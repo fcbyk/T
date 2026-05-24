@@ -1,4 +1,4 @@
-package dev.fcbyk;
+package com.fcbyk;
 
 public interface BookService {
     public void save();

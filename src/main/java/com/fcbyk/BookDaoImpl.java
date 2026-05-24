@@ -1,4 +1,4 @@
-package dev.fcbyk;
+package com.fcbyk;
 
 public class BookDaoImpl implements BookDao {
     public void save() {
