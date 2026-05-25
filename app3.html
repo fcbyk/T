@@ -1,70 +1,15 @@
-<h1 class="hello">具有class属性的H1（属性存在选择器）</h1>
-<h1 class="hello" id="main">同时具有class和id的H1（多属性选择器）</h1>
-
-<a href="https://123.com">精确属性值链接（href="https://123.com"）</a>
-<a href="">空href链接</a>
-<a href="https://example.com">其他链接</a>
-
-<h2 name="apple-start">name以"a"开头的H2（^= 前缀匹配）</h2>
-<h2 name="domain-com">name以"com"结尾的H2（$= 后缀匹配）</h2>
-<h2 name="xiaoming-test">name包含"xiao"的H2（*= 包含匹配）</h2>
-<h2 name="hello mi world">name包含独立单词"mi"的H2（~= 单词匹配）</h2>
-<h2 name="abc-def">name以"abc"开头且后跟连字符的H2（|= 前缀匹配）</h2>
+<span>TEXT STYLE</span>
 
 <style>
-  h1[class] {
-    /* 属性存在选择器 - 选择具有class属性的h1标签 */
-    color: blue;
-    background-color: lightyellow;
-    padding: 5px;
-    margin: 10px 0;
-  }
-
-  h1[class][id] {
-    /* 多属性选择器 - 选择同时具有class和id属性的标签 */
-    border: 2px solid red;
-    font-weight: bold;
-  }
-
-  a[href="https://123.com"] {
-    /* 精确属性值选择器 - 选择拥有某个具体属性值的元素 */
-    color: green;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  h2[name^="a"] {
-    /* ^= 前缀匹配 - 选择name属性以"a"开头的元素 */
-    color: purple;
-    background-color: lavender;
-    padding: 5px;
-  }
-
-  h2[name$="com"] {
-    /* $= 后缀匹配 - 选择name属性以"com"结尾的元素 */
-    color: orange;
-    background-color: mistyrose;
-    padding: 5px;
-  }
-
-  h2[name*="xiao"] {
-    /* *= 包含匹配 - 选择name属性包含"xiao"的元素 */
-    color: teal;
-    background-color: lightcyan;
-    padding: 5px;
-  }
-
-  h2[name~="mi"] {
-    /* ~= 单词匹配 - 选择name属性中包含独立单词"mi"的元素（空格分隔） */
-    color: brown;
-    background-color: wheat;
-    padding: 5px;
-  }
-
-  h2[name|="abc"] {
-    /* |= 前缀匹配 - 选择name属性以"abc"开头，后跟连字符或完全匹配的元素 */
-    color: navy;
-    background-color: aliceblue;
-    padding: 5px;
-  }
+/* 文本效果样式 */
+span{
+    /* 小型大写字母：小写字母转为缩小版大写样式 */
+    font-variant: small-caps;
+    /* 文本大小写转换：每个单词首字母大写，其余小写 */
+    text-transform: capitalize;
+    /* 文本装饰：添加贯穿文字的删除线 */
+    text-decoration: line-through;
+    /* 文字阴影：颜色 水平偏移3px 垂直偏移3px 模糊半径5px */
+    text-shadow: rgba(13, 6, 89, 0.8) 3px 3px 5px;
+}
 </style>

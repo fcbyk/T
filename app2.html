@@ -1,45 +1,36 @@
-<div id="a1">
-    <div>
-        <div>
-            <h1 id="hh">H1 标题（用于兄弟选择器）</h1>
-            <p>相邻兄弟段落1（+ 选择器）</p>
-            <p>通用兄弟段落2（~ 选择器）</p>
-            <span>Span 元素</span>
-        </div>
-        <p>子代段落（> 选择器）</p>
-    </div>  
-    <p>后代段落（空格选择器）</p>
-</div>
+<p>TEXT STYLE</p>
 
 <style>
-  h1, p {
-    /* 并集选择器 - 同时选择所有h1和p元素 */
-    margin: 5px 0;
-    padding: 3px;
-  }
+/* 段落样式：给所有 <p> 标签设置文本排版效果 */
+p{
+    /* 行高：当前字体大小的2倍，让文字上下更宽松 */
+    line-height: 2em;
 
-  #a1 p {
-    /* 后代选择器 - 选择#a1内所有的p元素（包括嵌套的） */
-    background-color: lightblue;
-    color: darkblue;
-  }
+    /* 单词间距：英文单词之间的距离为2em */
+    word-spacing: 2em;
 
-  #a1 > div {
-    /* 子代选择器 - 只选择#a1的直接子元素div */
-    border: 2px solid orange;
-    padding: 10px;
-    margin: 10px 0;
-  }
+    /* 字间距：每个文字/字母之间的空隙为1rem */
+    letter-spacing: 1rem;
 
-  #hh + p {
-    /* 相邻兄弟选择器 - 选择紧接在#hh后面的第一个p元素 */
-    background-color: lightgreen;
-    font-weight: bold;
-  }
+    /* 首行缩进：段落第一行开头空2rem距离 */
+    text-indent: 2rem;
 
-  #hh ~ p {
-    /* 通用兄弟选择器 - 选择#hh后面所有的p兄弟元素 */
-    color: green;
-    text-decoration: underline;
-  }
+    /* 强制不换行：文字无论多长都不自动换行，一直横向排列 */
+    white-space: nowrap;
+
+    /* 长单词换行：单词过长时自动断开换行（但被上面nowrap覆盖，不生效） */
+    overflow-wrap: break-word;
+
+    /* 文字超出显示省略号...（必须配合overflow:hidden才生效，当前无效） */
+    text-overflow: ellipsis;
+
+    /* 水平对齐：文字在容器内水平居中 */
+    text-align: center;
+
+    /* 垂直对齐：对<p>块级元素无效，只对图片/行内元素生效 */
+    vertical-align: middle;
+
+    /* 文字竖排：垂直排版，从右向左书写（像古书一样） */
+    writing-mode: vertical-rl;
+}
 </style>

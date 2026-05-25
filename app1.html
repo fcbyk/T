@@ -1,44 +1,41 @@
-<h1 class="c1">H1 标签选择器 + 类选择器</h1>
-<span class="c1">Span 标签+类选择器组合</span>
-<h1 id="a1">H1 ID选择器</h1>
-
-<!-- 多类样式声明，以空格分开，通过js操纵类名，可以实现样式切换 -->
-<p class="one two three">多类名示例：.one .two .three（.three的color覆盖了.one）</p>
+<span>TEXT STYLE</span>
 
 <style>
-  h1{ 
-    /* 标签选择器 */ 
-    color: blue;
-    font-size: 24px;
-  }
+/* 文本样式 */
+@font-face {
+  font-family: "hello"; 
+  /* 给字体起个名字叫 hello，后面可以直接用 */
 
-  #a1{ 
-    /* ID选择器 */ 
-    color: red;
-  }
+  src: url("SourceHanSansSC-Light.otf") format("opentype"),
+       url("SourceHanSansSC-Heavy.otf") format("opentype");
+  /* 字体文件路径：
+     从当前文件夹加载 思源黑体 Light 和 Heavy 两个字重
+     format("opentype") 表示文件格式是 otf 字体
+  */
+}
 
-  .c1{ 
-    /* 类选择器 */ 
-    background-color: lightyellow;
-    padding: 5px;
-    display: block;
-    margin: 10px 0;
-  }
+span {
+  font-family: "hello";
+  /* 字体：使用刚才自定义的 hello 字体 */
 
-  span.c1{ 
-    /* 标签选择器+类选择器一起使用 */ 
-    color: green;
-    font-weight: bold;
-  }
+  font-weight: bold;
+  /* 字重：加粗 */
+  /* 可选值：normal / bold / lighter / 100-900 */
 
-  /* 后面定义的样式覆盖了之前定义的样式（.three覆盖了.one） */
-  .one{
-    color: aquamarine;
-  }
-  .two{
-    background-color: bisque;
-  }
-  .three{
-    color: black;
-  }
+  font-size: larger;
+  /* 字体大小：比默认大一号 */
+  /* 也可以写 20px、1.5em、120% 等 */
+
+  color: brown;
+  /* 文字颜色：棕色 */
+  /* 可以写英文/十六进制 #a52a2a / rgb */
+
+  font-style: italic;
+  /* 字体样式：斜体 */
+  /* 可选：normal / italic / oblique */
+
+
+  /* 字体复合写法，会覆盖前面所有字体样式 */
+  font: bold italic 20px/1.5 'Courier New', Courier, monospace;
+}
 </style>
