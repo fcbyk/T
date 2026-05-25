@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+  <div class="item">4</div>
+  <div class="item">5</div>
+  <div class="item">6</div>
+  <div class="item">7</div>
+  <div class="item">8</div>
+  <div class="item">9</div>
+  <div class="item">10</div>
+</div>
+
+<style>
+  .container {
+    height: 500px;
+    border: 1px solid rgb(0, 0, 0);
+    display: flex;
+  }
+
+  .item {
+    /* item 在主轴上的初始尺寸 */
+    flex-basis: 100px;
+
+    /* 剩余空间怎么瓜分，默认 0 不放大 */
+    flex-grow: 1;
+
+    /* 空间不足时怎么缩小，默认 1 会缩小 */
+    flex-shrink: 0;
+    
+    background-color: rgb(39, 132, 163);
+    border: 1px solid rgb(0, 0, 0);
+  }
+</style>
