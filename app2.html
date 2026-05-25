@@ -1,36 +1,66 @@
-<p>TEXT STYLE</p>
+<div class="box1">
+  <div class="box2">盒子模型</div>
+</div>
+
 
 <style>
-/* 段落样式：给所有 <p> 标签设置文本排版效果 */
-p{
-    /* 行高：当前字体大小的2倍，让文字上下更宽松 */
-    line-height: 2em;
+  .box1{
+    border: 1px solid rgb(3, 3, 3);
+  }
+  .box2 {
+    width: 200px;  /* 宽度 */
+    height: 200px;  /* 高度 */
+    border: 1px solid rgb(3, 3, 3);  /* 边框 */
+  }
 
-    /* 单词间距：英文单词之间的距离为2em */
-    word-spacing: 2em;
+  .box2 {
+    /* 单独设置外边距 */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 50px;
+    margin-left: 30px;
+    
+    /* 简写形式设置外边距 */
 
-    /* 字间距：每个文字/字母之间的空隙为1rem */
-    letter-spacing: 1rem;
+    /* 1个参数：上下左右 全部 10px */
+    margin: 10px;
 
-    /* 首行缩进：段落第一行开头空2rem距离 */
-    text-indent: 2rem;
+    /* 4个参数：上 → 右 → 下 → 左 （顺时针！）*/
+    margin: 10px 20px 30px 40px;
 
-    /* 强制不换行：文字无论多长都不自动换行，一直横向排列 */
-    white-space: nowrap;
+    /* 2个参数：上下 → 左右 */
+    margin: 10px 20px;
 
-    /* 长单词换行：单词过长时自动断开换行（但被上面nowrap覆盖，不生效） */
-    overflow-wrap: break-word;
+    /* 3个参数：上 → 左右 → 下 */
+    margin: 10px 20px 30px; 
+  }
 
-    /* 文字超出显示省略号...（必须配合overflow:hidden才生效，当前无效） */
-    text-overflow: ellipsis;
+  .box2 {
+    padding-top:25px;
+    padding-bottom:25px;
+    padding-right:50px;
+    padding-left:50px;
 
-    /* 水平对齐：文字在容器内水平居中 */
-    text-align: center;
 
-    /* 垂直对齐：对<p>块级元素无效，只对图片/行内元素生效 */
-    vertical-align: middle;
+    /* 简写形式和margin一样 */
+    /* 
+    1 个：全都一样
+    2 个：上下、左右
+    3 个：上、左右、下
+    4 个：上、右、下、左（顺时针） 
+    */
+    padding:10px 5px 15px 20px;
+  }
 
-    /* 文字竖排：垂直排版，从右向左书写（像古书一样） */
-    writing-mode: vertical-rl;
-}
+  .box2 {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+    border-radius: 4px;   /* 左上、右上、右下、左下 均为4px */
+    border-radius: 6px 10px;  /* 左上=6px，右下=6px；右上=10px，左下=10px */
+    border-radius: 2px 5px 8px; /* 左上2px，右上+左下5px，右下8px */
+    border-radius: 1px 3px 5px 7px; /* 左上1 | 右上3 | 右下5 | 左下7 */
+  }
 </style>

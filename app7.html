@@ -1,0 +1,41 @@
+<div id="a">display属性演示</div>
+<div id="b">visibility和opacity演示</div>
+
+<style>
+  /* display属性控制元素的显示方式 */
+  #a {
+    width: 200px;
+    height: 50px;
+    border: 2px solid blue;
+    margin: 10px;
+    
+    /* inline-block：行内块元素，可以设置宽高且不会独占一行 */
+    display: inline-block;
+    
+    /* inline：行内元素，不能设置宽高，随内容自适应 */
+    /* display: inline; */
+    
+    /* block：块级元素，独占一行，可以设置宽高 */
+    /* display: block; */
+  }
+  
+  /* visibility、opacity等属性控制元素可见性 */
+  #b {
+    width: 200px;
+    height: 100px;
+    border: 2px solid red;
+    margin: 20px;
+    
+    /* visibility: hidden - 隐藏元素但保留空间 */
+    visibility: hidden;
+    
+    /* opacity: 0.5 - 设置透明度（0完全透明，1完全不透明） */
+    opacity: 0.5;
+    
+    /* overflow: scroll - 内容溢出时显示滚动条 */
+    overflow: scroll;
+    
+    /* box-sizing: border-box - 宽度和高度包含padding和border */
+    box-sizing: border-box;
+  }
+</style>

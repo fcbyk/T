@@ -1,41 +1,19 @@
-<span>TEXT STYLE</span>
+<div class="box1">
+  <div class="box2">盒子模型</div>
+</div>
+
 
 <style>
-/* 文本样式 */
-@font-face {
-  font-family: "hello"; 
-  /* 给字体起个名字叫 hello，后面可以直接用 */
+  .box1{
+    border: 1px solid rgb(3, 3, 3);
+  }
+  .box2 {
+    /* 内容区域 */
+    width: 200px;  /* 宽度 */
+    height: 200px;  /* 高度 */
 
-  src: url("SourceHanSansSC-Light.otf") format("opentype"),
-       url("SourceHanSansSC-Heavy.otf") format("opentype");
-  /* 字体文件路径：
-     从当前文件夹加载 思源黑体 Light 和 Heavy 两个字重
-     format("opentype") 表示文件格式是 otf 字体
-  */
-}
-
-span {
-  font-family: "hello";
-  /* 字体：使用刚才自定义的 hello 字体 */
-
-  font-weight: bold;
-  /* 字重：加粗 */
-  /* 可选值：normal / bold / lighter / 100-900 */
-
-  font-size: larger;
-  /* 字体大小：比默认大一号 */
-  /* 也可以写 20px、1.5em、120% 等 */
-
-  color: brown;
-  /* 文字颜色：棕色 */
-  /* 可以写英文/十六进制 #a52a2a / rgb */
-
-  font-style: italic;
-  /* 字体样式：斜体 */
-  /* 可选：normal / italic / oblique */
-
-
-  /* 字体复合写法，会覆盖前面所有字体样式 */
-  font: bold italic 20px/1.5 'Courier New', Courier, monospace;
-}
+    padding: 20px;  /* 内边距 */
+    border: 1px solid rgb(3, 3, 3);  /* 边框 */
+    margin: 30px;  /* 外边距 */
+  }
 </style>

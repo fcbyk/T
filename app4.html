@@ -1,0 +1,20 @@
+<div class="box2">盒子模型</div>
+
+<style>
+  .box2 {
+    border: 1px solid rgb(3, 3, 3);  /* 边框 */
+    }
+  .box2 {
+    /* 固定元素高度为100像素 */
+    height: 100px;
+    /* 先设置固定宽度100px，后续被覆盖 */
+    width: 100px;
+    /* 宽度自适应内容最大尺寸，撑开至内容实际宽度 */
+    width: max-content;
+
+    /* 最小宽度默认自适应，无最小限制 */
+    min-width: auto;
+    /* 最大高度不限制，随内容高度自适应 */
+    max-height: max-content;
+  }
+</style>

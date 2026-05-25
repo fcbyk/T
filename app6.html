@@ -1,0 +1,25 @@
+<div class="shadow-demo">盒子阴影演示</div>
+
+<style>
+  .shadow-demo {
+    width: 200px;
+    height: 150px;
+    border: 2px solid #333;
+    margin: 50px;
+    
+    /* box-shadow: 水平偏移 垂直偏移 模糊距离 颜色 */
+    
+    /* 水平偏移：10px（向右） */
+    /* 垂直偏移：10px（向下） */
+    /* 模糊距离：5px（阴影模糊程度） */
+    /* 颜色：rgba(100, 100, 100, 0.5) 半透明灰色 */
+    box-shadow: 10px 10px 5px rgba(100, 100, 100, .5);
+    
+    /* 
+    其他常用示例：
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);  // 四周均匀阴影
+    box-shadow: -5px -5px 8px rgba(0, 0, 0, 0.4);  // 左上方向阴影
+    box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.3);  // 带扩展距离的阴影
+    */
+  }
+</style>
