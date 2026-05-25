@@ -1,9 +1,44 @@
-<p> Hello World </p>
+<h1 class="c1">H1 标签选择器 + 类选择器</h1>
+<span class="c1">Span 标签+类选择器组合</span>
+<h1 id="a1">H1 ID选择器</h1>
+
+<!-- 多类样式声明，以空格分开，通过js操纵类名，可以实现样式切换 -->
+<p class="one two three">多类名示例：.one .two .three（.three的color覆盖了.one）</p>
 
 <style>
-    /* CSS语法：选择器 { 以及一条或多条声明 }  */
-    p {
-        /* 声明：属性 : 属性值 ; */
-        font-size: 100px;
-    }
+  h1{ 
+    /* 标签选择器 */ 
+    color: blue;
+    font-size: 24px;
+  }
+
+  #a1{ 
+    /* ID选择器 */ 
+    color: red;
+  }
+
+  .c1{ 
+    /* 类选择器 */ 
+    background-color: lightyellow;
+    padding: 5px;
+    display: block;
+    margin: 10px 0;
+  }
+
+  span.c1{ 
+    /* 标签选择器+类选择器一起使用 */ 
+    color: green;
+    font-weight: bold;
+  }
+
+  /* 后面定义的样式覆盖了之前定义的样式（.three覆盖了.one） */
+  .one{
+    color: aquamarine;
+  }
+  .two{
+    background-color: bisque;
+  }
+  .three{
+    color: black;
+  }
 </style>

@@ -1,12 +1,45 @@
-<div id="app">hello</div>
+<div id="a1">
+    <div>
+        <div>
+            <h1 id="hh">H1 标题（用于兄弟选择器）</h1>
+            <p>相邻兄弟段落1（+ 选择器）</p>
+            <p>通用兄弟段落2（~ 选择器）</p>
+            <span>Span 元素</span>
+        </div>
+        <p>子代段落（> 选择器）</p>
+    </div>  
+    <p>后代段落（空格选择器）</p>
+</div>
 
 <style>
-/* 样式规则如果存在错误，解析器会选择忽略，并不会影响其他样式规则。 */
-#app {
-    /* 无效样式*/
-    hello: rgb(41, 8, 8);
+  h1, p {
+    /* 并集选择器 - 同时选择所有h1和p元素 */
+    margin: 5px 0;
+    padding: 3px;
+  }
 
-    /* 但不影响后面的 border 规则使用 */
-    border: rgb(192, 13, 13) 1px solid;
-}
+  #a1 p {
+    /* 后代选择器 - 选择#a1内所有的p元素（包括嵌套的） */
+    background-color: lightblue;
+    color: darkblue;
+  }
+
+  #a1 > div {
+    /* 子代选择器 - 只选择#a1的直接子元素div */
+    border: 2px solid orange;
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  #hh + p {
+    /* 相邻兄弟选择器 - 选择紧接在#hh后面的第一个p元素 */
+    background-color: lightgreen;
+    font-weight: bold;
+  }
+
+  #hh ~ p {
+    /* 通用兄弟选择器 - 选择#hh后面所有的p兄弟元素 */
+    color: green;
+    text-decoration: underline;
+  }
 </style>

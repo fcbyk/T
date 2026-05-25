@@ -1,29 +1,70 @@
-<div class="parent">
-  <p>父元素 - 红色文字</p>
-  <div class="child-1">
-    <p>子元素 - 继承字体大小和外边距</p>
-  </div>
-  <div class="child-2">
-    <p>子元素 - 覆盖字体颜色</p>
-  </div>
-</div>
+<h1 class="hello">具有class属性的H1（属性存在选择器）</h1>
+<h1 class="hello" id="main">同时具有class和id的H1（多属性选择器）</h1>
+
+<a href="https://123.com">精确属性值链接（href="https://123.com"）</a>
+<a href="">空href链接</a>
+<a href="https://example.com">其他链接</a>
+
+<h2 name="apple-start">name以"a"开头的H2（^= 前缀匹配）</h2>
+<h2 name="domain-com">name以"com"结尾的H2（$= 后缀匹配）</h2>
+<h2 name="xiaoming-test">name包含"xiao"的H2（*= 包含匹配）</h2>
+<h2 name="hello mi world">name包含独立单词"mi"的H2（~= 单词匹配）</h2>
+<h2 name="abc-def">name以"abc"开头且后跟连字符的H2（|= 前缀匹配）</h2>
 
 <style>
-/* CSS 继承特性 */
-.parent {
-  color: red; /* 文本颜色会被继承 */
-  font-family: Arial, sans-serif; /* 字体会被继承 */
-  font-size: 18px; /* 字体大小会被继承 */
-  border: 1px solid black; /* 默认不会被继承 */
-  margin: 20px; /* 默认不会被继承 */
-  padding: 10px; /* 默认不会被继承 */
-}
+  h1[class] {
+    /* 属性存在选择器 - 选择具有class属性的h1标签 */
+    color: blue;
+    background-color: lightyellow;
+    padding: 5px;
+    margin: 10px 0;
+  }
 
-.child-1 {
-  margin: inherit; /* 强制继承父元素的外边距 */
-}
+  h1[class][id] {
+    /* 多属性选择器 - 选择同时具有class和id属性的标签 */
+    border: 2px solid red;
+    font-weight: bold;
+  }
 
-.child-2 {
-  color: black;
-}
+  a[href="https://123.com"] {
+    /* 精确属性值选择器 - 选择拥有某个具体属性值的元素 */
+    color: green;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  h2[name^="a"] {
+    /* ^= 前缀匹配 - 选择name属性以"a"开头的元素 */
+    color: purple;
+    background-color: lavender;
+    padding: 5px;
+  }
+
+  h2[name$="com"] {
+    /* $= 后缀匹配 - 选择name属性以"com"结尾的元素 */
+    color: orange;
+    background-color: mistyrose;
+    padding: 5px;
+  }
+
+  h2[name*="xiao"] {
+    /* *= 包含匹配 - 选择name属性包含"xiao"的元素 */
+    color: teal;
+    background-color: lightcyan;
+    padding: 5px;
+  }
+
+  h2[name~="mi"] {
+    /* ~= 单词匹配 - 选择name属性中包含独立单词"mi"的元素（空格分隔） */
+    color: brown;
+    background-color: wheat;
+    padding: 5px;
+  }
+
+  h2[name|="abc"] {
+    /* |= 前缀匹配 - 选择name属性以"abc"开头，后跟连字符或完全匹配的元素 */
+    color: navy;
+    background-color: aliceblue;
+    padding: 5px;
+  }
 </style>
