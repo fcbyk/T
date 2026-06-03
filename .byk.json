@@ -1,0 +1,4 @@
+{
+    "run": "cargo run",
+    "编译": "cargo build --release"
+}
