@@ -1,9 +1,0 @@
-[package]
-name = "hello_world"
-version = "0.1.0"
-edition = "2024"
-
-[profile.release]
-strip = true       # 去除符号表
-opt-level = "z"    # 优先压缩体积（而非速度）
-lto = true         # 链接时优化

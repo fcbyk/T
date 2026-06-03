@@ -1,203 +1,214 @@
-# demo108 Rust 打包单文件二进制
+# demo109 变量与常量
 
-## 1. 编译 release 版本
+## 一、单文件脚本执行
+
+Rust 支持将单个 `.rs` 文件当作脚本直接执行，无需创建完整的 Cargo 项目。
+
+### 方式一：`cargo -Zscript`（官方内置，需要 nightly）
 
 ```bash
-cargo build --release
+cargo +nightly -Zscript hello.rs
 ```
 
-产物路径：
-```
-target/release/hello_world        # macOS / Linux
-target/release/hello_world.exe    # Windows
+- `+nightly` — 指定使用 nightly 工具链
+
+最简单的脚本写法，无需任何额外声明：
+
+```rust
+fn main() {
+    println!("Hello!");
+}
 ```
 
-**只需要这一个文件**，直接复制到同平台其他机器即可运行，无需安装任何运行时。
+如果需要依赖，在文件顶部用 `---` 嵌入 Cargo.toml：
 
+```rust
+---
+[dependencies]
+serde = "1"
 ---
 
-## 2. debug vs release
+fn main() {
+    println!("with deps!");
+}
+```
 
-| | `cargo build` | `cargo build --release` |
+### 方式二：`rust-script`（第三方，更成熟稳定）
+
+```bash
+cargo install rust-script
+rust-script hello.rs
+```
+
+依赖写在顶部注释块里：
+
+```rust
+//! ```cargo
+//! [dependencies]
+//! reqwest = { version = "0.11", features = ["blocking"] }
+//! ```
+
+fn main() {
+    println!("Hello!");
+}
+```
+
+### 对比
+
+| | `cargo script` | `rust-script` |
 |---|---|---|
-| 产物路径 | `target/debug/` | `target/release/` |
-| 编译速度 | 快 | 慢 |
-| 运行性能 | 低，含调试信息 | 高，全优化 |
-| 文件大小 | 大 | 小 |
-| 用途 | 开发调试 | 分发部署 |
+| 安装 | 内置 | `cargo install rust-script` |
+| 工具链 | 需要 nightly | stable 即可 |
+| 成熟度 | 较新 | 更稳定 |
 
 ---
 
-## 3. 进一步压缩体积（可选）
+## 二、Nightly 工具链
 
-在 `Cargo.toml` 末尾添加：
+Rust 有两个发布频道：
 
-```toml
-[profile.release]
-strip = true       # 去除符号表
-opt-level = "z"    # 优先压缩体积（而非速度）
-lto = true         # 链接时优化
-```
+- **stable** — 正式版，每 6 周发布一次，生产环境使用
+- **nightly** — 每天构建的开发版，包含实验性功能，用 `-Z` 开头的 flag 开启
 
-重新编译后体积会明显减小（Hello World 在 macOS 上可压到 200KB 以下）。
+`cargo -Zscript` 还在实验阶段，尚未进入 stable，所以需要 nightly。
 
----
-
-## 4. target/release/ 目录说明
-
-`cargo build --release` 会在 `target/release/` 生成大量文件，**只有同名二进制是最终产物**，其余都是编译过程的中间文件，与二进制运行无关：
-
-```
-target/release/
-├── hello_world        # ✅ 最终产物，这个才是需要的
-├── hello_world.d      # 依赖追踪，供 cargo 增量编译使用
-├── build/             # 构建脚本产物
-├── deps/              # 编译依赖的中间文件
-├── incremental/       # 增量编译缓存
-└── .fingerprint/      # 文件指纹，判断哪些需要重新编译
-```
-
-验证方式：将二进制单独复制到其他目录或机器直接运行，不依赖 `target/` 中的任何内容。
-
----
-
-## 5. .gitignore
-
-`target/` 目录体积很大且可随时重新生成，必须排除：
-
-```
-# .gitignore
-/target
+```bash
+rustup install nightly       # 安装 nightly
+rustup default nightly       # 切换默认为 nightly
+cargo +nightly -Zscript hello.rs  # 临时使用 nightly，不切换默认
 ```
 
 ---
 
-## 6. 平台与运行时
+## 三、变量与常量
 
-`cargo build --release` 不带 `--target` 时，默认编译给**当前机器**，产物只能在同平台运行。
+### `let` — 声明变量（默认不可变）
 
-Rust / C / C++ 编译出的是原生二进制，和 Python / JavaScript / Java 不同：
+```rust
+let x = 5;
+println!("{x}");
 
-| 类型 | 代表语言 | 机制 |
+let x = 6; // ❌ 编译错误，不可变
+```
+
+Rust 是**静态类型**语言，类型在编译期确定。`let` 支持类型推断，可以不写类型，但类型一旦确定就固定了。
+
+### `mut` — 可变变量
+
+```rust
+let mut x = 5;
+x = 6; // ✅ 可以修改值，但类型必须保持一致
+```
+
+类似 C 的普通变量，类型固定，值可以改。
+
+### `const` — 常量
+
+```rust
+const MAX_SPEED: u32 = 100;
+```
+
+- 必须标注类型
+- 只能赋编译期就能确定的值（不能是函数返回值）
+- 可以定义在全局作用域
+- 习惯全大写命名
+- 编译器会将其内联到使用处，不占运行时内存（类似 C 的 `#define`，但有类型检查）
+
+### `static` — 全局变量
+
+```rust
+static NAME: &str = "Rust";
+```
+
+程序运行期间一直存在，程序退出时才释放。
+
+### 变量遮蔽（Shadowing）
+
+用同名的 `let` 重新声明，新变量遮蔽旧变量：
+
+```rust
+let x = 5;
+let x = x + 1;  // 遮蔽，x 现在是 6
+
+let s = "hello";    // &str 类型
+let s = s.len();    // 遮蔽为 usize 类型，合法
+```
+
+遮蔽 vs `mut` 的关键区别：
+
+| | `mut` | 遮蔽 |
 |---|---|---|
-| 原生二进制 | Rust、C、Go | 直接跑，无需运行时，但一个二进制只认一个平台 |
-| 字节码 + 运行时 | Python、JS、Java | "到处跑"，但目标机器必须装对应运行时 |
+| 能否改值 | ✅ | ✅（创建新变量） |
+| 能否改类型 | ❌ | ✅ |
+| 本质 | 修改同一变量 | 创建新变量 |
+
+遮蔽本质是创建了一个全新的变量，只是名字相同。从编译器视角看：
+
+```rust
+let x = 5;        // x_1: i32
+let x = "hello";  // x_2: &str，x_1 依然存在只是无法访问
+```
+
+现象上像动态类型，本质仍是静态类型，类型安全从未被破坏。
 
 ---
 
-## 7. 交叉编译
+## 四、内存管理与所有权
 
-在 A 平台上编译出能在 B 平台运行的二进制，叫**交叉编译**。
+### 作用域自动释放
 
-```
-你的机器（aarch64-apple-darwin）  →→→  目标机器（x86_64-unknown-linux-gnu）
-```
+Rust 不需要手动 `free()`，也没有 GC，而是通过**所有权（Ownership）**机制，在编译期确定每个变量的生命周期，在作用域结束时自动释放：
 
-### Target Triple 格式
-
-```
-架构 - 厂商 - 操作系统 - ABI
-x86_64 - unknown - linux - gnu
+```rust
+{
+    let x = 5;   // 分配
+} // x 在这里自动释放
 ```
 
-`unknown` 是厂商位的占位符，Linux 可跑在任意硬件上，没有特定厂商，故填 `unknown`。
+遮蔽时，旧变量不可访问，但实际释放时机是**当前作用域结束**：
 
-### 主流目标平台
-
-| target triple | 平台 |
-|---|---|
-| `aarch64-apple-darwin` | macOS Apple Silicon |
-| `x86_64-apple-darwin` | macOS Intel |
-| `x86_64-unknown-linux-gnu` | Linux x86_64 |
-| `aarch64-unknown-linux-gnu` | Linux ARM64 |
-| `x86_64-pc-windows-msvc` | Windows x86_64 |
-| `aarch64-pc-windows-msvc` | Windows ARM64 |
-
-### Mac → Mac（原生支持）
-
-```bash
-rustup target add aarch64-apple-darwin
-rustup target add x86_64-apple-darwin
-
-cargo build --release --target aarch64-apple-darwin
-cargo build --release --target x86_64-apple-darwin
-
-# 合并成通用二进制（fat binary，两种架构都能跑，体积 = 两者相加）
-lipo -create \
-  target/aarch64-apple-darwin/release/hello_world \
-  target/x86_64-apple-darwin/release/hello_world \
-  -output hello_world-universal
+```rust
+{
+    let x = 5;        // x_1
+    let x = "hello";  // x_2，x_1 此时不可访问，但还没释放
+} // x_1 和 x_2 在这里一起释放
 ```
 
-### Mac → Linux / Windows（需要额外工具）
+### 全局作用域
 
-推荐用 [cross](https://github.com/cross-rs/cross)，基于 Docker 封装了所有依赖：
+全局作用域的 `static` 变量程序结束时才释放。`let` 不能写在全局作用域。
 
-```bash
-cargo install cross
+### 与其他语言对比
 
-cross build --release --target x86_64-unknown-linux-gnu
-cross build --release --target x86_64-pc-windows-gnu
-```
-
-> Windows 二进制靠 **MinGW 工具链**（`-gnu` 后缀）交叉编译，不需要真正的 Windows 环境。  
-> Docker 的 Windows 容器只能跑在 Windows 宿主机上，Mac 上无法使用。
+| | 释放方式 | 开销 |
+|---|---|---|
+| C | 手动 `free()` | 无运行时开销，但容易出错 |
+| Java/JS | GC 自动扫描 | 有运行时开销 |
+| Rust | 编译期确定释放时机 | 零运行时开销 |
 
 ---
 
-## 8. 多平台发布：GitHub Actions
+## 五、Rust 编译器的设计哲学
 
-实际项目不需要准备多台设备，用 CI/CD 在云端并行编译即可。GitHub 免费提供 Linux、macOS、Windows 三种 runner。
+Rust 的核心理念是**把问题消灭在编译期**，编译器非常严格，会在编译阶段帮你检查：
 
-### 触发方式
+- 内存释放时机（所有权）
+- 变量未初始化就使用
+- 可变/不可变冲突
+- 类型不匹配
+- 空指针（Rust 直接没有空指针）
+- 数据竞争（多线程）
 
-本地打 tag 并推送，自动触发 CI：
+### 典型现象
 
-```bash
-git tag v1.0.0
-git push --tags
+逻辑看起来没问题，但编译报错：
+
+```rust
+let s = String::from("hello");
+let s2 = s;
+println!("{s}"); // ❌ 编译错误：s 的所有权已移交给 s2
 ```
 
-```
-tag 推送到 GitHub
-        ↓
-build job：5 个平台并行编译
-  ├── macos-latest    → aarch64-apple-darwin
-  ├── macos-latest    → x86_64-apple-darwin
-  ├── ubuntu-latest   → x86_64-unknown-linux-gnu
-  ├── ubuntu-latest   → aarch64-unknown-linux-gnu（交叉编译）
-  └── windows-latest  → x86_64-pc-windows-msvc
-        ↓
-release job：收集所有产物，创建 Draft Release
-        ↓
-开发者手动填 changelog，点 Publish 发布
-```
+这不是逻辑错了，而是写法违反了编译器的内存安全规则。
 
-### 权限配置
-
-首次使用需开启仓库写权限：
-
-**Settings → Actions → General → Workflow permissions → Read and write permissions**
-
-### 产物打包格式
-
-直接上传裸二进制到 GitHub Releases 会**丢失执行权限**，下载后需要手动 `chmod +x`。
-
-解决方案：打包成压缩包再上传，`tar.gz` 会保留文件权限：
-
-```bash
-# Unix → tar.gz（保留执行权限）
-tar -czf hello_world-aarch64-apple-darwin.tar.gz hello_world-aarch64-apple-darwin
-
-# Windows → zip
-7z a hello_world-x86_64-pc-windows-msvc.zip hello_world-x86_64-pc-windows-msvc.exe
-```
-
-用户下载解压后直接可执行，无需 `chmod`：
-
-```bash
-tar -xzf hello_world-aarch64-apple-darwin.tar.gz
-./hello_world-aarch64-apple-darwin
-```
-
-完整 workflow 见 `.github/workflows/release.yml`。
+学 Rust 很大程度上是在**学编译器的思维方式**。一旦编译通过，绝大部分运行时崩溃就不会发生了——这也是 Rust 的口号：**"如果能编译，基本就能跑"**。

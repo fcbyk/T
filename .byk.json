@@ -1,4 +1,4 @@
 {
-    "run": "cargo run",
-    "编译": "cargo build --release"
+    "r": "cargo +nightly -Zscript -q app${0}.rs",
+    "app3": "byk r 3"
 }
