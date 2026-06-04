@@ -1,6 +1,7 @@
 ---
 name: T-Coding
 description: "T repo commit-driven learning skill. Triggers: todo.md planning, demo/MVP coding, commit messages (dN/mN), docs index, self-coding guidance, skill maintenance."
+version: 3
 agent_created: true
 ---
 
@@ -68,6 +69,7 @@ T = 深度 + 广度。
 4. 学习笔记优先沉淀在源文件注释中；README 偏重概述、入口导航与运行说明
 5. 如用户描述模糊，优先根据仓库上下文和用户语义合理判断；只有会影响产物形态、编号、分支或是否写文件时，才先确认
 6. 若当前约定与 skill 冲突，以用户本次明确确认的最新约定为准，并在需要时回写 skill
+7. **对 docs 分支的 git 限制**：可以执行 `git status`、`git diff`、`git log`、`git add`、`git switch`/`git checkout` 等辅助操作，但**严禁 `git commit` 和 `git push`**。提交和推送由用户自行完成
 
 ## 开始前检查
 
@@ -136,7 +138,7 @@ README 在两种模式下承担不同角色，不要混用。
 | Demo / MVP | 可运行代码 + 必要的 `README.md` |
 | Commit 消息 | 符合规范的 commit message |
 | docs 索引更新 | 按用户要求更新索引内容 |
-| workflow / skill 更新 | 默认更新 AI 已安装的 skill 副本；用户明确要求同步源文件时，再更新 docs 分支中的 skill 源文件 |
+| workflow / skill 更新 | 更新 AI 已安装的 skill 副本，由用户审查后自行决定提交时机 |
 | 自主编码与知识沉淀 | 知识讲解（对话） + `README.md`（用户触发时从对话整理写入） |
 
 ## 参考规范与加载指引
@@ -146,7 +148,7 @@ README 在两种模式下承担不同角色，不要混用。
 | 任务场景 | 需加载的 reference | 关键内容 |
 |----------|-------------------|----------|
 | 生成 / 更新 `todo.md` | `references/todo-format.md` | 字段定义、表单结构、生命周期、迁移规则 |
-| 编写 demo / MVP 代码 | `references/code-format.md` + `references/directory-structure.md` | 单文件 vs 项目结构、README 规范、注释笔记、文件命名 |
+| 编写 demo / MVP 代码 | `references/code-format.md` + `references/directory-structure.md` + `references/byk-alias.md` | 单文件 vs 项目结构、README 规范、注释笔记、文件命名、bykcli 别名语法 |
 | 生成 commit message | `references/commit-convention.md` | 编号约定（`dN`/`mN`/`dN+`）、语言要求、信息格式 |
 | 更新 docs 分支索引 | `references/docs-format.md` | 表格字段、映射规则、目录分类、分支切换流程 |
 | 维护 skill 配置 | AI 已安装 skill 副本中的主文件 + 涉及的 reference 文件 | 规则提炼、去重、回写；按需同步 docs 分支源文件 |
@@ -183,14 +185,15 @@ README 在两种模式下承担不同角色，不要混用。
 核心步骤：
 1. 明确本次只聚焦一个主题或一个最小目标
 2. 判断单文件脚本还是标准项目结构
-3. 如果是单文件脚本：
+3. **先讲解知识点**：用简洁短文向用户讲解本次 demo 的核心概念（带标题分段），让用户在等代码生成时就能阅读
+4. 如果是单文件脚本：
    - **一个知识点 = 一个 app 文件**，按序号命名：`app1.rs`、`app2.rs`、`app3.rs` ...
    - 每个文件只覆盖一个独立知识点，保持轻量可读
    - 知识笔记写在源文件注释中（AI 写代码时）
    - 所有 app 文件属于同一个 demo，用同一组 commit 编号
-4. 如果是标准项目结构：按框架目录组织
-5. README 只做知识罗列，用表格展示知识点分布，不与代码文件绑定
-6. 提醒用户自行运行验证
+5. 如果是标准项目结构：按框架目录组织
+6. README 按需讲解核心概念，不拘格式（对比/图示/分步/示例），运行命令写在 `run.byk.json`（bykcli 别名）
+7. 提醒用户自行运行验证
 
 > 代码风格与目录规范：加载 `references/code-format.md` + `references/directory-structure.md`。
 
@@ -226,11 +229,13 @@ README 在两种模式下承担不同角色，不要混用。
 核心步骤：
 1. 提炼用户刚确认的最新规则、偏好和流程
 2. 判断影响范围：只改主文件 / 只改 reference / 两者都改
-3. 默认更新 AI 当前已安装的 skill 副本
-4. 只有用户明确要求"同步源文件"、"更新 docs 分支里的 skill"或"更新仓库中的 skill"时，才同步修改 docs 分支 `/skills/t-coding` 中的 skill 源文件
-5. 自查：新规则是否与其他 reference 矛盾；若有矛盾，同步修正
-6. 主文件只描述总规则，细节沉淀到 `references/`
-7. 若某段规则已稳定，写成"触发条件 + 步骤 + 注意事项"格式
+3. **默认只更新 AI 当前已安装的 skill 副本**
+4. 更新后告知用户改动内容，由用户自行决定是否提交
+5. 只有用户明确要求"同步源文件"、"更新 docs 分支里的 skill"或"更新仓库中的 skill"时，才同步修改 docs 分支 `/skills/t-coding` 中的 skill 源文件
+6. **操作 docs 分支 skill 目录时，允许 `git add`、`git status`、`git diff` 等辅助操作，但严禁 `git commit` 和 `git push`**。提交和推送由用户自行完成
+7. 自查：新规则是否与其他 reference 矛盾；若有矛盾，同步修正
+8. 主文件只描述总规则，细节沉淀到 `references/`
+9. 若某段规则已稳定，写成"触发条件 + 步骤 + 注意事项"格式
 
 注意：若只是某次任务的临时要求，不要误写成长期规范。
 
@@ -285,12 +290,12 @@ README 在两种模式下承担不同角色，不要混用。
 
 **能力一**：□ todo.md 围绕实战目标而非泛泛课程目录 □ 每行可映射到未来一个 demo commit
 
-**能力二**：□ 每个 app 文件只覆盖一个独立知识点 □ 代码可运行 □ 注释包含知识笔记 □ README 为知识点表格（不绑定代码文件）
+**能力二**：□ 每个 app 文件只覆盖一个独立知识点 □ 代码可运行 □ 注释包含知识笔记 □ README 用短文讲解核心概念
 
 **能力三**：□ 编号从 git log 确认，不凭空编造 □ 英文术语 □ dN+/mN+ 仅用于连续补丁
 
 **能力四**：□ main 已提交干净 □ 当前在 docs 分支 □ 映射到正确主题文件
 
-**能力五**：□ 新规则不与其他 reference 矛盾 □ 主文件未塞入本属 reference 的细节
+**能力五**：□ 新规则不与其他 reference 矛盾 □ 主文件未塞入本属 reference 的细节 □ 未执行 `git commit` 或 `git push`
 
 **能力六**：□ 知识讲解结构化 □ README 增量追加而非覆盖 □ 代码与 README 同一 commit

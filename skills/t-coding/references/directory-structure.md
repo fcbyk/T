@@ -3,7 +3,8 @@
 | 层级 | 内容 | 生命周期 |
 |------|------|----------|
 | `README.md` | 当前 demo / MVP 概述文档 | 每个 commit 覆盖 |
-| `.gitignore` | 忽略编译产物 | 永久保留 |
+| `run.byk.json` | bykcli 别名配置，运行命令入口（`byk app1`） | 每个 commit 覆盖 |
+| `.gitignore` | 忽略编译产物（`target/` 等） | 永久保留 |
 | `todo.md`（可选） | 当前学习目标计划表 | 跨 commit 保留，全部完成后迁移至 docs 索引并删除 |
 | 其他文件 | demo 源码 | 每个 commit 切换 |
 
@@ -73,30 +74,39 @@ WEB前端/javascript.md
 
 ## README.md 规范
 
-README 偏当前 demo / MVP 的**知识罗列**，不与具体代码文件绑定。内容包括：
+README 用短文按需讲解核心概念，不必套固定模板。根据知识点特点灵活组织：
 
-1. 本 demo / MVP 的主题概述
-2. 知识点分布表格（`# / 知识点 / 说明`）
-3. 运行方式（统一给出，不按文件逐一展开）
+- 适合对比的用对比（`方法 A vs 方法 B`）
+- 适合图示的用 ASCII 图（管道、数据流）
+- 适合分步的按步骤拆（三步）
+- 代码示例有解释价值的直接贴
 
-补充说明：
+**不包含运行方式**——运行命令统一写在 `run.byk.json` 中。
 
-1. 贴近代码的学习笔记，优先写在源码注释里
-2. README 不与代码文件一一对应，不出现"app1 对应 X、app2 对应 Y"的描述
-3. 单文件 demo 的 `README.md` 通常比项目型 demo 更短，更偏知识总览
+不要做的：
+- 机械罗列知识点表格
+- 把源码注释整段照搬
+- 列出文件映射关系
+- 写运行命令
+- 写运行命令
 
-### 典型内容
+### run.byk.json 规范
 
-1. 本 demo 的主题和目标
-2. 知识点表格
-3. 如何运行
+运行命令统一写在 `run.byk.json` 中，使用 [bykcli](https://github.com/fcbyk/bykcli) 别名系统。编译产物输出到 `target/`（已在 `.gitignore` 中忽略）。
 
-而不是：
+推荐使用占位符模板减少重复：
 
-1. 把源码里的讲解整段重复到 README
-2. 把 README 写成项目宣传页
-3. 列出每个文件与知识点的映射关系
-4. 省略统一的运行方式
+```json
+{
+  "app": "rustc app${0}.rs -o target/app${0} && target/app${0}",
+  "app1": "byk app 1",
+  "app2": "byk app 2"
+}
+```
+
+运行方式：`byk app1` / `byk app2`。支持 VSCode 插件提供与 npm scripts 一致的体验。
+
+> 占位符详细语法见 `references/byk-alias.md`。
 
 ### 首行格式
 ```
