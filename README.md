@@ -1,13 +1,24 @@
-# demo118 Rust 模块与包管理
+# demo119 serde 序列化与文件读写
 
-### mod 和 use 是两件事
+### 一行搞定序列化
 
-`mod config;` 声明模块存在（编译器找 `src/config.rs`），不声明模块根本不存在。`use demo118::run_a;` 纯粹是把长路径缩短，方便调用。
+`#[derive(Serialize, Deserialize)]` 贴在结构体上，JSON 和 TOML 互转就完成了。`serde_json::to_string_pretty()` 序列化，`serde_json::from_str()` 反序列化，嵌套结构体自动递归处理。
 
-### pub 和 pub use
+### Cargo.toml 依赖
 
-默认一切私有。`pub fn` 才对外可见。`pub use` 是重新导出——把深层子模块的东西拉到上层，外部调用方不需要知道内部结构。
+```toml
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "1"
+```
 
-### Cargo.toml 和外部 crate
+`serde = { version, features }` 是扩展写法，当依赖除了"要用哪个版本"还需要额外配置时用。`features = ["derive"]` 启用 derive 宏。简写 `serde_json = "1"` 等价于 `serde_json = { version = "1" }`。
 
-项目根就是 crate。`[dependencies]` 段引入第三方库（如 `cargo add serde`），二进制入口是 `main.rs`，库入口是 `lib.rs`。引用标准库（`std::`）不需要配置，编译器自带。
+### 文件读写
+
+`read_to_string` / `write` 覆盖 90% 场景。进阶用 `BufReader::lines()` 逐行读大文件，`Write` trait 统一往文件、内存 `Vec<u8>`、stdout 写入——同一个接口，不同目标。
+
+### bykcli 场景
+
+配置文件（TOML）读入 → `toml::from_str()` → 结构体 → 程序使用。这就是 bykcli 配置层的核心流程。
