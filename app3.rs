@@ -1,30 +1,34 @@
-// === 函数是一等公民：当参数、当返回值 ===
+// === 可变引用（&mut T） ===
 //
-// 函数和闭包可以像普通值一样传来传去。
-
-// 函数当参数
-fn apply(f: fn(i32) -> i32, x: i32) -> i32 {
-    f(x)
-}
-
-// 函数当返回值（返回闭包）
-fn make_adder(amount: i32) -> impl Fn(i32) -> i32 {
-    move |n| n + amount // move 把 amount 的所有权移进闭包
-}
+// 核心规则："同一时间，只能有一个可变引用，或者任意多个不可变引用。"
+// 即：读-写互斥，写-写互斥，读-读共存。
+// 这个规则让 Rust 在编译期就消灭了数据竞争（data race）。
 
 fn main() {
-    // —— 函数指针（fn 类型） ——
-    fn square(n: i32) -> i32 {
-        n * n
-    }
-    let f: fn(i32) -> i32 = square;
-    println!("函数指针: f(5) = {}", f(5));
+    let mut s = String::from("hello");
 
-    // —— 函数当参数 ——
-    println!("apply(square, 5) = {}", apply(square, 5));
-    println!("apply(|n| n * 3, 5) = {}", apply(|n| n * 3, 5));
+    // —— 可变引用 ——
+    let r = &mut s;      // 可变借用
+    r.push_str(", world"); // 通过引用修改原值
+    println!("修改后: {r}");
 
-    // —— 函数当返回值 ——
-    let add_10 = make_adder(10);
-    println!("make_adder(10)(5) = {}", add_10(5));
+    // r 离开作用域，借用结束。s 可以再次被借用。
+
+    // —— 规则演示：读-写互斥 ——
+    let r1 = &s; // 不可变借用（只读）
+    let r2 = &s; // 可以再有不可变借用
+    println!("{r1} {r2}");
+    // r1, r2 的借用在这里结束（最后一次使用后）
+
+    let r3 = &mut s; // now OK，因为之前的不可变借用已结束
+    r3.push('!');
+    println!("再次修改: {r3}");
+
+    // —— 如果同时写，编译期就拦截 ——
+    // let r4 = &mut s;
+    // let r5 = &mut s; // 编译错误：不能同时存在两个可变借用
+
+    // —— 如果读写混用 ——
+    // let r4 = &s;
+    // let r5 = &mut s; // 编译错误：已有不可变借用时，不能可变借用
 }

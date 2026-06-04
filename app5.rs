@@ -1,53 +1,34 @@
-// === Rust 运算符 ===
+// === 切片：不拥有数据的引用 ===
 //
-// 和大多数语言差不多，注意几个 Rust 特有的：
-//   1. 没有 ++ / --，用 += 1 代替
-//   2. 没有 ===，== 本身就做值比较（不是引用比较）
-//   3. 范围运算符 .. / ..=
+// 切片 &[T] / &str 是"借用某段连续数据的一个视图"。
+// 不拥有底层数据，只记录一个指针 + 长度。
 
 fn main() {
-    // —— 算术 ——
-    let sum = 10 + 3;
-    let diff = 10 - 3;
-    let prod = 10 * 3;
-    let quot = 10 / 3;    // 整数除法，截断 = 3
-    let rem = 10 % 3;     // 取余 = 1
-    // 没有 ++ / --，用 += 1 代替
-    let mut x = 1;
-    x += 1;
-    println!("算术: {sum} {diff} {prod} {quot} {rem}, x={x}");
+    // —— 字符串切片 &str ——
+    let s = String::from("hello world");
 
-    // —— 比较（返回 bool）——
-    let eq = 5 == 5;
-    let ne = 5 != 3;
-    let gt = 5 > 3;
-    let lt = 5 < 3;
-    // Rust 没有 ===，== 比较值是否相等（要求类型实现 PartialEq）
-    println!("比较: eq={eq}, ne={ne}, gt={gt}, lt={lt}");
+    let h = &s[0..5];   // "hello"
+    let w = &s[6..11];  // "world"
+    let all = &s[..];   // 全部
 
-    // —— 逻辑 ——
-    let and = true && false;
-    let or = true || false;
-    let not = !true;
-    println!("逻辑: and={and}, or={or}, not={not}");
+    println!("h = {h}, w = {w}, all = {all}");
 
-    // —— 位运算 ——
-    let bit_and = 0b1100 & 0b1010;  // 1000 = 8
-    let bit_or  = 0b1100 | 0b1010;  // 1110 = 14
-    let bit_xor = 0b1100 ^ 0b1010;  // 0110 = 6
-    let shift_l  = 1 << 3;           // 8
-    let shift_r  = 8 >> 1;           // 4
-    println!("位运算: &={bit_and}, |={bit_or}, ^={bit_xor}, <<={shift_l}, >>={shift_r}");
+    // 切片不拥有数据。如果原 String 被改了，切片引用可能失效。
+    // 这由借用规则保证：有 &str 借用时，不能 &mut 原 String。
 
-    // —— 范围运算符 ——
-    // a..b  = [a, b)，不含 b
-    // a..=b = [a, b]，含 b
-    let r1 = 0..5;   // std::ops::Range
-    let r2 = 0..=5;  // std::ops::RangeInclusive
-    print!("0..5: ");
-    for i in r1 { print!("{i} "); }
-    println!();
-    print!("0..=5: ");
-    for i in r2 { print!("{i} "); }
-    println!();
+    // —— 数组切片 &[T] ——
+    let arr = [10, 20, 30, 40, 50];
+    let front = &arr[..3];  // [10, 20, 30]
+    println!("front = {front:?}");
+
+    // —— 切片作为参数 ——
+    // &String 可以自动转成 &str，所以函数用 &str 做参数更通用。
+    print_slice("字面量");           // 直接传 &str
+    print_slice(&s);                // &String → 自动转 &str
+    print_slice(&String::from("临时")); // 同上
+}
+
+// 参数用 &str 而不是 &String：两种都能接，更灵活。
+fn print_slice(s: &str) {
+    println!("print_slice: {s}");
 }
