@@ -1,57 +1,27 @@
-// === 解构（Destructuring） ===
+// === 何时 panic，何时返回 Result ===
 //
-// match / if let / let 都能解构复合类型——一次拆出多个值。
-// 可以嵌套解构，把复杂的嵌套结构一层层拆开。
-
-#[derive(Debug)]
-struct Point { x: i32, y: i32 }
+// 经验法则：
+//   panic → 调用方无法合理处理的、属于"bug"的情况
+//   Result → 调用方可能想处理、属于"正常流程"的情况
+//
+// 典型场景对比：
 
 fn main() {
-    // —— 元组解构 ——
-    let pair = (1, "hello");
-    let (num, text) = pair; // let 也可以直接解构
-    println!("{num}, {text}");
+    // ✅ 用 panic：库的内部状态不一致（不该发生）
+    // 比如：你写了个 Cache 结构体，invariant 要求 size == entries.len()
+    // 如果这个条件被打破，那是个 bug，应该 panic
 
-    // match 中解构元组
-    let point = (3, 7);
-    match point {
-        (0, 0) => println!("原点"),
-        (x, 0) => println!("在 X 轴上: {x}"),
-        (0, y) => println!("在 Y 轴上: {y}"),
-        (x, y) => println!("点: ({x}, {y})"),
-    }
+    // ✅ 用 Result：外部输入不可控（文件、网络、用户输入）
+    // 比如读配置：文件可能不存在，调用方应该有机会处理
 
-    // —— 结构体解构 ——
-    let p = Point { x: 10, y: 20 };
+    // ✅ 用 panic：测试代码和原型
+    // 测试里 unwrap 是常见模式——测试输入是固定的，出错就该崩
 
-    // 按字段名解构
-    let Point { x, y } = p;
-    println!("x={x}, y={y}");
+    // ✅ 用 Result：库的公开 API
+    // 不要替调用方做决定，把错误返回出去
 
-    // 重命名解构（: 后面是新名字）
-    let Point { x: x_axis, y: y_axis } = p;
-    println!("重命名: x={x_axis}, y={y_axis}");
-
-    // 部分解构：只关心部分字段，其余用 ..
-    let Point { x, .. } = p;
-    println!("只取 x: {x}");
-
-    // —— 嵌套解构 ——
-    enum Shape {
-        Rect { top_left: Point, w: u32, h: u32 },
-    }
-    let rect = Shape::Rect {
-        top_left: Point { x: 5, y: 5 },
-        w: 100,
-        h: 50,
-    };
-
-    match rect {
-        // 一层层拆开：Shape → Rect → Point → x, y
-        Shape::Rect {
-            top_left: Point { x, y },
-            w,
-            h,
-        } => println!("矩形: 起点({x},{y}), 宽{w}, 高{h}"),
-    }
+    println!("总结：");
+    println!("  可恢复 → Result + ? 传播");
+    println!("  不可恢复（bug） → panic!");
+    println!("  拿不准 → 先用 Result，调用方可以自己 unwrap");
 }

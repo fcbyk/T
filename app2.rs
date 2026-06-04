@@ -1,40 +1,40 @@
-// === 枚举匹配：解开 Option 和 Result ===
+// === ? 运算符：错误传播 ===
 //
-// match 最常见的用途是拆解枚举，取出里面的值。
+// ? 是 Rust 错误处理的核心：
+//   Ok(v) → 取出 v，继续执行
+//   Err(e) → 立即 return Err(e)，把错误向上抛
+//
+// 省掉无数 match / if let 嵌套。
+
+use std::io;
+
+// 一个"可能出错"的函数
+fn read_username_from_file() -> Result<String, io::Error> {
+    // ? 读文件：失败就 return Err，成功就拿到 String
+    let content = std::fs::read_to_string("username.txt")?;
+    Ok(content)
+}
+
+// get 返回 Option，? 也能用在 Option 上
+fn get_first_char(s: &str) -> Option<char> {
+    s.chars().nth(0) // 空字符串时返回 None
+}
+
+// 函数返回 Option 时，? 传播 None
+fn print_first_char(s: &str) -> Option<()> {
+    let c = get_first_char(s)?; // None 时 return None
+    println!("首字符: {c}");
+    Some(())
+}
 
 fn main() {
-    // —— 匹配 Option ——
-    let val: Option<i32> = Some(42);
-
-    match val {
-        Some(v) => println!("有值: {v}"),
-        None => println!("空的"),
+    // Result 的 ? 传播
+    match read_username_from_file() {
+        Ok(name) => println!("用户名: {name}"),
+        Err(e) => println!("读文件失败: {e}"),
     }
 
-    // —— 匹配 Result ——
-    let result: Result<i32, &str> = Ok(100);
-
-    match result {
-        Ok(v) => println!("成功: {v}"),
-        Err(e) => println!("失败: {e}"),
-    }
-
-    // —— 匹配自定义枚举 ——
-    #[allow(dead_code)]
-    enum Command {
-        Start,
-        Stop,
-        Rename(String),
-        Move { x: i32, y: i32 },
-    }
-
-    let cmd = Command::Move { x: 10, y: 20 };
-
-    match cmd {
-        Command::Start => println!("启动"),
-        Command::Stop => println!("停止"),
-        Command::Rename(name) => println!("重命名为: {name}"),
-        Command::Move { x, y } => println!("移动到: ({x}, {y})"),
-    }
-    // 注意：match 会消耗 cmd 的所有权（如果变体含非 Copy 数据）
+    // Option 的 ? 传播
+    print_first_char("hello");  // 首字符: h
+    print_first_char("");       // None，什么都不打印
 }

@@ -1,42 +1,35 @@
-// === match 基础 ===
+// === panic! vs Result ===
 //
-// match 是 Rust 的模式匹配，类似其他语言的 switch，但强很多：
-//   1. 每个分支叫"臂"（arm）：模式 => 表达式
-//   2. match 是表达式，能返回值
-//   3. 穷尽性检查：编译器确保所有情况都已覆盖
+// Rust 没有异常。错误处理两条路：
+//   panic!  → 程序直接崩，用于不可恢复的 bug
+//   Result  → 返回错误给调用方处理，用于可恢复的错误
 
 fn main() {
-    // —— 基础 match ——
-    let num = 3;
-    let desc = match num {
-        1 => "一",
-        2 => "二",
-        3 => "三",
-        _ => "其他", // _ 是通配符，匹配"剩下的所有情况"
-    };
-    println!("{num} = {desc}");
+    // —— panic!：程序崩溃 ——
+    // 触发条件：显式调用、越界访问、unwrap 遇到 None/Err 等
+    // let v = vec![1, 2, 3];
+    // let x = v[99]; // panic: index out of bounds
 
-    // —— 多值匹配 ——
-    let code = 'x';
-    match code {
-        'a' | 'b' | 'c' => println!("a～c"),
-        'x' | 'y' | 'z' => println!("x～z"),
-        _ => println!("其他字符"),
+    // —— Result 基本形态 ——
+    let ok_val: Result<i32, &str> = Ok(42);
+    let _err_val: Result<i32, &str> = Err("出错了");
+
+    // match 处理（最"原生"的方式）
+    match ok_val {
+        Ok(v) => println!("成功: {v}"),
+        Err(e) => println!("失败: {e}"),
     }
 
-    // —— 范围匹配 ——
-    let age = 25;
-    match age {
-        0..=17 => println!("未成年"),
-        18..=64 => println!("成年人"),
-        _ => println!("老年人"),
-    }
+    // —— unwrap / expect：快速取值 ——
+    // 如果遇到 Err 就直接 panic，适用于"理论上不可能错"的场景
+    let val = ok_val.unwrap(); // Ok 时取出值，Err 时 panic
+    println!("unwrap: {val}");
 
-    // —— match 守卫（if 条件） ——
-    let n = Some(8);
-    match n {
-        Some(x) if x > 5 => println!("大于 5: {x}"),
-        Some(x) => println!("不大于 5: {x}"),
-        None => println!("空的"),
-    }
+    // expect 和 unwrap 一样，但 panic 时带自定义消息
+    let val2 = ok_val.expect("这里不应该失败");
+    println!("expect: {val2}");
+
+    // 以下会 panic（取消注释试一下）：
+    // let val3 = err_val.unwrap();
+    // let val4 = err_val.expect("手动爆炸");
 }

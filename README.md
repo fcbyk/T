@@ -1,16 +1,16 @@
-# demo114 Rust 模式匹配
+# demo115 Rust 错误处理
 
-match 是 Rust 的杀手级特性——比 switch 强太多了。穷尽性检查、解构嵌套、守卫条件。
+Rust 没有异常——错误就是值。`Result<T, E>` 是返回值，`?` 是传播，编译器逼你处理。
 
 ## 知识点
 
 | # | 知识点 | 说明 |
 |---|--------|------|
-| 1 | match 基础 | 模式臂、穷尽性、通配符 `_`、多值 `\|`、范围 `..=`、match 守卫 |
-| 2 | 枚举匹配 | 拆解 Option/Result、解自定义 enum 变体取出数据 |
-| 3 | if let / while let | 只关心一种情况的语法糖、栈弹出循环 |
-| 4 | 解构 | 元组/结构体解构、重命名、`..` 忽略部分字段、嵌套解构 |
-| 5 | 进阶匹配 | @ 绑定、ref 借用匹配、更复杂的守卫条件 |
+| 1 | panic vs Result | panic! 崩溃 vs Ok/Err 返回值、unwrap/expect 快速取值 |
+| 2 | ? 运算符 | 自动传播错误：Ok 取出值、Err 立即 return |
+| 3 | Result/Option 方法 | unwrap_or、and_then 链式、map/map_err 转换、ok/err 互转 |
+| 4 | 何时 panic 何时 Result | 可恢复用 Result、bug 用 panic、库 API 用 Result |
+| 5 | 实战：? 串联 | 读文件→解析→计算，多重 ? 保持代码线性不嵌套 |
 
 ## 运行
 

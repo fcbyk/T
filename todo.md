@@ -11,7 +11,7 @@
 | rust | 所有权与借用 | 所有权规则、引用（& / &mut）、move 与 clone、borrow checker 的存在理由 | demo112 |
 | rust | 结构体与枚举 | struct 字段与方法、enum 变体、Option / Result 本质就是 enum | demo113 |
 | rust | 模式匹配 | match、if let、while let、解构 | demo114 |
-| rust | 错误处理 | Result&lt;T,E&gt;、? 运算符、panic 与 Result 的选择、unwrap / expect | - |
+| rust | 错误处理 | Result&lt;T,E&gt;、? 运算符、panic 与 Result 的选择、unwrap / expect | demo115 |
 | rust | 集合类型 | Vec、HashMap、HashSet、String — 常用方法和遍历 | - |
 
 ## 第二阶段：工程与 bykcli 相关
