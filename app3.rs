@@ -1,42 +1,47 @@
-// === Result / Option 常用方法 ===
+// === 迭代器（Iterator）===
 //
-// match 是最通用的，但标准库提供了很多快捷方法，能省不少代码。
+// 迭代器是 Rust 集合的灵魂。
+// 惰性求值：定义时不算，调用 collect/sum/count 等"消费方法"时才真正执行。
+//
+// 三种迭代方式：
+//   v.iter()      — 不可变引用遍历   → &T
+//   v.iter_mut()  — 可变引用遍历     → &mut T
+//   v.into_iter() — 消耗遍历         → T（拿走所有权）
 
 fn main() {
-    // —— unwrap_or / unwrap_or_else：给默认值 ——
-    let num = Some(42).unwrap_or(0);
-    println!("unwrap_or: {num}");      // 42
+    let v = vec![1, 2, 3, 4, 5, 6];
 
-    let num2: Option<i32> = None;
-    println!("unwrap_or_else: {}", num2.unwrap_or_else(|| {
-        // 默认值可以惰性计算
-        let x = 1 + 1;
-        x * 10
-    })); // 20
+    // —— 常用适配器（中间操作，惰性） ——
+    // map：转换
+    let doubled: Vec<_> = v.iter().map(|x| x * 2).collect();
+    println!("×2: {doubled:?}");
 
-    // —— and_then：链式处理（flat_map） ——
-    let result = Some(4)
-        .and_then(|n| if n > 3 { Some(n * 2) } else { None })
-        .and_then(|n| if n < 10 { Some(n + 1) } else { None });
-    println!("and_then: {result:?}");  // Some(9)
+    // filter：过滤
+    let evens: Vec<_> = v.iter().filter(|&&x| x % 2 == 0).collect();
+    println!("偶数: {evens:?}");
 
-    let broken = Some(2)
-        .and_then(|n| if n > 3 { Some(n) } else { None }); // 第一个就 None 了
-    println!("broken: {broken:?}");    // None
+    // chain：连接两个迭代器
+    let a = [1, 2];
+    let b = [3, 4];
+    let chained: Vec<_> = a.iter().chain(b.iter()).collect();
+    println!("连接: {chained:?}");
 
-    // —— map / map_err：转换成功值或错误值 ——
-    let ok: Result<i32, &str> = Ok(10);
-    let doubled = ok.map(|v| v * 2);   // Ok 时改值，Err 时不变
-    println!("map: {doubled:?}");      // Ok(20)
+    // take / skip：取前 N 个 / 跳过前 N 个
+    let first3: Vec<_> = v.iter().take(3).collect();
+    let skip2: Vec<_> = v.iter().skip(2).collect();
+    println!("前3: {first3:?}, 跳2: {skip2:?}");
 
-    let err: Result<i32, &str> = Err("失败");
-    let msg = err.map_err(|e| format!("包装: {e}"));
-    println!("map_err: {msg:?}");      // Err("包装: 失败")
+    // —— 消费方法（触发执行） ——
+    let sum: i32 = v.iter().sum();
+    let count = v.iter().count();
+    let max = v.iter().max();
+    let any = v.iter().any(|&x| x > 4);
+    let all = v.iter().all(|&x| x > 0);
+    println!("sum={sum}, count={count}, max={max:?}, any>4={any}, all>0={all}");
 
-    // —— ok / err：Result ↔ Option 互转 ——
-    let r: Result<i32, &str> = Ok(42);
-    println!("Result→Option: {:?}", r.ok()); // Some(42)
-
-    let r2: Result<i32, &str> = Err("错");
-    println!("Err→Option: {:?}", r2.err()); // Some("错")
+    // —— enumerate：带索引遍历 ——
+    for (i, val) in v.iter().enumerate() {
+        print!("[{i}]={val} ");
+    }
+    println!();
 }

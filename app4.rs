@@ -1,27 +1,41 @@
-// === 何时 panic，何时返回 Result ===
+// === Vec 常用操作 ===
 //
-// 经验法则：
-//   panic → 调用方无法合理处理的、属于"bug"的情况
-//   Result → 调用方可能想处理、属于"正常流程"的情况
-//
-// 典型场景对比：
+// 开发中经常用到的几个方法，集中展示。
 
 fn main() {
-    // ✅ 用 panic：库的内部状态不一致（不该发生）
-    // 比如：你写了个 Cache 结构体，invariant 要求 size == entries.len()
-    // 如果这个条件被打破，那是个 bug，应该 panic
+    let mut v = vec![3, 1, 4, 1, 5, 9, 2, 6];
 
-    // ✅ 用 Result：外部输入不可控（文件、网络、用户输入）
-    // 比如读配置：文件可能不存在，调用方应该有机会处理
+    // —— 切片 ——
+    let slice = &v[2..5]; // [4, 1, 5]
+    println!("切片: {slice:?}");
 
-    // ✅ 用 panic：测试代码和原型
-    // 测试里 unwrap 是常见模式——测试输入是固定的，出错就该崩
+    // —— 排序 ——
+    v.sort();
+    println!("排序: {v:?}");
 
-    // ✅ 用 Result：库的公开 API
-    // 不要替调用方做决定，把错误返回出去
+    v.sort_by(|a, b| b.cmp(a)); // 降序
+    println!("降序: {v:?}");
 
-    println!("总结：");
-    println!("  可恢复 → Result + ? 传播");
-    println!("  不可恢复（bug） → panic!");
-    println!("  拿不准 → 先用 Result，调用方可以自己 unwrap");
+    // —— 查找 ——
+    if let Some(pos) = v.iter().position(|&x| x == 5) {
+        println!("5 的位置: {pos}");
+    }
+
+    // —— 过滤删除 ——
+    v.retain(|&x| x % 2 == 0); // 只保留偶数
+    println!("只留偶数: {v:?}");
+
+    // —— 拼接 ——
+    let mut a = vec![1, 2, 3];
+    let b = vec![4, 5];
+    a.extend(b); // 把 b 的元素追加到 a
+    println!("extend: {a:?}");
+
+    // —— 是否为空 / 长度 ——
+    println!("len = {}, is_empty = {}", a.len(), a.is_empty());
+
+    // —— clear / truncate ——
+    let mut tmp = vec![1, 2, 3, 4, 5];
+    tmp.truncate(2); // 截断到前 2 个
+    println!("截断: {tmp:?}");
 }

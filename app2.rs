@@ -1,40 +1,48 @@
-// === ? 运算符：错误传播 ===
+// === HashMap<K, V>：键值映射 ===
 //
-// ? 是 Rust 错误处理的核心：
-//   Ok(v) → 取出 v，继续执行
-//   Err(e) → 立即 return Err(e)，把错误向上抛
-//
-// 省掉无数 match / if let 嵌套。
+// 对应 Python dict / JS Object。
+// 需要 use std::collections::HashMap。
+// 没有 {} 字面量语法（不像 JS: {key: val}），用 insert 加数据。
 
-use std::io;
-
-// 一个"可能出错"的函数
-fn read_username_from_file() -> Result<String, io::Error> {
-    // ? 读文件：失败就 return Err，成功就拿到 String
-    let content = std::fs::read_to_string("username.txt")?;
-    Ok(content)
-}
-
-// get 返回 Option，? 也能用在 Option 上
-fn get_first_char(s: &str) -> Option<char> {
-    s.chars().nth(0) // 空字符串时返回 None
-}
-
-// 函数返回 Option 时，? 传播 None
-fn print_first_char(s: &str) -> Option<()> {
-    let c = get_first_char(s)?; // None 时 return None
-    println!("首字符: {c}");
-    Some(())
-}
+use std::collections::HashMap;
 
 fn main() {
-    // Result 的 ? 传播
-    match read_username_from_file() {
-        Ok(name) => println!("用户名: {name}"),
-        Err(e) => println!("读文件失败: {e}"),
+    // —— 创建 ——
+    let mut scores = HashMap::new();
+    scores.insert("语文", 90);
+    scores.insert("数学", 85);
+
+    // 从元组数组创建
+    let map = HashMap::from([
+        ("name", "张三"),
+        ("city", "深圳"),
+    ]);
+    println!("scores = {scores:?}");
+    println!("map = {map:?}");
+
+    // —— 读取 ——
+    // get 返回 Option<&V>
+    let math = scores.get("数学");
+    println!("数学: {math:?}"); // Some(85)
+
+    let missing = scores.get("体育");
+    println!("体育: {missing:?}"); // None
+
+    // 遍历
+    for (key, value) in &scores {
+        println!("{key} → {value}");
     }
 
-    // Option 的 ? 传播
-    print_first_char("hello");  // 首字符: h
-    print_first_char("");       // None，什么都不打印
+    // —— 更新 ——
+    // 直接覆盖
+    scores.insert("数学", 88);
+
+    // entry：只在键不存在时插入
+    scores.entry("英语").or_insert(75);   // 英语不存在，插入 75
+    scores.entry("数学").or_insert(100);  // 数学已存在，不覆盖
+    println!("更新后: {scores:?}");
+
+    // —— 删除 ——
+    scores.remove("语文");
+    println!("删除后: {scores:?}");
 }

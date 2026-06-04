@@ -1,35 +1,40 @@
-// === panic! vs Result ===
+// === Vec<T>：动态数组 ===
 //
-// Rust 没有异常。错误处理两条路：
-//   panic!  → 程序直接崩，用于不可恢复的 bug
-//   Result  → 返回错误给调用方处理，用于可恢复的错误
+// 堆上分配的动态数组，长度可变。相当于 Python list / JS Array。
 
 fn main() {
-    // —— panic!：程序崩溃 ——
-    // 触发条件：显式调用、越界访问、unwrap 遇到 None/Err 等
-    // let v = vec![1, 2, 3];
-    // let x = v[99]; // panic: index out of bounds
+    // —— 创建 ——
+    let _v1: Vec<i32> = Vec::new();  // 空 Vec，类型标注不可省略
+    let mut v2 = vec![1, 2, 3];     // vec! 宏：常用
+    let v3 = vec![0; 5];               // [0, 0, 0, 0, 0]
 
-    // —— Result 基本形态 ——
-    let ok_val: Result<i32, &str> = Ok(42);
-    let _err_val: Result<i32, &str> = Err("出错了");
+    println!("v2 = {v2:?}, v3 = {v3:?}");
 
-    // match 处理（最"原生"的方式）
-    match ok_val {
-        Ok(v) => println!("成功: {v}"),
-        Err(e) => println!("失败: {e}"),
+    // —— 增删 ——
+    v2.push(4);                         // 末尾追加
+    v2.push(5);
+    let last = v2.pop();                // 弹出末尾，返回 Option<T>
+    println!("push 后: {v2:?}, pop = {last:?}");
+
+    // —— 索引访问 ——
+    println!("v2[0] = {}", v2[0]);      // 越界时 panic
+    println!("v2.get(10) = {:?}", v2.get(10)); // 安全访问，返回 Option，越界 = None
+
+    // —— 遍历 ——
+    // 不可变遍历（最常用）
+    for x in &v2 {
+        print!("{x} ");
     }
+    println!();
 
-    // —— unwrap / expect：快速取值 ——
-    // 如果遇到 Err 就直接 panic，适用于"理论上不可能错"的场景
-    let val = ok_val.unwrap(); // Ok 时取出值，Err 时 panic
-    println!("unwrap: {val}");
+    // 可变遍历
+    for x in &mut v2 {
+        *x *= 10; // *x 解引用后修改原值
+    }
+    println!("v2 ×10: {v2:?}");
 
-    // expect 和 unwrap 一样，但 panic 时带自定义消息
-    let val2 = ok_val.expect("这里不应该失败");
-    println!("expect: {val2}");
-
-    // 以下会 panic（取消注释试一下）：
-    // let val3 = err_val.unwrap();
-    // let val4 = err_val.expect("手动爆炸");
+    // 消耗遍历：拿走所有权，v2 之后不能再用
+    let sum: i32 = v2.into_iter().sum();
+    println!("sum = {sum}");
+    // println!("{v2:?}"); // 编译错误：v2 已被 move
 }

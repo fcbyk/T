@@ -12,7 +12,7 @@
 | rust | 结构体与枚举 | struct 字段与方法、enum 变体、Option / Result 本质就是 enum | demo113 |
 | rust | 模式匹配 | match、if let、while let、解构 | demo114 |
 | rust | 错误处理 | Result&lt;T,E&gt;、? 运算符、panic 与 Result 的选择、unwrap / expect | demo115 |
-| rust | 集合类型 | Vec、HashMap、HashSet、String — 常用方法和遍历 | - |
+| rust | 集合类型 | Vec、HashMap、HashSet、String — 常用方法和遍历 | demo116 |
 
 ## 第二阶段：工程与 bykcli 相关
 
