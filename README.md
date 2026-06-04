@@ -1,16 +1,18 @@
-# demo112 Rust 所有权与借用
+# demo113 Rust 结构体与枚举
 
-Rust 最核心的概念——没有 GC，没有手动 free，编译器在编译期保证内存安全。
+struct 组织数据，enum 表达"多种可能性中的一种"，impl 给它们加行为。
 
 ## 知识点
 
 | # | 知识点 | 说明 |
 |---|--------|------|
-| 1 | 所有权基础 | 三条规则、move 与 clone、Copy 类型、作用域与 drop、函数传参与返回值所有权 |
-| 2 | 不可变引用 | &T 借用、多个只读引用共存、解引用、传引用不转移所有权 |
-| 3 | 可变引用 | &mut T、同一时间只能有一个可变引用（读写互斥、写写互斥） |
-| 4 | 引用与函数 | 借入/借出、返回引用的规则、悬垂引用在编译期被拦截 |
-| 5 | 切片 | &str / &[T] 是不拥有数据的引用视图、&String 自动转 &str |
+| 1 | 结构体基础 | struct 定义与实例化、字段访问、mut 可变性、构造语法糖 `..other` |
+| 2 | 元组/单元结构体 | 字段无名按 `.0` 访问的元组结构体、零大小单元结构体 |
+| 3 | 枚举 | 变体可携带数据（tagged union）、简单枚举与带数据枚举 |
+| 4 | impl 块 | `&self` 方法、`&mut self` 可变方法、关联函数（无 self）、`#[derive(Debug)]` |
+| 5 | Option 与 Result | 标准库枚举的本质：`Some/None`、`Ok/Err`、unwrap/unwrap_or |
+| 6 | 属性语法 #[...] | #[derive]、#[allow]、#[test]、#[cfg] — 编译期指令 |
+| 7 | 格式化输出 | {} Display、{:?} Debug、{:#?} 美化、对齐、进制、精度、print!/format!
 
 ## 运行
 
@@ -20,4 +22,6 @@ rustc app2.rs && ./app2
 rustc app3.rs && ./app3
 rustc app4.rs && ./app4
 rustc app5.rs && ./app5
+rustc app6.rs && ./app6
+rustc app7.rs && ./app7
 ```

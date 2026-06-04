@@ -1,53 +1,48 @@
-// === Rust 所有权基础 ===
+// === Rust 结构体基础 ===
 //
-// 核心规则（三条，编译器强制执行）：
-//   1. 每个值有且只有一个所有者（owner）
-//   2. 所有者离开作用域，值被自动释放（drop）
-//   3. 赋值 / 传参 / 返回 会转移所有权（move），原变量失效
+// struct 类似其他语言的 class / record，把多个具名字段组合在一起。
+// Rust 的结构体不继承，方法通过 impl 块单独定义（见 app4）。
+//
+// 对比 JS:  const user = { name: "...", age: 30 }
+// 对比 Go:  type User struct { Name string; Age int }
+
+// 定义结构体
+struct User {
+    name: String,
+    age: u8,
+    active: bool,
+}
 
 fn main() {
-    // —— 栈上数据：自动 Copy ——
-    // i32 等基本类型实现了 Copy trait，赋值时不会 move，而是自动复制。
-    let a = 42;
-    let b = a;     // a 的值复制给 b，a 仍然有效
-    println!("a = {a}, b = {b}");
+    // —— 实例化（所有字段都要初始化） ——
+    let user1 = User {
+        name: String::from("张三"),
+        age: 30,
+        active: true,
+    };
 
-    // —— 堆上数据：move ——
-    // String 在堆上分配，赋值 = 所有权转移，原变量失效。
-    let s1 = String::from("hello");
-    let s2 = s1;   // s1 的所有权移给 s2
-    // println!("{s1}"); // 编译错误：s1 已经被 move
+    // —— 字段访问 ——
+    println!("{}，{} 岁，活跃: {}", user1.name, user1.age, user1.active);
 
-    // —— clone：显式深拷贝 ——
-    // 如果你真的需要两个独立副本，用 clone()。
-    let s3 = String::from("world");
-    let s4 = s3.clone(); // 堆上复制一份，s3 仍然有效
-    println!("s3 = {s3}, s4 = {s4}");
+    // —— 字段可变性跟着变量走 ——
+    // 变量是 mut 的，字段才能改。没有"部分可变字段"的语法。
+    let mut user2 = User {
+        name: String::from("李四"),
+        age: 25,
+        active: false,
+    };
+    user2.age = 26;
+    user2.active = true;
+    println!("修改后: {}，{} 岁", user2.name, user2.age);
 
-    // —— 函数传参 = move ——
-    takes_ownership(s2); // s2 移入函数，之后 s2 失效
+    // —— 构造语法糖：用已有结构体的字段 ——
+    let user3 = User {
+        name: String::from("王五"),
+        ..user2 // 其余字段从 user2 复制（注意：name 是 String，会 move）
+    };
+    // println!("{}", user2.name); // 编译错误：user2.name 已被 move
+    println!("user3: {}, {} 岁", user3.name, user3.age);
 
-    // —— 函数返回值 = move 回来 ——
-    let s5 = gives_ownership();       // 返回值所有权给 s5
-    let s6 = takes_and_gives(s5);    // s5 移入，返回值移给 s6
-    println!("s6 = {s6}");
-
-    // —— 作用域与 drop ——
-    {
-        let temp = String::from("临时的");
-        println!("作用域内: {temp}");
-    } // temp 离开作用域，自动析构，堆内存释放
-    // println!("{temp}"); // 编译错误：temp 已经被 drop
-}
-
-fn takes_ownership(s: String) {
-    println!("拿走了: {s}");
-} // s 离开作用域，被 drop。调用方的原变量因此失效
-
-fn gives_ownership() -> String {
-    String::from("给你的")
-}
-
-fn takes_and_gives(s: String) -> String {
-    s // 最后一个表达式，所有权返回给调用方
+    // —— 打印结构体（需要 #[derive(Debug)]，见 app4 介绍 derive） ——
+    // println!("{:?}", user1); // 编译错误：User 没有实现 Debug
 }

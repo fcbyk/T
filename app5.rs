@@ -1,34 +1,52 @@
-// === 切片：不拥有数据的引用 ===
+// === Option 和 Result：标准库里的枚举 ===
 //
-// 切片 &[T] / &str 是"借用某段连续数据的一个视图"。
-// 不拥有底层数据，只记录一个指针 + 长度。
+// Rust 没有 null 也没有异常。
+// 可空值用 Option<T>，可能出错的情况用 Result<T, E>。
+// 两者都是标准库的枚举——不是什么特殊语法，只是用得特别多。
+
+// Option<T> 的定义（标准库原文）：
+//   enum Option<T> {
+//       Some(T),   // 有值
+//       None,      // 空
+//   }
+
+// Result<T, E> 的定义（标准库原文）：
+//   enum Result<T, E> {
+//       Ok(T),    // 成功，携带返回值
+//       Err(E),   // 失败，携带错误信息
+//   }
 
 fn main() {
-    // —— 字符串切片 &str ——
-    let s = String::from("hello world");
+    // —— Option 的基本用法 ——
+    let some_num = Some(42);
+    let no_num: Option<i32> = None; // 需要标注类型，编译器不知道 None 里缺什么类型
 
-    let h = &s[0..5];   // "hello"
-    let w = &s[6..11];  // "world"
-    let all = &s[..];   // 全部
+    println!("some_num = {some_num:?}, no_num = {no_num:?}");
 
-    println!("h = {h}, w = {w}, all = {all}");
+    // 用 match 取出值（模式匹配的详细语法见下一个 demo）
+    match some_num {
+        Some(v) => println!("有值: {v}"),
+        None => println!("空的"),
+    }
 
-    // 切片不拥有数据。如果原 String 被改了，切片引用可能失效。
-    // 这由借用规则保证：有 &str 借用时，不能 &mut 原 String。
+    // —— Result 的基本用法 ——
+    let ok_result: Result<i32, &str> = Ok(100);
+    let err_result: Result<i32, &str> = Err("出错了");
 
-    // —— 数组切片 &[T] ——
-    let arr = [10, 20, 30, 40, 50];
-    let front = &arr[..3];  // [10, 20, 30]
-    println!("front = {front:?}");
+    println!("ok = {ok_result:?}, err = {err_result:?}");
 
-    // —— 切片作为参数 ——
-    // &String 可以自动转成 &str，所以函数用 &str 做参数更通用。
-    print_slice("字面量");           // 直接传 &str
-    print_slice(&s);                // &String → 自动转 &str
-    print_slice(&String::from("临时")); // 同上
-}
+    match ok_result {
+        Ok(v) => println!("成功: {v}"),
+        Err(e) => println!("失败: {e}"),
+    }
 
-// 参数用 &str 而不是 &String：两种都能接，更灵活。
-fn print_slice(s: &str) {
-    println!("print_slice: {s}");
+    // —— 常用快捷方法（先混个眼熟，后面会详细讲） ——
+    let num = some_num.unwrap(); // 如果是 None 就 panic，谨慎用
+    println!("unwrap: {num}");
+
+    let num2 = no_num.unwrap_or(0); // None 时给默认值
+    println!("unwrap_or: {num2}");
+
+    // ? 运算符：Result 的 Ok 取出值，Err 则提前返回（函数必须返回 Result）
+    // 详见错误处理 demo
 }

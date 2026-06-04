@@ -1,34 +1,44 @@
-// === 可变引用（&mut T） ===
+// === Rust 枚举 ===
 //
-// 核心规则："同一时间，只能有一个可变引用，或者任意多个不可变引用。"
-// 即：读-写互斥，写-写互斥，读-读共存。
-// 这个规则让 Rust 在编译期就消灭了数据竞争（data race）。
+// enum 不是简单的"一组数字常量"。
+// Rust 的 enum 每个变体（variant）可以携带不同类型的数据。
+// 可以理解为"带标签的联合体"（tagged union / sum type）。
+
+// 简单枚举：每个变体不带数据
+#[allow(dead_code)]
+#[derive(Debug)]
+enum Status {
+    Active,
+    Inactive,
+    Suspended,
+}
+
+// 带数据的枚举：每个变体可以存不同类型
+#[allow(dead_code)]
+#[derive(Debug)]
+enum Message {
+    Quit,                        // 无数据
+    Move { x: i32, y: i32 },     // 具名字段（像 struct）
+    Write(String),               // 单个值
+    ChangeColor(u8, u8, u8),     // 元组风格
+}
 
 fn main() {
-    let mut s = String::from("hello");
+    // —— 简单枚举 ——
+    let s = Status::Active;
+    println!("status = {s:?}");
 
-    // —— 可变引用 ——
-    let r = &mut s;      // 可变借用
-    r.push_str(", world"); // 通过引用修改原值
-    println!("修改后: {r}");
+    // —— 带数据的枚举 ——
+    let msg1 = Message::Quit;
+    let msg2 = Message::Move { x: 10, y: 20 };
+    let msg3 = Message::Write(String::from("hello"));
+    let msg4 = Message::ChangeColor(255, 128, 0);
 
-    // r 离开作用域，借用结束。s 可以再次被借用。
+    println!("msg1 = {msg1:?}");
+    println!("msg2 = {msg2:?}");
+    println!("msg3 = {msg3:?}");
+    println!("msg4 = {msg4:?}");
 
-    // —— 规则演示：读-写互斥 ——
-    let r1 = &s; // 不可变借用（只读）
-    let r2 = &s; // 可以再有不可变借用
-    println!("{r1} {r2}");
-    // r1, r2 的借用在这里结束（最后一次使用后）
-
-    let r3 = &mut s; // now OK，因为之前的不可变借用已结束
-    r3.push('!');
-    println!("再次修改: {r3}");
-
-    // —— 如果同时写，编译期就拦截 ——
-    // let r4 = &mut s;
-    // let r5 = &mut s; // 编译错误：不能同时存在两个可变借用
-
-    // —— 如果读写混用 ——
-    // let r4 = &s;
-    // let r5 = &mut s; // 编译错误：已有不可变借用时，不能可变借用
+    // 枚举变体的值通过 match 取出（详见模式匹配 demo）
+    // 这里只看定义和构造
 }

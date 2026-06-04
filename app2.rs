@@ -1,69 +1,36 @@
-// === 不可变引用（&T） ===
+// === 元组结构体 与 单元结构体 ===
 //
-// 引用让你"借"一个值来用，不拿走所有权。
-// &T 是只读借用，可以同时存在多个。
-// 借用方用完（离开作用域），所有权还在原处。
+// 普通结构体每个字段都有名字。
+// 还有一种"元组结构体"——字段没名字，靠位置区分。
+// 适合给某个类型起个有意义的包装名。
+
+// 元组结构体：字段无名，按位置访问
+struct Color(u8, u8, u8);          // RGB
+struct Point(f64, f64);           // x, y
+
+// 单元结构体：没有字段，类似一个"标签"标记
+#[allow(dead_code)]
+struct LoggedIn;    // 可以标记"已登录状态"
+#[allow(dead_code)]
+struct Guest;       // 可以标记"游客状态"
 
 fn main() {
-    // —— let 和 mut 是两个独立的概念 ——
-    //
-    // let   = 声明变量（创造一个新名字）
-    // mut   = 允许改这个绑定的值 或 允许可变借用
-    //
-    // 默认不加 mut：变量绑定后不能重新赋值，也不能创建 &mut 引用
-    // 加了 mut：可以改值，可以创建 &mut 引用
+    // —— 元组结构体 ——
+    let red = Color(255, 0, 0);
+    let p = Point(3.0, 4.0);
 
-    let a = 1;          // 声明不可变变量 a
-    // a = 2;           // 编译错误：默认不可变，不能重新赋值
+    // 按索引访问字段
+    println!("red = ({}, {}, {})", red.0, red.1, red.2);
+    println!("point = ({}, {})", p.0, p.1);
 
-    let mut b = 1;      // 声明可变变量 b
-    println!("b 初始值 = {b}");
-    b = 2;              // OK，mut 允许修改
-    println!("b 修改后 = {b}");
+    // 元组结构体可以解构
+    let Color(r, g, b) = red;
+    println!("解构: r={r}, g={g}, b={b}");
 
-    let mut s = String::from("hello"); // 声明可变 String
-    s.push_str(", world");             // mut 允许修改
-    println!("s = {s}");
-
-    // —— 创建引用 ——
-    let r1 = &s;  // 借用 s
-    let r2 = &s;  // 可以借多次（只读）
-
-    println!("r1 = {r1}, r2 = {r2}");
-
-    // —— 引用传参（不转移所有权） ——
-    let len = calc_len(&s);
-    println!("\"{s}\" 长度 = {len}"); // s 还能用！
-
-    // —— 解引用 * ——
-    //
-    // * 从引用"拿出"指向的实际值。和 C 的 *pointer 概念一样。
-    //
-    // 为什么 println!("{rx}") 也能输出 42？
-    //   因为 println! 内部对引用做了"自动解引用"，方便显示。
-    //   但类型完全不同：rx 是 &i32，*rx 是 i32。
-    //
-    // 什么时候必须用 * ？
-    //   赋值给变量、参与运算、类型断言... 所有"需要那个真实值"的场景。
-
-    let x = 42;
-    let rx = &x;
-
-    // println 自动解引用，所以看起来一样
-    println!("rx  = {rx}");  // &i32，自动解引用显示
-    println!("*rx = {}", *rx); // i32，手动解引用
-
-    // 但类型不同：
-    //   rx 的类型是 &i32（一个指针/引用）
-    //   *rx 的类型是 i32（真正的整数值）
-    let copy_of_x: i32 = *rx; // 必须 *rx，不能写成 let copy: i32 = rx;
-    println!("copy_of_x = {copy_of_x}");
-    assert_eq!(*rx, 42);
-
-    // —— 引用默认不可变 ——
-    // let r = &mut s; // 如果没声明 mut，不能创建可变引用
-}
-
-fn calc_len(s: &String) -> usize {
-    s.len()
+    // —— 单元结构体 ——
+    // 不存数据，只表示一种"状态"或"标签"
+    let state: LoggedIn = LoggedIn;
+    // 单元结构体的大小是 0 字节（零大小类型 ZST）
+    println!("LoggedIn 占用: {} 字节", std::mem::size_of_val(&state));
+    // 常用在：泛型标记、PhantomData、enum 的变体中等场景
 }

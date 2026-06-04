@@ -9,7 +9,7 @@
 | rust | 基础数据类型 | 整数、浮点、布尔、字符、元组、数组、切片、&str 与 String、类型转换 | 2026-06-04 |
 | rust | 基础语法 | 函数定义、闭包、高阶函数、控制流（if/loop/while/for）、运算符 | 2026-06-04 |
 | rust | 所有权与借用 | 所有权规则、引用（& / &mut）、move 与 clone、borrow checker 的存在理由 | 2026-06-04 |
-| rust | 结构体与枚举 | struct 字段与方法、enum 变体、Option / Result 本质就是 enum | - |
+| rust | 结构体与枚举 | struct 字段与方法、enum 变体、Option / Result 本质就是 enum | 2026-06-04 |
 | rust | 模式匹配 | match、if let、while let、解构 | - |
 | rust | 错误处理 | Result&lt;T,E&gt;、? 运算符、panic 与 Result 的选择、unwrap / expect | - |
 | rust | 集合类型 | Vec、HashMap、HashSet、String — 常用方法和遍历 | - |
