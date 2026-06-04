@@ -1,5 +1,3 @@
 {
-  "hello": "echo hello serde_json",
-  "run": "cargo run -q",
-  "build": "cargo build -q"
+  "r": "cargo run -q -- ${...args}"
 }

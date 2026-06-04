@@ -21,7 +21,7 @@
 | rust | trait 与泛型 | 理解 &lt;T: Trait&gt; 语法，常见的 From / Into / Display / Debug trait | demo117 |
 | rust | 模块与包管理 | mod / use / pub，Cargo.toml 依赖管理，第三方 crate 的引入方式 | demo118 |
 | rust | serde 序列化基础 | Serialize / Deserialize、#[derive]、JSON / TOML 序列化、文件读写（std::fs、BufReader、Write） | demo119 |
-| rust | 命令行参数解析 | clap derive 模式：#[derive(Parser)]、参数、子命令 | - |
+| rust | 命令行参数解析 | clap derive 模式：#[derive(Parser)]、参数、子命令 | demo120 |
 | rust | 进程管理 | std::process::Command、stdin / stdout / stderr — 插件通信基础 | - |
 
 > 每个知识点完成后，在表格的提交栏填入对应 demo 编号。
