@@ -1,48 +1,55 @@
-// === HashMap<K, V>：键值映射 ===
+// === Trait：定义共享行为 ===
 //
-// 对应 Python dict / JS Object。
-// 需要 use std::collections::HashMap。
-// 没有 {} 字面量语法（不像 JS: {key: val}），用 insert 加数据。
+// trait = 接口（interface），定义"能做什么"。
+// 任何类型都可以实现 trait，不依赖继承。
 
-use std::collections::HashMap;
+// 定义 trait
+trait Summary {
+    fn summarize(&self) -> String;
+
+    // 默认实现（实现方可以不写，用默认的）
+    fn default_summary(&self) -> String {
+        String::from("（暂无简介）")
+    }
+}
+
+// 为自定义类型实现 trait
+#[derive(Debug)]
+struct Article {
+    title: String,
+    content: String,
+}
+
+impl Summary for Article {
+    fn summarize(&self) -> String {
+        format!("「{}」— {}", self.title, &self.content[..40.min(self.content.len())])
+    }
+}
+
+struct Tweet {
+    author: String,
+    text: String,
+}
+
+impl Summary for Tweet {
+    fn summarize(&self) -> String {
+        format!("@{}: {}", self.author, self.text)
+    }
+    // default_summary 没写，自动用默认实现
+}
 
 fn main() {
-    // —— 创建 ——
-    let mut scores = HashMap::new();
-    scores.insert("语文", 90);
-    scores.insert("数学", 85);
+    let article = Article {
+        title: String::from("Rust 学习笔记"),
+        content: String::from("今天学了 trait 和泛型，感觉和 Go 的 interface 很像..."),
+    };
 
-    // 从元组数组创建
-    let map = HashMap::from([
-        ("name", "张三"),
-        ("city", "深圳"),
-    ]);
-    println!("scores = {scores:?}");
-    println!("map = {map:?}");
+    let tweet = Tweet {
+        author: String::from("bytk"),
+        text: String::from("Rust 真香"),
+    };
 
-    // —— 读取 ——
-    // get 返回 Option<&V>
-    let math = scores.get("数学");
-    println!("数学: {math:?}"); // Some(85)
-
-    let missing = scores.get("体育");
-    println!("体育: {missing:?}"); // None
-
-    // 遍历
-    for (key, value) in &scores {
-        println!("{key} → {value}");
-    }
-
-    // —— 更新 ——
-    // 直接覆盖
-    scores.insert("数学", 88);
-
-    // entry：只在键不存在时插入
-    scores.entry("英语").or_insert(75);   // 英语不存在，插入 75
-    scores.entry("数学").or_insert(100);  // 数学已存在，不覆盖
-    println!("更新后: {scores:?}");
-
-    // —— 删除 ——
-    scores.remove("语文");
-    println!("删除后: {scores:?}");
+    println!("文章: {}", article.summarize());
+    println!("推文: {}", tweet.summarize());
+    println!("默认: {}", tweet.default_summary());
 }

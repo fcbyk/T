@@ -1,3 +1,0 @@
-{
-    "r": "cargo +nightly -Zscript -q app${0}.rs"
-}

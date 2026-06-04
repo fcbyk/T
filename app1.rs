@@ -1,40 +1,50 @@
-// === Vec<T>：动态数组 ===
+// === 泛型（Generic）===
 //
-// 堆上分配的动态数组，长度可变。相当于 Python list / JS Array。
+// <T> 是类型占位符，编译时被具体类型替换（单态化）。
+// 一份代码同时适配 i32、f64、String 等多种类型。
+
+// —— 泛型函数 ——
+// T 可以是任意能比较的类型
+fn largest<T: PartialOrd>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+// 多个类型参数
+fn pair<A, B>(a: A, b: B) -> (A, B) {
+    (a, b)
+}
+
+// —— 泛型结构体 ——
+#[allow(dead_code)]
+#[derive(Debug)]
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+// 泛型枚举（你天天用的其实就是泛型）
+// Option<T>、Result<T, E> 就是标准库的泛型枚举
 
 fn main() {
-    // —— 创建 ——
-    let _v1: Vec<i32> = Vec::new();  // 空 Vec，类型标注不可省略
-    let mut v2 = vec![1, 2, 3];     // vec! 宏：常用
-    let v3 = vec![0; 5];               // [0, 0, 0, 0, 0]
+    // 泛型推导
+    let nums = vec![3, 7, 1, 9, 2];
+    println!("最大: {}", largest(&nums));
 
-    println!("v2 = {v2:?}, v3 = {v3:?}");
+    let chars = vec!['a', 'z', 'm'];
+    println!("最大: {}", largest(&chars));
 
-    // —— 增删 ——
-    v2.push(4);                         // 末尾追加
-    v2.push(5);
-    let last = v2.pop();                // 弹出末尾，返回 Option<T>
-    println!("push 后: {v2:?}, pop = {last:?}");
+    // 多个泛型
+    let (a, b) = pair(42, "hello");
+    println!("pair: ({a}, {b})");
 
-    // —— 索引访问 ——
-    println!("v2[0] = {}", v2[0]);      // 越界时 panic
-    println!("v2.get(10) = {:?}", v2.get(10)); // 安全访问，返回 Option，越界 = None
-
-    // —— 遍历 ——
-    // 不可变遍历（最常用）
-    for x in &v2 {
-        print!("{x} ");
-    }
-    println!();
-
-    // 可变遍历
-    for x in &mut v2 {
-        *x *= 10; // *x 解引用后修改原值
-    }
-    println!("v2 ×10: {v2:?}");
-
-    // 消耗遍历：拿走所有权，v2 之后不能再用
-    let sum: i32 = v2.into_iter().sum();
-    println!("sum = {sum}");
-    // println!("{v2:?}"); // 编译错误：v2 已被 move
+    // 泛型结构体
+    let int_point = Point { x: 1, y: 2 };
+    let float_point = Point { x: 1.5, y: 3.0 };
+    println!("int = {int_point:?}, float = {float_point:?}");
 }

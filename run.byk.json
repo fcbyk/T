@@ -1,0 +1,8 @@
+{
+  "app": "rustc app${0}.rs -o target/app${0} && target/app${0}",
+  "app1": "byk app 1",
+  "app2": "byk app 2",
+  "app3": "byk app 3",
+  "app4": "byk app 4",
+  "app5": "byk app 5"
+}

@@ -18,7 +18,7 @@
 
 | 领域 | 知识点 | 说明 | 提交 |
 |------|--------|------|------|
-| rust | trait 与泛型 | 理解 &lt;T: Trait&gt; 语法，常见的 From / Into / Display / Debug trait | - |
+| rust | trait 与泛型 | 理解 &lt;T: Trait&gt; 语法，常见的 From / Into / Display / Debug trait | demo117 |
 | rust | 模块与包管理 | mod / use / pub，Cargo.toml 依赖管理，第三方 crate 的引入方式 | - |
 | rust | serde 序列化基础 | Serialize / Deserialize、#[derive]、JSON / TOML 序列化 — 配置管理核心 | - |
 | rust | 文件读写 | std::fs 读写文件、std::io、BufReader — 配置读入 | - |
