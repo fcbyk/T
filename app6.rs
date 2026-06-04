@@ -1,80 +1,27 @@
----
-[package]
-edition = "2024"
----
+// === Rust 数组 ===
+//
+// 固定长度的同构集合，类型签名 [T; N]。
+// 栈上分配，长度编译时确定。
+// 越界访问：运行时 panic（不是 C 的 UB）。
 
-/**
- * static
- * 声明全局变量
- * 程序运行期间一直存在，程序退出时才释放
- */
 fn main() {
-    println!("APP_NAME = {}", APP_NAME);
+    // [i32; 5] = 5 个 i32
+    let arr: [i32; 5] = [1, 2, 3, 4, 5];
 
-    let counter_val = unsafe { COUNTER };
-    println!("COUNTER = {}", counter_val);
+    // 初始化为相同值: [0; 3] = 3 个 0
+    let zeros = [0; 3];
 
-    increment_counter();
+    // 索引访问
+    let first = arr[0];
+    let last = arr[arr.len() - 1];
 
-    let counter_val = unsafe { COUNTER };
-    println!("COUNTER after increment = {}", counter_val);
+    // 长度
+    let len = arr.len();
 
-    static_life();
-}
+    println!("arr = {arr:?}");
+    println!("zeros = {zeros:?}");
+    println!("arr[0] = {first}, arr[4] = {last}, len = {len}");
 
-/**
- * 全局 static 变量
- * 程序启动时创建，程序退出时释放
- * 生命周期贯穿整个程序运行期间
- */
-static APP_NAME: &str = "Rust Demo";
-static mut COUNTER: u32 = 0;
-
-/**
- * 访问 static 变量需要 unsafe
- * 因为全局变量在多线程环境下可能产生数据竞争
- */
-fn increment_counter() {
-    unsafe {
-        COUNTER += 1;
-    }
-}
-
-/**
- * static 的生命周期
- * static 拥有 'static 生命周期，从程序启动到结束一直存在
- * 在函数间调用时保持状态，不会像 let 那样出作用域就释放
- */
-fn static_life() {
-    // 即使函数结束，COUNTER 的值也会保留
-    increment_counter();
-    increment_counter();
-
-    let v = unsafe { COUNTER };
-    println!("COUNTER in static_life = {}", v); // 2
-
-    {
-        // static 也可以定义在局部作用域
-        // 但它的生命周期仍是整个程序，不是这个内层 {}
-        static LOCAL_STATIC: i32 = 100;
-        println!("LOCAL_STATIC = {}", LOCAL_STATIC);
-    }
-    // LOCAL_STATIC 依然存在，只是这里不可见（没有名字引用它）
-}
-
-/**
- * static vs const
- * const: 编译器内联，不占运行时内存
- * static: 真正分配内存，程序退出时释放
- */
-fn static_vs_const() {
-    // const 在编译时内联，每个使用处都是独立值
-    const PI: f64 = 3.14159;
-
-    // static 在程序全局只有一份
-    static mut CACHE: u32 = 0;
-
-    unsafe {
-        CACHE = 100;
-    }
+    // 越界会 panic（运行时错误，不是 UB）：
+    // println!("{}", arr[100]); // index out of bounds
 }

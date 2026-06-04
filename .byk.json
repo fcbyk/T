@@ -1,4 +1,3 @@
 {
-    "r": "cargo +nightly -Zscript -q app${0}.rs",
-    "app3": "byk r 3"
+    "r": "cargo +nightly -Zscript -q app${0}.rs"
 }
