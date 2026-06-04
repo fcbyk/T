@@ -1,25 +1,64 @@
-// === Rust 字符类型 ===
+// === Rust 控制流 ===
 //
-// char: 4 字节，可表示任意 Unicode 标量值。
-// 不同于 C 的 char（1 字节），Rust char 支持中文、emoji 等。
+// if / loop / while / for，大部分是换皮。值得注意的区别：
+//   1. 条件不需要括号，但必须是 bool（没有 truthy / falsy）
+//   2. if 是表达式，可以赋值
+//   3. for 迭代靠迭代器，没有 C 风格的三段式 for
 
 fn main() {
-    let c1 = 'a';
-    let c2: char = '中';
-    let c3 = '🦀';
+    // —— if / else ——
+    let n = 5;
+    if n < 0 {
+        println!("负数");
+    } else if n == 0 {
+        println!("零");
+    } else {
+        println!("正数");
+    }
 
-    // Unicode 码点（char → u32）
-    let codepoint = c2 as u32;
+    // if 是表达式，可以直接赋值
+    let label = if n % 2 == 0 { "偶数" } else { "奇数" };
+    println!("label = {label}");
 
-    // u8 → char 需用 from，as 不能直接转
-    let from_u8 = char::from(b'A');
+    // —— loop（无限循环，break 可以返回值）——
+    let mut count = 0;
+    let result = loop {
+        count += 1;
+        if count == 3 {
+            break count * 10; // break 后面跟值 = loop 表达式的值
+        }
+    };
+    println!("loop 返回值: {result}");
 
-    // 实用方法
-    let is_ascii = c1.is_ascii();
-    let is_digit = '6'.is_digit(10);  // 问："字符 '6' 在十进制里算数字吗？" → true
+    // —— while ——
+    let mut i = 3;
+    while i > 0 {
+        print!("{i} ");
+        i -= 1;
+    }
+    println!();
 
-    println!("c1 = {c1}, c2 = {c2}, c3 = {c3}");
-    println!("'中' 码点 = U+{codepoint:04X}");
-    println!("char::from(b'A') = {from_u8}");
-    println!("'a'.is_ascii() = {is_ascii}, '6'.is_digit(10) = {is_digit}");
+    // —— for（迭代器驱动）——
+    // 遍历范围
+    for x in 0..5 {
+        // 0,1,2,3,4（不含 5）
+        print!("{x} ");
+    }
+    println!();
+
+    // 遍历数组
+    let arr = [10, 20, 30];
+    for v in arr {
+        // 直接拿值（消耗数组，后面 arr 不能再用）
+        print!("{v} ");
+    }
+    println!();
+
+    // 借用遍历（arr 还能用）
+    let arr2 = [1, 2, 3];
+    for v in &arr2 {
+        print!("{v} ");
+    }
+    println!();
+    println!("arr2 还能用: {arr2:?}");
 }

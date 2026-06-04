@@ -1,31 +1,37 @@
-// === Rust 浮点数类型 ===
+// === Rust 闭包（匿名函数）与嵌套函数 ===
 //
-// f32（单精度）/ f64（双精度）
-// 默认浮点类型 f64。
-//
-// 特殊值：INFINITY / NEG_INFINITY / NAN
-// NaN 不等于任何值，包括它自己。
+// 闭包语法：|参数| 函数体
+// 闭包能捕获外层作用域的变量，嵌套 fn 不能。
 
 fn main() {
-    let x = 2.0;            // 默认 f64
-    let y: f32 = 3.0;       // 显式 f32
+    // —— 基本闭包（单表达式，可省略 {}） ——
+    let add_one = |n: i32| n + 1;
+    println!("add_one(5) = {}", add_one(5));
 
-    // 不同类型不能直接运算，需 as 转换
-    let sum = x + y as f64;
+    // 省略类型
+    let multiply = |a, b| a * b;
+    println!("multiply(3, 4) = {}", multiply(3, 4));
 
-    // 基本运算
-    let diff = x - 1.0;
-    let prod = x * 2.0;
-    let quot = x / 3.0;     // 精确除法
-    let rem = 10.0 % 3.0;   // 浮点也支持 %
+    // —— 多语句闭包（必须加 {}） ——
+    let f = |x: i32| {
+        let doubled = x * 2;
+        println!("多行闭包: doubled = {doubled}");
+        doubled + 1 // 最后一个表达式的值 = 返回值
+    };
+    println!("结果 = {}", f(3));
 
-    // 特殊值
-    let inf = f64::INFINITY;    // 正无穷大
-    let neg_inf = f64::NEG_INFINITY; // 负无穷大
-    let nan = f64::NAN;              // 不是数字
+    // —— 立即执行闭包（IIFE） ——
+    let y = (|a: i32, b: i32| a + b)(3, 4);
+    println!("IIFE: {y}");
 
-    println!("x = {x}, y = {y}, sum = {sum}");
-    println!("diff = {diff}, prod = {prod}, quot = {quot}, rem = {rem}");
-    println!("inf = {inf}, neg_inf = {neg_inf}, nan = {nan}");
-    println!("nan == nan ? {}", nan == nan); // false
+    // —— 闭包捕获外层变量 ——
+    let prefix = "hello";
+    let greet = |name: &str| println!("{}, {}", prefix, name);
+    greet("world"); // 闭包能直接用 prefix
+
+    // —— 嵌套 fn（不能捕获外层变量） ——
+    fn inner(n: i32) -> i32 {
+        n + 1 // 不能访问外层变量，编译会报错
+    }
+    println!("嵌套 fn: {}", inner(10));
 }

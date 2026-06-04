@@ -1,25 +1,30 @@
-// === Rust 布尔类型 ===
+// === 函数是一等公民：当参数、当返回值 ===
 //
-// bool 只有两个值：true / false，占 1 字节。
-// Rust 不做 truthy/falsy 自动转换，if 条件必须是 bool。
+// 函数和闭包可以像普通值一样传来传去。
+
+// 函数当参数
+fn apply(f: fn(i32) -> i32, x: i32) -> i32 {
+    f(x)
+}
+
+// 函数当返回值（返回闭包）
+fn make_adder(amount: i32) -> impl Fn(i32) -> i32 {
+    move |n| n + amount // move 把 amount 的所有权移进闭包
+}
 
 fn main() {
-    let t = true;
-    let f: bool = false;
+    // —— 函数指针（fn 类型） ——
+    fn square(n: i32) -> i32 {
+        n * n
+    }
+    let f: fn(i32) -> i32 = square;
+    println!("函数指针: f(5) = {}", f(5));
 
-    // 比较运算返回 bool
-    let gt = 5 > 3;
-    let eq = "abc" == "abc";
+    // —— 函数当参数 ——
+    println!("apply(square, 5) = {}", apply(square, 5));
+    println!("apply(|n| n * 3, 5) = {}", apply(|n| n * 3, 5));
 
-    // 逻辑运算
-    let and = t && f;
-    let or = t || f;
-    let not = !t;
-
-    println!("t = {t}, f = {f}");
-    println!("5 > 3 = {gt}, 'abc' == 'abc' = {eq}");
-    println!("t && f = {and}, t || f = {or}, !t = {not}");
-
-    // 以下会编译错误（取消注释试试）：
-    // if 1 { println!("不会走这里"); } // expected `bool`, got integer
+    // —— 函数当返回值 ——
+    let add_10 = make_adder(10);
+    println!("make_adder(10)(5) = {}", add_10(5));
 }
