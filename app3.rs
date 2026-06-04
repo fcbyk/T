@@ -1,44 +1,43 @@
-// === Rust 枚举 ===
+// === if let / while let：只关心一种情况时的简写 ===
 //
-// enum 不是简单的"一组数字常量"。
-// Rust 的 enum 每个变体（variant）可以携带不同类型的数据。
-// 可以理解为"带标签的联合体"（tagged union / sum type）。
-
-// 简单枚举：每个变体不带数据
-#[allow(dead_code)]
-#[derive(Debug)]
-enum Status {
-    Active,
-    Inactive,
-    Suspended,
-}
-
-// 带数据的枚举：每个变体可以存不同类型
-#[allow(dead_code)]
-#[derive(Debug)]
-enum Message {
-    Quit,                        // 无数据
-    Move { x: i32, y: i32 },     // 具名字段（像 struct）
-    Write(String),               // 单个值
-    ChangeColor(u8, u8, u8),     // 元组风格
-}
+// match 是万能的，但有时你只关心一个分支，其他都用 _。
+// if let 就是这种场景的语法糖。
 
 fn main() {
-    // —— 简单枚举 ——
-    let s = Status::Active;
-    println!("status = {s:?}");
+    // —— if let 等价于 match { 一个分支 => ... , _ => () } ——
+    let val = Some(42);
 
-    // —— 带数据的枚举 ——
-    let msg1 = Message::Quit;
-    let msg2 = Message::Move { x: 10, y: 20 };
-    let msg3 = Message::Write(String::from("hello"));
-    let msg4 = Message::ChangeColor(255, 128, 0);
+    // match 写法（啰嗦）
+    match val {
+        Some(v) => println!("有值: {v}"),
+        _ => (), // 什么都不做还要写
+    }
 
-    println!("msg1 = {msg1:?}");
-    println!("msg2 = {msg2:?}");
-    println!("msg3 = {msg3:?}");
-    println!("msg4 = {msg4:?}");
+    // if let 写法（精简）
+    if let Some(v) = val {
+        println!("if let: {v}");
+    }
 
-    // 枚举变体的值通过 match 取出（详见模式匹配 demo）
-    // 这里只看定义和构造
+    // if let + else 也可以
+    let empty: Option<i32> = None;
+    if let Some(v) = empty {
+        println!("有值: {v}");
+    } else {
+        println!("空的");
+    }
+
+    // —— while let：只要匹配就继续循环 ——
+    let mut stack = vec![1, 2, 3];
+
+    while let Some(top) = stack.pop() {
+        // 每次循环弹出栈顶，直到栈空
+        print!("{top} "); // 3 2 1
+    }
+    println!();
+
+    // —— if let 可以联合条件 ——
+    let color = Some((255, 128, 0));
+    if let Some((r, g, b)) = color {
+        println!("RGB = ({r}, {g}, {b})");
+    }
 }

@@ -1,18 +1,16 @@
-# demo113 Rust 结构体与枚举
+# demo114 Rust 模式匹配
 
-struct 组织数据，enum 表达"多种可能性中的一种"，impl 给它们加行为。
+match 是 Rust 的杀手级特性——比 switch 强太多了。穷尽性检查、解构嵌套、守卫条件。
 
 ## 知识点
 
 | # | 知识点 | 说明 |
 |---|--------|------|
-| 1 | 结构体基础 | struct 定义与实例化、字段访问、mut 可变性、构造语法糖 `..other` |
-| 2 | 元组/单元结构体 | 字段无名按 `.0` 访问的元组结构体、零大小单元结构体 |
-| 3 | 枚举 | 变体可携带数据（tagged union）、简单枚举与带数据枚举 |
-| 4 | impl 块 | `&self` 方法、`&mut self` 可变方法、关联函数（无 self）、`#[derive(Debug)]` |
-| 5 | Option 与 Result | 标准库枚举的本质：`Some/None`、`Ok/Err`、unwrap/unwrap_or |
-| 6 | 属性语法 #[...] | #[derive]、#[allow]、#[test]、#[cfg] — 编译期指令 |
-| 7 | 格式化输出 | {} Display、{:?} Debug、{:#?} 美化、对齐、进制、精度、print!/format!
+| 1 | match 基础 | 模式臂、穷尽性、通配符 `_`、多值 `\|`、范围 `..=`、match 守卫 |
+| 2 | 枚举匹配 | 拆解 Option/Result、解自定义 enum 变体取出数据 |
+| 3 | if let / while let | 只关心一种情况的语法糖、栈弹出循环 |
+| 4 | 解构 | 元组/结构体解构、重命名、`..` 忽略部分字段、嵌套解构 |
+| 5 | 进阶匹配 | @ 绑定、ref 借用匹配、更复杂的守卫条件 |
 
 ## 运行
 
@@ -22,6 +20,4 @@ rustc app2.rs && ./app2
 rustc app3.rs && ./app3
 rustc app4.rs && ./app4
 rustc app5.rs && ./app5
-rustc app6.rs && ./app6
-rustc app7.rs && ./app7
 ```

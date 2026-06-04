@@ -1,52 +1,57 @@
-// === impl 块：给结构体/枚举加方法 ===
+// === 解构（Destructuring） ===
 //
-// Rust 的 struct 只有数据，行为单独写在 impl 块里。
-// 方法第一个参数是 &self / &mut self / self，表示调用方式。
+// match / if let / let 都能解构复合类型——一次拆出多个值。
+// 可以嵌套解构，把复杂的嵌套结构一层层拆开。
 
-#[derive(Debug)] // 自动生成 Debug trait，让 {:?} 可以打印
-struct Rectangle {
-    width: f64,
-    height: f64,
-}
-
-impl Rectangle {
-    // 方法：&self 借用实例（只读）
-    fn area(&self) -> f64 {
-        self.width * self.height
-    }
-
-    // 方法：&mut self 可变借用（可以修改字段）
-    fn scale(&mut self, factor: f64) {
-        self.width *= factor;
-        self.height *= factor;
-    }
-
-    // 关联函数（没有 self 参数，相当于"静态方法"）
-    // 用 Rectangle::square() 调用
-    fn square(size: f64) -> Rectangle {
-        Rectangle {
-            width: size,
-            height: size,
-        }
-    }
-}
+#[derive(Debug)]
+struct Point { x: i32, y: i32 }
 
 fn main() {
-    let mut rect = Rectangle {
-        width: 3.0,
-        height: 4.0,
+    // —— 元组解构 ——
+    let pair = (1, "hello");
+    let (num, text) = pair; // let 也可以直接解构
+    println!("{num}, {text}");
+
+    // match 中解构元组
+    let point = (3, 7);
+    match point {
+        (0, 0) => println!("原点"),
+        (x, 0) => println!("在 X 轴上: {x}"),
+        (0, y) => println!("在 Y 轴上: {y}"),
+        (x, y) => println!("点: ({x}, {y})"),
+    }
+
+    // —— 结构体解构 ——
+    let p = Point { x: 10, y: 20 };
+
+    // 按字段名解构
+    let Point { x, y } = p;
+    println!("x={x}, y={y}");
+
+    // 重命名解构（: 后面是新名字）
+    let Point { x: x_axis, y: y_axis } = p;
+    println!("重命名: x={x_axis}, y={y_axis}");
+
+    // 部分解构：只关心部分字段，其余用 ..
+    let Point { x, .. } = p;
+    println!("只取 x: {x}");
+
+    // —— 嵌套解构 ——
+    enum Shape {
+        Rect { top_left: Point, w: u32, h: u32 },
+    }
+    let rect = Shape::Rect {
+        top_left: Point { x: 5, y: 5 },
+        w: 100,
+        h: 50,
     };
 
-    println!("rect = {rect:?}");
-
-    // —— 调用方法 ——
-    println!("面积 = {}", rect.area());
-
-    // —— 可变方法 ——
-    rect.scale(2.0);
-    println!("放大 2x 后: {rect:?}，面积 = {}", rect.area());
-
-    // —— 关联函数 ——
-    let sq = Rectangle::square(5.0);
-    println!("正方形: {sq:?}，面积 = {}", sq.area());
+    match rect {
+        // 一层层拆开：Shape → Rect → Point → x, y
+        Shape::Rect {
+            top_left: Point { x, y },
+            w,
+            h,
+        } => println!("矩形: 起点({x},{y}), 宽{w}, 高{h}"),
+    }
 }
