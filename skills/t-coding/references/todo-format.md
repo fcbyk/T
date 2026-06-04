@@ -46,7 +46,7 @@
 
 > 目标：一句话说明这轮学习最终要做成什么
 
-| 领域 | 知识点 | 说明 | 时间 |
+| 领域 | 知识点 | 说明 | 提交 |
 |------|--------|------|------|
 | regex | 普通字符和元字符 | 基础字符匹配、特殊元字符含义 | - |
 | regex | 量词 | 贪婪与非贪婪匹配 | - |
@@ -64,14 +64,14 @@
 
 ## 第一阶段
 
-| 领域 | 知识点 | 说明 | 时间 |
+| 领域 | 知识点 | 说明 | 提交 |
 |------|--------|------|------|
 | rust | ownership and borrowing | ownership rules, borrowing, lifetimes | - |
 | js | event loop | macrotask, microtask, execution order | - |
 
 ## 第二阶段
 
-| 领域 | 知识点 | 说明 | 时间 |
+| 领域 | 知识点 | 说明 | 提交 |
 |------|--------|------|------|
 | rust | error handling | Result, Option, custom errors | - |
 | regex | 分组 | 捕获组、命名捕获、反向引用、非捕获组 | - |
@@ -84,7 +84,7 @@
 | `领域` | 对应 docs 主题标识，可使用简称或别名，如 `regex`、`js`、`swift` |
 | `知识点` | 当前计划中的一个可独立成 demo 的知识点 |
 | `说明` | 对知识点的展开目录，简短即可；如果没有特别要写的，用 `-` 占位 |
-| `时间` | 初始留空；该 demo 对应的 commit 完成后，将 commit 时间填入此列 |
+| `提交` | 初始用 `-` 占位；该 demo 对应的 commit 完成后，填入完整 demo 编号（如 `demo110`），暂不需要 commit hash 链接 |
 
 补充说明：
 
@@ -147,7 +147,7 @@
 
 > 目标：系统掌握正则表达式常用核心能力，并形成可回溯 demo
 
-| 领域 | 知识点 | 说明 | 时间 |
+| 领域 | 知识点 | 说明 | 提交 |
 |------|--------|------|------|
 | regex | 普通字符和元字符 | 基础字符匹配、特殊元字符含义 | - |
 | regex | 量词 | 贪婪与非贪婪匹配 | - |
@@ -161,7 +161,7 @@
 
 > 目标：完成 bykcli Core 的 Rust 重构所需基础能力储备
 
-| 领域 | 知识点 | 说明 | 时间 |
+| 领域 | 知识点 | 说明 | 提交 |
 |------|--------|------|------|
 | rust | ownership and borrowing | ownership rules, borrowing, lifetimes | - |
 | rust | error handling | Result, Option, custom errors | - |
@@ -179,14 +179,14 @@
 
 ## 第一阶段
 
-| 领域 | 知识点 | 说明 | 时间 |
+| 领域 | 知识点 | 说明 | 提交 |
 |------|--------|------|------|
 | rust | command line parsing | clap basics, args, subcommands | - |
 | js | event loop | macrotask, microtask, execution order | - |
 
 ## 第二阶段
 
-| 领域 | 知识点 | 说明 | 时间 |
+| 领域 | 知识点 | 说明 | 提交 |
 |------|--------|------|------|
 | rust | error handling | Result, anyhow, custom messages | - |
 | js | fetch api | request, response, error handling | - |
