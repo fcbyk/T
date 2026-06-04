@@ -1,25 +1,26 @@
-# demo120 clap 命令行参数解析
+# demo121 进程管理
 
-### 一个结构体 = 一个 CLI
+`std::process::Command` 就是 Rust 版的 `subprocess.run()` / `child_process.exec()`。
 
-`#[derive(Parser)]` 让结构体字段自动映射为命令行参数。`#[arg(short, long)]` 等于 Python click 的 `@click.option('-v', '--verbose')`。clap 自动生成 `--help` 和 `--version`。
+### `.output()` 截获 vs `.status()` 直通
 
-### 一个枚举 = 一组子命令
+`.output()` 把子进程输出截获到内存，终端看不到。`.status()` 子进程直接输出终端，Rust 只拿退出码。
 
-`#[derive(Subcommand)]` 让枚举每个变体成为一个子命令。`Add { name, cmd }` 自动生成 `add <NAME> <CMD>` 语法。和 click 的 `@cli.group()` + `@cli.command()` 对应。
+### 双向通信：Rust ↔ Python（stdin 请求 → stdout JSON 响应）
 
-### 三步搞定一个 CLI
+Rust 通过 stdin 发送 JSON 请求，Python 处理后通过 stdout 返回 JSON。stdout/stderr 被截获，终端看不到 Python 输出。适合需要拿结果的场景。
 
-1. **定义结构体** — 字段 = 参数，`#[arg(short)]` 定义选项类型，`Option<T>` 控制是否必填
-2. **`Cli::parse()`** — clap 自动从命令行填入结构体，生成 help/version
-3. **match 判断** — 拿到字段值，写业务逻辑（回调）
+### 投递即走：Rust → Python（stdin 命令 → 终端输出）
 
-和 click 同样的声明式风格，只是语法从装饰器换成属性宏。
+不设 stdout/stderr，子进程继承终端直接输出。Rust 写完命令立刻退出，不等结果。异常、日志全在终端。适合不需要拿结果的场景。
 
-### 依赖
+### 文件结构
 
-```toml
-clap = { version = "4", features = ["derive"] }
 ```
-
-`features = ["derive"]` 启用 derive 宏，和 serde 一样的模式。
+src/
+  main.rs          — 入口，演示四种模式
+  plugin_echo.rs   — 双向通信（stdin→stdout JSON）
+  plugin_fire.rs   — 投递即走（stdin→终端直接输出）
+plugin_echo.py      — 双向通信 Python 脚本
+plugin_fire.py      — 投递即走 Python 脚本
+```

@@ -1,7 +1,4 @@
 [package]
-name = "demo120"
+name = "demo121"
 version = "0.1.0"
 edition = "2021"
-
-[dependencies]
-clap = { version = "4", features = ["derive"] }

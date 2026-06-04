@@ -1,47 +1,38 @@
-// === clap CLI 入口 ===
+// === 进程管理 ===
 //
-// Cli::parse() 自动从 std::env::args() 解析命令行参数。
-// arg_required_else_help = true：无参数时自动显示 --help。
-// config 为 Option<String>：只有传了 -c 才输出。
+// std::process::Command = 启动外部进程。
+// .output() 截获输出，.status() 直通终端。
 
-mod cli;
+use std::process::Command;
 
-use clap::Parser;
-use cli::{Cli, Command};
+mod plugin_echo; // 双向通信：stdin → Python → stdout JSON
+mod plugin_fire; // 投递即走：stdin → Python，终端直接输出
+
+// === 基础：.output() 截获 vs .status() 直通 ===
+fn example() {
+    // .output() — 输出被截获
+    let output = Command::new("echo")
+        .arg("hello from Rust")
+        .output()
+        .expect("执行 echo 失败");
+
+    println!("echo 输出: {}", String::from_utf8_lossy(&output.stdout).trim());
+
+    // .status() — 输出直通终端
+    let status = Command::new("ls")
+        .arg("-la")
+        .status()
+        .expect("执行 ls 失败");
+
+    println!("ls 退出码: {}", status.code().unwrap_or(-1));
+}
 
 fn main() {
-    let cli = Cli::parse();
+    // example();
 
-    // -v：显示版本
-    if cli.verbose {
-        println!("bykcli Rust 原型 v0.1.0");
-        return;
-    }
+    println!("\n--- 双向通信 ---");
+    // plugin_echo::call();
 
-    // 有 -c 且无子命令时，输出配置文件路径
-    if let Some(ref config) = cli.config {
-        println!("配置文件: {config}");
-    }
-
-    // 子命令分发
-    match cli.command {
-        Some(Command::Add { name, cmd }) => {
-            println!("添加别名: {} => {}", name, cmd);
-        }
-        Some(Command::Remove { name }) => {
-            println!("删除别名: {}", name);
-        }
-        Some(Command::List) => {
-            println!("列出所有别名（暂未实现）");
-        }
-        Some(Command::Run { name, args }) => {
-            let extra = if args.is_empty() {
-                String::new()
-            } else {
-                format!(" 参数: {}", args.join(" "))
-            };
-            println!("执行别名: {}{}", name, extra);
-        }
-        None => {} // arg_required_else_help 保证了无参数时 clap 自动显示 help
-    }
+    println!("\n--- 投递即走 ---");
+    plugin_fire::call();
 }
